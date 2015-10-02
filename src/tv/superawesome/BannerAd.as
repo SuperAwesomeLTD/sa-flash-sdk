@@ -1,4 +1,4 @@
-﻿package tv.superawesome {
+﻿package tv.superawesome{
 
 	import flash.geom.Rectangle;
 	import flash.events.*;
@@ -8,20 +8,34 @@
 	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.display.DisplayObject;
+	import flash.system.Security;
+	import tv.superawesome.models.*;
 
-	public class DisplayAd extends Sprite {
+	public class BannerAd extends Sprite {
 
+		private var placementId: int;
 		private var viewPort: Rectangle;
-		private var linkURL: String;
-		private var imgURL: String;
-		private var cookie: String;
+		private var ad: SAAd;
 		private var imgLoader = new Loader();
 
-		public function DisplayAd(viewPort: Rectangle, appID: String, placementID: String) {
+		public function BannerAd(viewPort: Rectangle, placementId: int, isTest: Boolean) {
+			// update local vars
+			this.placementId = placementId;
 			this.viewPort = viewPort;
-			var asRequest: URLRequest = new URLRequest("https://ads.superawesome.tv/v1/unity/ad?app_id=" + appID + "&placement_id=" + placementID);
+			
+			// load data
+			var baseURL: String = SuperAwesome.getInstance().getBaseURL();
+			var crossDomainURL: String = baseURL + "/crossdomain.xml";
+			var URLString = baseURL + "/v2/ad/"+placementId+"?test="+isTest;
+			
+			Security.allowDomain("*");
+			Security.loadPolicyFile(crossDomainURL);
+			
+			trace(URLString);
+			
+			var asRequest: URLRequest = new URLRequest(URLString);
 			var loader: URLLoader = new URLLoader();
-			loader.addEventListener(Event.COMPLETE, asLoaded);
+			loader.addEventListener(Event.COMPLETE, onSuccess);
 			loader.addEventListener(IOErrorEvent.IO_ERROR, onError);
 			loader.load(asRequest);
 		}
@@ -30,25 +44,29 @@
 			dispatchEvent(e);
 		}
 
-		private function asLoaded(e: Event): void {
+		private function onSuccess(e: Event): void {
+			// try - success branch
 			try {
+				// parse the new ad
 				var config: Object = JSON.parse(e.target.data);
-				linkURL = config.placement_link;
-				imgURL = config.placement_img;
-				cookie = config.cookie;
-
-				var imgURLRequest = new URLRequest(imgURL);
+				ad = new SAAd(placementId, config);
+				
+				// laod the imaga
+				var imgURLRequest = new URLRequest(ad.creative.details.image);
 				imgLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, onImageLoaded);
 				var loaderContext: LoaderContext = new LoaderContext();
 				loaderContext.checkPolicyFile = false;
 				imgLoader.load(imgURLRequest, loaderContext);
-			} catch (e: SyntaxError) {
+			} 
+			// error branch (maybe the server didn't send the right JSON)
+			catch (e: SyntaxError) {
 				var err: ErrorEvent = new ErrorEvent(ErrorEvent.ERROR);
 				err.text = "Unable to load config from ad server";
 				onError(err);
 			}
 		}
 
+		// what happens when an image is loaded
 		private function onImageLoaded(e: Event): void {
 			var loader = e.target;
 			var innerImage = addChild(new Sprite());
@@ -61,17 +79,10 @@
 			imgLoader.addEventListener(MouseEvent.CLICK, reportClick);
 		}
 
+		// what happens when a click is loaded
 		private function reportClick(event: MouseEvent): void {
-			var asRequest: URLRequest = new URLRequest("https://ads.superawesome.tv/v1/unity/link?placement_link=" + linkURL + "&cookie=" + cookie);
-			var loader: URLLoader = new URLLoader();
-			loader.addEventListener(Event.COMPLETE, clickLoaded);
-			loader.load(asRequest);
-		}
-
-		private function clickLoaded(e: Event): void {
-			var config: Object = JSON.parse(e.target.data);
-			var req: URLRequest = new URLRequest(config.link);
-			navigateToURL(req, null);
+			var clickURL: URLRequest = new URLRequest(this.ad.creative.clickURL);
+			navigateToURL(clickURL, "_blank");
 		}
 	}
 }
