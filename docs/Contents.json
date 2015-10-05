@@ -1,0 +1,51 @@
+{
+    "name": "Adobe Flash SDK",
+    "text": "00 Intro.md",
+    "sections":[
+        {
+            "name": "Getting Started",
+            "sections":[
+                {
+                    "name": "Registering Your App on the Dashboard",
+                    "text": "01 Getting Started/01 GettingStarted.md"
+                },
+                {
+                    "name": "Integrating the SDK",
+                    "text": "01 Getting Started/02 Integrate.md"
+                }
+            ]
+        },
+        {
+            "name": "Initial Setup",
+            "text": "02 Initial Setup.md"
+        },
+        {
+            "name": "Banner Ads",
+            "text": "03 Banner Ads.md"
+        },
+        {
+            "name": "Interstitial Ads",
+            "text": "04 Interstitial Ads.md"
+        },
+        {
+            "name": "Video Ads",
+            "text": "05 Video Ads.md"
+        },
+        {
+            "name": "Testing  Placements",
+            "text": "06 Testing Placements.md"
+        },
+        {
+            "name": "Debug vs. Production",
+            "text": "07 Debug vs. Production.md"
+        },
+        {
+            "name": "Technical Support",
+            "text": "08 Technical Support.md"
+        },
+        {
+            "name": "License",
+            "text": "09 License.md"
+        }
+    ]
+}
