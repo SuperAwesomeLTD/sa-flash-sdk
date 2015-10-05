@@ -2,6 +2,7 @@
 	public class SuperAwesome {
 		// other vars
 		private var baseURL: String;
+		private var isTest: Boolean;
 		
 		// singleton var
 		private static var _instance: SuperAwesome;
@@ -23,20 +24,32 @@
 		}
 		
 		// public functions
-		public function getBaseURL() {
+		public function getBaseURL(): String {
 			return this.baseURL;
 		}
 		
-		public function setConfigProduction() {
+		public function setConfigProduction(): void {
 			baseURL = "https://ads.superawesome.tv/";
 		}
 		
-		public function setConfigStaging() {
+		public function setConfigStaging(): void {
 			baseURL = "https://staging.beta.ads.superawesome.tv/";
 		}
 		
-		public function setConfigDevelopment() {
+		public function setConfigDevelopment(): void {
 			baseURL = "https://dev.ads.superawesome.tv/";
+		}
+		
+		public function enableTestMode(): void {
+			isTest = true;
+		}
+		
+		public function disableTestMode(): void {
+			isTest = false;
+		}
+		
+		public function getTestMode(): Boolean {
+			return isTest;
 		}
 	}
 }

@@ -10,20 +10,21 @@
 		
 		public function Main() {
 			// set config
-			SuperAwesome.getInstance().setConfigStaging();	
+			SuperAwesome.getInstance().setConfigProduction();
+			SuperAwesome.getInstance().enableTestMode();
 			
 			// constructor code
 			var vp:Rectangle = new Rectangle(0,0,320,50);
-			var ad:BannerAd = new BannerAd(vp, 10001, true);
+			var ad:BannerAd = new BannerAd(vp, 5687);
 			addChild(ad);
 
 			
 			var vp2:Rectangle = new Rectangle(0,60,400,300);
-			var vad:VideoAd = new VideoAd(vp2, 10002, true);
+			var vad:VideoAd = new VideoAd(vp2, 5740);
 			addChild(vad);
 			vad.play();
 			
-			var iad:InterstitialAd = new InterstitialAd(10029, true);
+			var iad:InterstitialAd = new InterstitialAd(5692);
 			addChild(iad);
 			iad.play();
 		}

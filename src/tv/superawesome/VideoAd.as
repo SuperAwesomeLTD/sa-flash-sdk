@@ -1,19 +1,12 @@
 ﻿package tv.superawesome {
 	// import
-	import flash.display.Stage;
 	import flash.geom.Rectangle;
 	import flash.events.*;
 	import flash.net.*;
-	import flash.system.Capabilities;
 	import flash.display.Sprite;
 	import flash.display.Loader;
 	import flash.display.MovieClip;
 	import flash.system.Security;
-	
-	import flash.system.SecurityDomain;
-    import flash.system.ApplicationDomain;
-    import flash.system.LoaderContext;
-	
 	import tv.superawesome.models.*;
 	
 	// class definition
@@ -21,21 +14,20 @@
 
 		private var placementId: int;
 		private var viewPort: Rectangle;
-		private var isTest: Boolean;
 		private var ad: SAAd;
 		
-		public function VideoAd(viewPort: Rectangle, placementId: int, isTest: Boolean) {
+		public function VideoAd(viewPort: Rectangle, placementId: int) {
 			// update local vars
 			this.placementId = placementId;
 			this.viewPort = viewPort;
-			this.isTest = isTest;
 		}
 		
 		public function play(): void {
 			// load data
 			var baseURL: String = SuperAwesome.getInstance().getBaseURL();
+			var isTest: Boolean = SuperAwesome.getInstance().getTestMode();
 			var crossDomainURL: String = baseURL + "crossdomain.xml";
-			var URLString:String = baseURL + "/v2/ad/"+placementId+"?test="+this.isTest;
+			var URLString:String = baseURL + "/v2/ad/"+placementId+"?test="+isTest;
 			
 			Security.allowDomain("*");
 			Security.allowDomain("s.ytimg.com");
@@ -72,7 +64,7 @@
 			}
 		}
 
-		private function loadPlayer() {
+		private function loadPlayer(): void {
 			var baseURL: String = SuperAwesome.getInstance().getBaseURL();
 			var url: String = "VideoPlayer.swf";
 			trace(url);

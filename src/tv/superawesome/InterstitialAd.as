@@ -24,18 +24,15 @@
 		
 		// private variables
 		private var placementId: int;
-		private var isTest: Boolean;
 		private var viewPort: Rectangle;	// for interstitial it will as big as the screen
 		private var ad: SAAd;
-		private var imgLoader = new Loader();
-		private var clsLoader = new Loader();
+		private var imgLoader: Loader = new Loader();
 		private var bg: Sprite; 
 		
 		// constructor
-		public function InterstitialAd(placementId: int, isTest: Boolean) {
+		public function InterstitialAd(placementId: int) {
 			// get variables
 			this.placementId = placementId;
-			this.isTest = isTest;	
 		}
 		
 		//////////////////////////////////////////////////
@@ -54,8 +51,9 @@
 			
 			// load data
 			var baseURL: String = SuperAwesome.getInstance().getBaseURL();
+			var isTest: Boolean = SuperAwesome.getInstance().getTestMode();
 			var crossDomainURL: String = baseURL + "/crossdomain.xml";
-			var URLString = baseURL + "/v2/ad/"+placementId+"?test=" + this.isTest;
+			var URLString: String = baseURL + "/v2/ad/"+placementId+"?test=" + isTest;
 			
 			Security.allowDomain("*");
 			Security.loadPolicyFile(crossDomainURL);

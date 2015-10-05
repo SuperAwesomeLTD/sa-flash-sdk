@@ -1,32 +1,38 @@
 ﻿package tv.superawesome{
 
-	import flash.geom.Rectangle;
-	import flash.events.*;
-	import flash.net.*;
-	import flash.system.Capabilities;
-	import flash.system.LoaderContext;
+	import flash.display.DisplayObject;
 	import flash.display.Loader;
 	import flash.display.Sprite;
-	import flash.display.DisplayObject;
+	import flash.events.ErrorEvent;
+	import flash.events.Event;
+	import flash.events.IOErrorEvent;
+	import flash.events.MouseEvent;
+	import flash.geom.Rectangle;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
+	import flash.net.navigateToURL;
+	import flash.system.LoaderContext;
 	import flash.system.Security;
-	import tv.superawesome.models.*;
+	
+	import tv.superawesome.models.SAAd;
 
 	public class BannerAd extends Sprite {
 
 		private var placementId: int;
 		private var viewPort: Rectangle;
 		private var ad: SAAd;
-		private var imgLoader = new Loader();
+		private var imgLoader: Loader = new Loader();
 
-		public function BannerAd(viewPort: Rectangle, placementId: int, isTest: Boolean) {
+		public function BannerAd(viewPort: Rectangle, placementId: int) {
 			// update local vars
 			this.placementId = placementId;
 			this.viewPort = viewPort;
 			
 			// load data
 			var baseURL: String = SuperAwesome.getInstance().getBaseURL();
+			var isTest: Boolean = SuperAwesome.getInstance().getTestMode();
 			var crossDomainURL: String = baseURL + "/crossdomain.xml";
-			var URLString = baseURL + "/v2/ad/"+placementId+"?test="+isTest;
+			var URLString: String = baseURL + "/v2/ad/"+placementId+"?test="+isTest;
 			
 			Security.allowDomain("*");
 			Security.loadPolicyFile(crossDomainURL);
@@ -52,7 +58,7 @@
 				ad = new SAAd(placementId, config);
 				
 				// laod the imaga
-				var imgURLRequest = new URLRequest(ad.creative.details.image);
+				var imgURLRequest: URLRequest = new URLRequest(ad.creative.details.image);
 				imgLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, onImageLoaded);
 				var loaderContext: LoaderContext = new LoaderContext();
 				loaderContext.checkPolicyFile = false;
