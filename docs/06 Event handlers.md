@@ -2,14 +2,15 @@ Each type of ad (banner, interstitial or video) sends some default messages that
   * ad was loaded
   * ad has failed loading
   * ad was closed
+  * ad was empty
 
-To intercept them, each Ad class offers three identical functions that allow you to define your own behaviour for what happens when an ad fails, or succesfully loads or is closed.
+To intercept them, each Ad class offers three identical functions that allow you to define your own behaviour for what happens when an ad fails, succesfully loads, is closed or is empty (server returned empty JSON).
 
 `onAdLoad` is triggered when an ad has finally loaded. It takes another function as a parameter, which can be specified inline or in another part of the file. 
 
 ```
 ad.onAdLoad(function(){
-	trace("video loaded");
+	trace("ad loaded");
 });
 
 ```
@@ -18,7 +19,7 @@ ad.onAdLoad(function(){
 
 ```
 ad.onAdFail(function(){
-	trace("video failed");
+	trace("ad failed");
 });
 
 ```
@@ -27,7 +28,15 @@ ad.onAdFail(function(){
 
 ```
 ad.onAdClose(function() {
-	trace("video closed");
+	trace("ad closed");
 });
 
+```
+
+`onAdEmpty` is triggered when an ad is loaded OK but the server returns an empty JSON. This might be because the placement is invalid or because there is no campaign data associated with the placement. The function takes another function as parameter.
+
+```
+ad.onAdEmpty(function(){
+	trace("ad empty");
+});
 ```

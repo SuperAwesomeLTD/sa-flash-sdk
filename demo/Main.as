@@ -25,13 +25,16 @@
 			ad.onAdClose(function() {
 				trace("banner close");
 			});
+			ad.onAdEmpty(function(){
+				trace("banner empty");
+			});
 			addChild(ad);
 			ad.play();
 
 			///////////////////////////////////////////////////////
 			// Create the Video ad
 			var vp2:Rectangle = new Rectangle(0,60,400,300);
-			var vad:VideoAd = new VideoAd(vp2, 100293211);
+			var vad:VideoAd = new VideoAd(vp2, 10002);
 			vad.onAdLoad(function(){
 				trace("video loaded");
 			});
@@ -40,6 +43,9 @@
 			});
 			vad.onAdClose(function() {
 				trace("video closed");
+			});
+			vad.onAdEmpty(function(){
+				trace("video empty");
 			});
 			addChild(vad);
 			vad.play();
@@ -55,6 +61,9 @@
 			});
 			iad.onAdClose(function() {
 				trace("interstitial closed");
+			});
+			iad.onAdEmpty(function(){
+				trace("interstitial empty");
 			});
 			addChild(iad);
 			iad.play();

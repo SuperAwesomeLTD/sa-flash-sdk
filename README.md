@@ -1,5 +1,4 @@
 sa-flash-sdk
 ============
 
-v2.0
-- Updated to v2.0 to add listeners for ad events (load, fail, close)
+The 2.0 Super Awesome Ads Flash SDK

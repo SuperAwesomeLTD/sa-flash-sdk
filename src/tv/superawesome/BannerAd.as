@@ -25,6 +25,7 @@
 		private var loadFunc: Function = null;
 		private var failFunc: Function = null;
 		private var closeFunc: Function = null;
+		private var emptyFunc: Function = null;
 		
 		public function BannerAd(viewPort: Rectangle, placementId: int) {
 			// update local vars
@@ -41,6 +42,10 @@
 			this.failFunc = f;
 		}
 		
+		public function onAdEmpty(f: Function): void {
+			this.emptyFunc = f;
+		}
+		
 		public function onAdClose(f: Function): void {
 			this.closeFunc = f;
 		}
@@ -54,6 +59,12 @@
 		private function sendLoadMessage(): void {
 			if (this.loadFunc != null) {
 				this.loadFunc();
+			}
+		}
+		
+		private function sendEmptyMessage(): void {
+			if (this.emptyFunc != null) {
+				this.emptyFunc();
 			}
 		}
 		
@@ -97,7 +108,7 @@
 				var isValid:Boolean = JSONChecker.checkAdIsValid(config);
 				
 				if (!isValid) {
-					sendFailMessage();
+					sendEmptyMessage();
 					return;
 				}
 				
