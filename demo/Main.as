@@ -7,27 +7,57 @@
 	// main class
 	public class Main extends MovieClip {
 		
-		
 		public function Main() {
 			// set config
-			SuperAwesome.getInstance().setConfigProduction();
+			SuperAwesome.getInstance().setConfigStaging();
 			SuperAwesome.getInstance().enableTestMode();
 			
-			// constructor code
+			///////////////////////////////////////////////////////
+			// Create the Banner ad
 			var vp:Rectangle = new Rectangle(0,0,320,50);
-			var ad:BannerAd = new BannerAd(vp, 5687);
+			var ad:BannerAd = new BannerAd(vp, 10001);
+			ad.onAdLoad(function() {
+				trace("banner loaded");
+			});
+			ad.onAdFail(function(){
+				trace("banner failed");
+			});
+			ad.onAdClose(function() {
+				trace("banner close");
+			});
 			addChild(ad);
+			ad.play();
 
-			
+			///////////////////////////////////////////////////////
+			// Create the Video ad
 			var vp2:Rectangle = new Rectangle(0,60,400,300);
-			var vad:VideoAd = new VideoAd(vp2, 5740);
+			var vad:VideoAd = new VideoAd(vp2, 100293211);
+			vad.onAdLoad(function(){
+				trace("video loaded");
+			});
+			vad.onAdFail(function(){
+				trace("video failed");
+			});
+			vad.onAdClose(function() {
+				trace("video closed");
+			});
 			addChild(vad);
 			vad.play();
 			
-			var iad:InterstitialAd = new InterstitialAd(5692);
+			///////////////////////////////////////////////////////
+			// Create the Interstitial ad
+			var iad:InterstitialAd = new InterstitialAd(10029);
+			iad.onAdLoad(function(){
+				trace("interstitial loaded");
+			});
+			iad.onAdFail(function() {
+				trace("interstitial failed");
+			});
+			iad.onAdClose(function() {
+				trace("interstitial closed");
+			});
 			addChild(iad);
 			iad.play();
 		}
 	}
-	
 }

@@ -2,21 +2,19 @@
 	
 	// imports
 	import flash.display.Bitmap;
-	import flash.display.DisplayObject;
 	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.events.MouseEvent;
+	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
-	import flash.system.Capabilities;
 	import flash.system.LoaderContext;
 	import flash.system.Security;
-	import flash.geom.Matrix;
 	
 	import tv.superawesome.models.SAAd;
 	
@@ -29,14 +27,49 @@
 		private var imgLoader: Loader = new Loader();
 		private var bg: Sprite; 
 		
+		private var loadFunc: Function = null;
+		private var failFunc: Function = null;
+		private var closeFunc: Function = null;
+		
 		// constructor
 		public function InterstitialAd(placementId: int) {
 			// get variables
 			this.placementId = placementId;
 		}
 		
+		// two functions used to display what happens on load and on fail
+		public function onAdLoad(f: Function): void {
+			this.loadFunc = f;
+		}
+		
+		public function onAdFail(f: Function): void {
+			this.failFunc = f;
+		}
+		
+		public function onAdClose(f: Function): void {
+			this.closeFunc = f;
+		}
+		
+		private function sendFailMessage(): void {
+			if (this.failFunc != null){
+				this.failFunc();
+			}
+		}
+		
+		private function sendLoadMessage(): void {
+			if (this.loadFunc != null) {
+				this.loadFunc();
+			}
+		}
+		
+		private function sendCloseMessage(): void {
+			if (this.closeFunc != null) {
+				this.closeFunc();
+			}
+		}
+		
 		//////////////////////////////////////////////////
-		// public LOAD FUNCTION
+		// public play function
 		public function play(): void {
 			// only when this is added to stage
 			if (stage) init();
@@ -46,8 +79,6 @@
 		private function init(e:Event = null):void  {
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			this.viewPort = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
-			
-			trace("S_W: " + stage.stageWidth + " S_H: " + stage.stageHeight);
 			
 			// load data
 			var baseURL: String = SuperAwesome.getInstance().getBaseURL();
@@ -69,6 +100,7 @@
 		
 		private function onError(e: ErrorEvent): void {
 			dispatchEvent(e);
+			sendFailMessage();
 		}
 
 		private function onSuccess(e: Event): void {
@@ -76,6 +108,14 @@
 			try {
 				// parse the new ad
 				var config: Object = JSON.parse(e.target.data);
+				var isValid: Boolean = JSONChecker.checkAdIsValid(config);
+				
+				if (!isValid) {
+					sendFailMessage();
+					return;
+				}
+				
+				// continue with ad thing
 				ad = new SAAd(placementId, config);
 				
 				// laod the imaga
@@ -154,6 +194,9 @@
 			spr.y = 0;
 			bg.addChild(spr);
 			spr.addEventListener(MouseEvent.CLICK, close);
+			
+			// call success
+			sendLoadMessage();
 		}
 		
 		// what happens when a click is loaded
@@ -164,6 +207,7 @@
 		
 		private function close(event: MouseEvent): void {
 			stage.removeChild(bg);
+			sendCloseMessage();
 		}
 	}
 }

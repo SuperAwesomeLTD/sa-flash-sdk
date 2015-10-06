@@ -32,20 +32,24 @@
             "text": "05 Video Ads.md"
         },
         {
+            "name": "Event Handlers",
+            "text": "06 Event handlers.md"
+        },
+        {
             "name": "Testing  Placements",
-            "text": "06 Testing Placements.md"
+            "text": "07 Testing Placements.md"
         },
         {
             "name": "Debug vs. Production",
-            "text": "07 Debug vs. Production.md"
+            "text": "08 Debug vs. Production.md"
         },
         {
             "name": "Technical Support",
-            "text": "08 Technical Support.md"
+            "text": "09 Technical Support.md"
         },
         {
             "name": "License",
-            "text": "09 License.md"
+            "text": "10 License.md"
         }
     ]
 }

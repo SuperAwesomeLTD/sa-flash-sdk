@@ -1,13 +1,17 @@
 ﻿package tv.superawesome {
 	// import
-	import flash.geom.Rectangle;
-	import flash.events.*;
-	import flash.net.*;
-	import flash.display.Sprite;
 	import flash.display.Loader;
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
+	import flash.events.ErrorEvent;
+	import flash.events.Event;
+	import flash.events.IOErrorEvent;
+	import flash.geom.Rectangle;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
 	import flash.system.Security;
-	import tv.superawesome.models.*;
+	
+	import tv.superawesome.models.SAAd;
 	
 	// class definition
 	public class VideoAd extends Sprite {
@@ -16,10 +20,45 @@
 		private var viewPort: Rectangle;
 		private var ad: SAAd;
 		
+		private var loadFunc: Function = null;
+		private var failFunc: Function = null;
+		private var closeFunc: Function = null;
+		
 		public function VideoAd(viewPort: Rectangle, placementId: int) {
 			// update local vars
 			this.placementId = placementId;
 			this.viewPort = viewPort;
+		}
+		
+		// two functions used to display what happens on load and on fail
+		public function onAdLoad(f: Function): void {
+			this.loadFunc = f;
+		}
+		
+		public function onAdFail(f: Function): void {
+			this.failFunc = f;
+		}
+		
+		public function onAdClose(f: Function): void {
+			this.closeFunc = f;
+		}
+		
+		private function sendFailMessage(): void {
+			if (this.failFunc != null){
+				this.failFunc();
+			}
+		}
+		
+		private function sendLoadMessage(): void {
+			if (this.loadFunc != null) {
+				this.loadFunc();
+			}
+		}
+		
+		private function sendCloseMessage(): void {
+			if (this.closeFunc != null) {
+				this.closeFunc();
+			}
 		}
 		
 		public function play(): void {
@@ -44,6 +83,7 @@
 		
 		private function onError(e: ErrorEvent): void {
 			dispatchEvent(e);
+			sendFailMessage();
 		}
 
 		private function onSuccess(e: Event): void {
@@ -51,6 +91,14 @@
 			try {
 				// parse the new ad
 				var config: Object = JSON.parse(e.target.data);
+				var isValid: Boolean = JSONChecker.checkAdIsValid(config);
+				
+				if (!isValid) {
+					sendFailMessage();
+					return;
+				}
+				
+				// continue with ad config
 				ad = new SAAd(placementId, config);
 				
 				// load player
@@ -85,6 +133,9 @@
 			mcExt.height = viewPort.height;
 			addChild(mcExt);
 			mcExt.playVideoAd(this.ad.creative.details.vast);
+			
+			// success
+			sendLoadMessage();
 		}
 	}
 }

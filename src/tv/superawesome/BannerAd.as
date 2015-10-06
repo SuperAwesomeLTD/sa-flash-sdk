@@ -1,6 +1,5 @@
 ﻿package tv.superawesome{
 
-	import flash.display.DisplayObject;
 	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.ErrorEvent;
@@ -22,12 +21,51 @@
 		private var viewPort: Rectangle;
 		private var ad: SAAd;
 		private var imgLoader: Loader = new Loader();
-
+		
+		private var loadFunc: Function = null;
+		private var failFunc: Function = null;
+		private var closeFunc: Function = null;
+		
 		public function BannerAd(viewPort: Rectangle, placementId: int) {
 			// update local vars
 			this.placementId = placementId;
 			this.viewPort = viewPort;
-			
+		}
+		
+		// two functions used to display what happens on load and on fail
+		public function onAdLoad(f: Function): void {
+			this.loadFunc = f;
+		}
+		
+		public function onAdFail(f: Function): void {
+			this.failFunc = f;
+		}
+		
+		public function onAdClose(f: Function): void {
+			this.closeFunc = f;
+		}
+		
+		private function sendFailMessage(): void {
+			if (this.failFunc != null){
+				this.failFunc();
+			}
+		}
+		
+		private function sendLoadMessage(): void {
+			if (this.loadFunc != null) {
+				this.loadFunc();
+			}
+		}
+		
+		private function sendCloseMessage(): void {
+			if (this.closeFunc != null) {
+				this.closeFunc();
+			}
+		}
+		
+		/////////////////////////////////////////////////
+		// From here on - play the ad
+		public function play(): void{
 			// load data
 			var baseURL: String = SuperAwesome.getInstance().getBaseURL();
 			var isTest: Boolean = SuperAwesome.getInstance().getTestMode();
@@ -45,9 +83,10 @@
 			loader.addEventListener(IOErrorEvent.IO_ERROR, onError);
 			loader.load(asRequest);
 		}
-
+		
 		private function onError(e: ErrorEvent): void {
 			dispatchEvent(e);
+			sendFailMessage();
 		}
 
 		private function onSuccess(e: Event): void {
@@ -55,6 +94,14 @@
 			try {
 				// parse the new ad
 				var config: Object = JSON.parse(e.target.data);
+				var isValid:Boolean = JSONChecker.checkAdIsValid(config);
+				
+				if (!isValid) {
+					sendFailMessage();
+					return;
+				}
+				
+				// go forward, this is valid
 				ad = new SAAd(placementId, config);
 				
 				// laod the imaga
@@ -83,6 +130,9 @@
 			imgLoader.height = viewPort.height;
 			innerImage.addChild(imgLoader);
 			imgLoader.addEventListener(MouseEvent.CLICK, reportClick);
+			
+			// success
+			sendLoadMessage();
 		}
 
 		// what happens when a click is loaded
