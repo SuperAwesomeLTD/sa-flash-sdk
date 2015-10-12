@@ -9,13 +9,12 @@
 		
 		public function Main() {
 			// set config
-			SuperAwesome.getInstance().setConfigStaging();
+			SuperAwesome.getInstance().setConfigProduction();
 			SuperAwesome.getInstance().enableTestMode();
 			
 			///////////////////////////////////////////////////////
 			// Create the Banner ad
-			var vp:Rectangle = new Rectangle(0,0,320,50);
-			var ad:BannerAd = new BannerAd(vp, 10001);
+			var ad:BannerAd = new BannerAd(new Rectangle(0,0,320,50), 21156);
 			ad.onAdLoad(function() {
 				trace("banner loaded");
 			});
@@ -33,8 +32,7 @@
 
 			///////////////////////////////////////////////////////
 			// Create the Video ad
-			var vp2:Rectangle = new Rectangle(0,60,400,300);
-			var vad:VideoAd = new VideoAd(vp2, 10002);
+			var vad:VideoAd = new VideoAd(new Rectangle(0,60,400,300), 21278);
 			vad.onAdLoad(function(){
 				trace("video loaded");
 			});
@@ -52,7 +50,7 @@
 			
 			///////////////////////////////////////////////////////
 			// Create the Interstitial ad
-			var iad:InterstitialAd = new InterstitialAd(10029);
+			var iad:InterstitialAd = new InterstitialAd(21277);
 			iad.onAdLoad(function(){
 				trace("interstitial loaded");
 			});

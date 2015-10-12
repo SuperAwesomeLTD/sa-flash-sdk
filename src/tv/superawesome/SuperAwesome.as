@@ -29,15 +29,15 @@
 		}
 		
 		public function setConfigProduction(): void {
-			baseURL = "https://ads.superawesome.tv/";
+			baseURL = "https://ads.superawesome.tv";
 		}
 		
 		public function setConfigStaging(): void {
-			baseURL = "https://staging.beta.ads.superawesome.tv/";
+			baseURL = "https://staging.beta.ads.superawesome.tv";
 		}
 		
 		public function setConfigDevelopment(): void {
-			baseURL = "https://dev.ads.superawesome.tv/";
+			baseURL = "https://dev.ads.superawesome.tv";
 		}
 		
 		public function enableTestMode(): void {
