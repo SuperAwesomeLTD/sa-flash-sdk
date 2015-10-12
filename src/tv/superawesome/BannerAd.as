@@ -81,6 +81,7 @@
 			var baseURL: String = SuperAwesome.getInstance().getBaseURL();
 			var isTest: Boolean = SuperAwesome.getInstance().getTestMode();
 			var crossDomainURL: String = baseURL + "/crossdomain.xml";
+			trace(crossDomainURL);
 			var URLString: String = baseURL + "/v2/ad/"+placementId+"?test="+isTest;
 			
 			Security.allowDomain("*");
