@@ -32,7 +32,7 @@
 
 			///////////////////////////////////////////////////////
 			// Create the Video ad
-			var vad:VideoAd = new VideoAd(new Rectangle(0,60,400,300), 21278);
+			var vad:VideoAd = new VideoAd(new Rectangle(0,60,400,300), 5740);
 			vad.onAdLoad(function(){
 				trace("video loaded");
 			});

@@ -1,5 +1,7 @@
 ﻿package tv.superawesome {
 	// import
+	import com.adobe.serialization.json.JSON;
+	
 	import flash.display.Loader;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
@@ -12,6 +14,7 @@
 	import flash.system.Security;
 	
 	import tv.superawesome.models.SAAd;
+	import com.adobe.serialization.json.JSON;
 	
 	// class definition
 	public class VideoAd extends Sprite {
@@ -102,7 +105,8 @@
 			// try - success branch
 			try {
 				// parse the new ad
-				var config: Object = JSON.parse(e.target.data);
+				var config: Object = com.adobe.serialization.json.JSON.decode(e.target.data);
+//				var config: Object = JSON.parse(e.target.data);
 				var isValid: Boolean = JSONChecker.checkAdIsValid(config);
 				
 				if (!isValid) {
