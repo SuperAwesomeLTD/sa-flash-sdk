@@ -57,10 +57,10 @@
 			dict.test = SuperAwesome.getInstance().isTestingEnabled();
 			
 			// allow cross domain
-//			var crossDomainURL: String = SuperAwesome.getInstance().getBaseURL().replace("/v2","") + "/crossdomain.xml";
-//			Security.allowDomain("*");
-//			Security.loadPolicyFile(crossDomainURL);
-//			trace(crossDomainURL);
+			var crossDomainURL: String = SuperAwesome.getInstance().getBaseURL().replace("/v2","") + "/crossdomain.xml";
+			Security.allowDomain("*");
+			Security.loadPolicyFile(crossDomainURL);
+			trace(crossDomainURL);
 			
 			// send a get to load the actual AD
 			SANetwork.sendGET(endpoint, dict, function(e: Event): void { 
