@@ -1,55 +1,69 @@
 ﻿package tv.superawesome {
+	
 	public class SuperAwesome {
-		// other vars
-		private var baseURL: String;
-		private var isTest: Boolean;
+
+		// constants
+		private static const BASE_URL_STAGING: String = "https://staging.beta.ads.superawesome.tv/v2";
+		private static const BASE_URL_DEVELOPMENT: String = "https://dev.ads.superawesome.tv/v2";
+		private static const BASE_URL_PRODUCTION: String = "https://ads.superawesome.tv/v2";
 		
-		// singleton var
+		// private variables
+		private var baseURL: String;
+		private var isTestEnabled: Boolean;
+		
+		// singleton part
 		private static var _instance: SuperAwesome;
 		
-		// constructor
 		public function SuperAwesome() {
 			if (_instance) {
 				throw new Error("Singleton... use getInstance()");
 			}
+			
+			// enable cross domain and default values
+			// this.enableCrossDomainFlash();
+			this.enableTestMode();
+			this.setConfigurationProduction();
+			
+			// instrance
 			_instance = this;
 		}
 
-		// get instance function
 		public static function getInstance(): SuperAwesome {
-			if (!_instance) {
-				new SuperAwesome();
-			}
+			if (!_instance) { new SuperAwesome(); }
 			return _instance;
 		}
 		
-		// public functions
+		// public (useful) functions
+		public function version(): String {
+			return "3.0f";
+		}
+		
+		public function setConfigurationProduction(): void {
+			this.baseURL = SuperAwesome.BASE_URL_PRODUCTION;
+		}
+		
+		public function setConfigurationStaging(): void {
+			this.baseURL = SuperAwesome.BASE_URL_STAGING;
+		}
+		
+		public function setConfigurationDevelopment(): void {
+			this.baseURL = SuperAwesome.BASE_URL_DEVELOPMENT;
+		}
+		
 		public function getBaseURL(): String {
 			return this.baseURL;
 		}
 		
-		public function setConfigProduction(): void {
-			baseURL = "https://ads.superawesome.tv";
-		}
-		
-		public function setConfigStaging(): void {
-			baseURL = "https://staging.beta.ads.superawesome.tv";
-		}
-		
-		public function setConfigDevelopment(): void {
-			baseURL = "https://dev.ads.superawesome.tv";
-		}
-		
 		public function enableTestMode(): void {
-			isTest = true;
+			this.isTestEnabled = true;
 		}
 		
 		public function disableTestMode(): void {
-			isTest = false;
+			this.isTestEnabled = false;
 		}
 		
-		public function getTestMode(): Boolean {
-			return isTest;
+		public function isTestingEnabled(): Boolean {
+			return this.isTestEnabled;
 		}
 	}
 }

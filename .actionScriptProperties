@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<actionScriptProperties analytics="false" mainApplicationPath="SuperAwesome.as" projectUUID="c5f25492-f26f-4d6e-8f00-90bd8778202d" version="11">
+<actionScriptProperties analytics="false" mainApplicationPath="SuperAwesome_Flash_v3Beta.as" projectUUID="9ff2424f-9c53-4f08-8aac-4c4a9a64bb7a" version="11">
   <compiler additionalCompilerArguments="-locale en_US" autoRSLOrdering="true" copyDependentFiles="false" fteInMXComponents="false" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" useFlashSDK="false" verifyDigests="true" warn="true">
     <compilerSourcePath/>
     <libraryPath defaultLinkType="1">
@@ -13,7 +13,7 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
-    <application path="SuperAwesome.as"/>
+    <application path="SuperAwesome_Flash_v3Beta.as"/>
   </applications>
   <modules/>
   <workers/>
