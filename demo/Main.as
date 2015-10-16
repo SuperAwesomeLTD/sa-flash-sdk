@@ -50,7 +50,7 @@
 			
 			///////////////////////////////////////////////////////
 			// Create the Interstitial ad
-			var iad:InterstitialAd = new InterstitialAd(21277);
+			var iad:InterstitialAd = new InterstitialAd(23505);
 			iad.onAdLoad(function(){
 				trace("interstitial loaded");
 			});

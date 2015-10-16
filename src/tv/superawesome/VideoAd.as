@@ -148,7 +148,7 @@
 			mcExt.width = viewPort.width;
 			mcExt.height = viewPort.height;
 			addChild(mcExt);
-			mcExt.playVideoAd(this.ad.creative.details.vast);
+			mcExt.playVideoAd(this.ad.creative.details.video);
 			
 			// success
 			sendLoadMessage();
