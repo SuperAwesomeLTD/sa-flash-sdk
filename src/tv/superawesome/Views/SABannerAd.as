@@ -15,56 +15,58 @@ package tv.superawesome.Views {
 	public class SABannerAd extends SAView {
 		// the loader
 		private var imgLoader: Loader = new Loader();
-		private var bg: Sprite;
+		private var background: Sprite;
 		
 		public function SABannerAd(frame: Rectangle, placementId: int = NaN) {
 			super(frame, placementId);
 		}
 		
-		protected override function display(): void {
-			// laod the imaga
+		protected override function display(): void {	
+			if (this.stage != null) delayedDisplay();
+			else this.addEventListener(Event.ADDED_TO_STAGE, delayedDisplay);
+		}
+		
+		protected function delayedDisplay(e:Event = null): void {
+			// create background and static elements
+			[Embed(source = '../../../resources/bg.png')] var BgIconClass:Class;
+			var bmp2:Bitmap = new BgIconClass();
+			
+			background = new Sprite();
+			background.addChild(bmp2);
+			background.x = super.frame.x;
+			background.y = super.frame.y;
+			background.width = super.frame.width;
+			background.height = super.frame.height;
+			this.addChild(background);
+			
+			// laod the image async
 			var imgURLRequest: URLRequest = new URLRequest(super.ad.creative.details.image);
 			var loaderContext: LoaderContext = new LoaderContext();
 			loaderContext.checkPolicyFile = false;
 			imgLoader.load(imgURLRequest, loaderContext);
 			imgLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, onImageLoaded);
-			imgLoader.addEventListener(MouseEvent.CLICK, function (event: MouseEvent): void {
-				goToURL();
-			});
+			imgLoader.addEventListener(MouseEvent.CLICK, onClick);
 		}
 		
 		// what happens when an image is loaded
 		private function onImageLoaded(e: Event): void {
-			// 1. background
-			bg = new Sprite();
-			bg.x = 0;
-			bg.y = 0;
-			stage.addChild(bg);
-			
-			// 2. add real bg
-			var bdrm: Sprite = new Sprite();
-			[Embed(source = '../../../resources/bg.png')] var BgIconClass:Class;
-			var bmp2:Bitmap = new BgIconClass();
-			bdrm.addChild(bmp2);
-			bdrm.x = super.frame.x;
-			bdrm.y = super.frame.y;
-			bdrm.width = super.frame.width;
-			bdrm.height = super.frame.height;
-			bg.addChild(bdrm);
-			
-			// 2. calc scaling
+			// calc scaling
 			var newR: Rectangle = super.arrangeAdInFrame(super.frame);
 			newR.x += super.frame.x;
 			newR.y += super.frame.y;
 			
-			// 3. position the image
+			// position the image
 			imgLoader.x = newR.x;
 			imgLoader.y = newR.y;
 			imgLoader.width = newR.width;
 			imgLoader.height = newR.height;
 			
 			// add the child
-			bg.addChild(imgLoader);
+			this.addChild(imgLoader);
+		}
+		
+		private function onClick(event: MouseEvent): void {
+			goToURL();
 		}
 	}
 }

@@ -2,6 +2,7 @@
 
 package tv.superawesome.Views {
 	import flash.display.Bitmap;
+	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -10,16 +11,17 @@ package tv.superawesome.Views {
 	import flash.media.Video;
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
-	import flash.display.MovieClip;
 	
 	import tv.superawesome.Views.SAVideoAdProtocol;
 	import tv.superawesome.Views.SAView;
 	
 	public class SAFullscreenVideoAd extends SAView {
 		// private vars
-		private var bg: Sprite;
+		private var background: Sprite;
+		private var close: Sprite;
 		private var stream_ns: NetStream;
-		private var video: Video ;
+		private var video: Video;
+		private var mc:MovieClip;
 		public var videoDelegate: SAVideoAdProtocol;
 		
 		public function SAFullscreenVideoAd(placementId: int = NaN) {
@@ -34,72 +36,69 @@ package tv.superawesome.Views {
 		private function intestitialDisplay(e:Event = null): void  {
 			super.frame = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
 			
-			// 1. add placeholder background
-			bg = new Sprite();
-			bg.x = 0;
-			bg.y = 0;
-			stage.addChild(bg);
-			
-			// 2. add real bg
-			var bdrm: Sprite = new Sprite();
+			// load statical resources
 			[Embed(source = '../../../resources/bg.png')] var BgIconClass:Class;
 			var bmp2:Bitmap = new BgIconClass();
-			bdrm.addChild(bmp2);
-			bdrm.x = 0;
-			bdrm.y = 0;
-			bdrm.width = super.frame.width;
-			bdrm.height = super.frame.height;
-			bg.addChild(bdrm);
 			
-			// 3. calc scaling
+			background = new Sprite();
+			background.addChild(bmp2);
+			background.x = 0;
+			background.y = 0;
+			background.width = super.frame.width;
+			background.height = super.frame.height;
+			this.addChild(background);
+			
+			// calc scaling
 			var newR: Rectangle = super.arrangeAdInFrame(super.frame);
 			newR.x += super.frame.x;
 			newR.y += super.frame.y;
 			
-			// 3. create connection
+			// create connection
 			var connection_nc: NetConnection = new NetConnection(); 
 			connection_nc.connect(null); 
 			stream_ns = new NetStream(connection_nc); 
 			stream_ns.client = new Object(); 
 			stream_ns.addEventListener(NetStatusEvent.NET_STATUS, onStatus); 
 			
-			// 4. create video
+			// create video
 			video = new Video(); 
 			video.attachNetStream(stream_ns); 
 			video.x = newR.x;
 			video.y = newR.y;
 			video.width = newR.width;
 			video.height = newR.height;
-			var mc:MovieClip = new MovieClip();
+			
+			// create movie clip
+			mc = new MovieClip();
+			mc.addEventListener(MouseEvent.CLICK, onClick);
 			mc.addChild(video);
-			mc.addEventListener(MouseEvent.CLICK, function (event: MouseEvent): void {
-				goToURL();
-			});
-			bg.addChild(mc);
+			this.addChild(mc);
 			
 			// 5. actually play the video
 			stream_ns.play(ad.creative.details.video);
 			
 			// 6. the close button
-			var spr: Sprite = new Sprite();
 			[Embed(source = '../../../resources/close.png')] var CancelIconClass:Class;
 			var bmp: Bitmap = new CancelIconClass();
-			spr.addChild(bmp);
-			spr.x = super.frame.width-35;
-			spr.y = 5;
-			spr.width = 30;
-			spr.height = 30;
-			bg.addChild(spr);
-			spr.addEventListener(MouseEvent.CLICK, close);
+			
+			close = new Sprite();
+			close.addChild(bmp);
+			close.x = super.frame.width-35;
+			close.y = 5;
+			close.width = 30;
+			close.height = 30;
+			close.addEventListener(MouseEvent.CLICK, closeAction);
+			this.addChild(close);
+			
 		}
 		
-		private function close(event: MouseEvent): void {
+		private function closeAction(event: MouseEvent): void {
 			// stop this
 			stream_ns.pause();
 			video.clear();
 			
 			// call remove child
-			stage.removeChild(bg);
+			this.parent.removeChild(this);
 			
 			// call delegate
 			if (super.delegate != null) {
@@ -126,6 +125,10 @@ package tv.superawesome.Views {
 					break;
 				}
 			}
+		}
+		
+		private function onClick(event: MouseEvent): void {
+			goToURL();
 		}
 	}
 }
