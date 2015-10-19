@@ -16,6 +16,9 @@ package  {
 			// Configures SuperAwesome SDK to production mode
 			SuperAwesome.getInstance().setConfigProduction();
 
+			// setups crossdomain
+			SuperAwesome.getInstance().allowCrossdomain();
+
 			// enables or disabled test mode
 			SuperAwesome.getInstance().enableTestMode();
 		}

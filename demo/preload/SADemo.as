@@ -7,7 +7,7 @@
 	import tv.superawesome.Data.Models.*;
 	import flash.geom.Rectangle;
 	
-	public class SADemo extends MovieClip implements SALoaderProtocol{
+	public class SADemo extends MovieClip implements SALoaderProtocol, SAVideoAdProtocol {
 
 		public var bad: SABannerAd;
 		public var vad: SAVideoAd;
@@ -32,12 +32,20 @@
 			else if (placementId == 21022) {
 				vad.setAd(ad);
 				vad.playPreloaded();
+				vad.videoDelegate = this;
 				addChild(vad);		
 			}
 		}
 		
 		public function didFailToPreloadAdForPlacementId(placementId:int): void{ 
 			trace("Failed to load for ad: " + placementId);
+		}
+		
+		public function videoStarted(placementId: int): void {
+			trace("video started");
+		}
+		public function videoEnded(placementId:int): void {
+			trace("video ended");
 		}
 	}
 	

@@ -16,10 +16,8 @@
 			addChild(bad);
 			
 			var vad: SAVideoAd = new SAVideoAd(new Rectangle(0,100, 320, 270), 21022);
-			vad.playInstant();
 			addChild(vad);
+			vad.playInstant();		
 		}
-
 	}
-	
 }
