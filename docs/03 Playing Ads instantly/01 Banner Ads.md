@@ -1,4 +1,4 @@
-Once you've setup everything, the easiest way to load ads it by loading them instantly.
+Once you've setup everything, the easiest way to load ads is by loading them instantly.
 For example, if you want to display a Banner Ad in your application:
 
 ```
