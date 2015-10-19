@@ -5,6 +5,8 @@ package tv.superawesome.Views {
 	import flash.display.Bitmap;
 	import flash.display.Loader;
 	import flash.display.Sprite;
+	import flash.events.IOErrorEvent;
+	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
@@ -45,6 +47,7 @@ package tv.superawesome.Views {
 			loaderContext.checkPolicyFile = false;
 			imgLoader.load(imgURLRequest, loaderContext);
 			imgLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, onImageLoaded);
+			imgLoader.addEventListener(IOErrorEvent.IO_ERROR, onError);
 			imgLoader.addEventListener(MouseEvent.CLICK, onClick);
 		}
 		
@@ -63,6 +66,14 @@ package tv.superawesome.Views {
 			
 			// add the child
 			this.addChild(imgLoader);
+			
+			// call to success
+			success();
+		}
+		
+		private function onError(e: ErrorEvent): void {
+			dispatchEvent(e);
+			error();
 		}
 		
 		private function onClick(event: MouseEvent): void {

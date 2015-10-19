@@ -90,6 +90,8 @@ package tv.superawesome.Views {
 			close.addEventListener(MouseEvent.CLICK, closeAction);
 			this.addChild(close);
 			
+			// success
+			success();
 		}
 		
 		private function closeAction(event: MouseEvent): void {
@@ -123,6 +125,11 @@ package tv.superawesome.Views {
 						videoDelegate.videoEnded(ad.placementId);
 					}
 					break;
+				}
+				case "NetStream.Play.StreamNotFound": {
+					trace("video error");
+					error();
+					break;		
 				}
 			}
 		}

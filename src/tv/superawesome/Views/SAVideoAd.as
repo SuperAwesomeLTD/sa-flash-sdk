@@ -75,10 +75,14 @@ package tv.superawesome.Views {
 			
 			// actually play the video
 			stream_ns.play(ad.creative.details.video); 
+			
+			// call success
+			success();
 		}
 		
 		private function onStatus(stats: NetStatusEvent): void {
 			var code:String = stats.info.code;
+			trace(code);
 			switch (code) {
 				case "NetStream.Play.Start":{
 					trace("video started");
@@ -93,6 +97,11 @@ package tv.superawesome.Views {
 						videoDelegate.videoEnded(ad.placementId);
 					}
 					break;
+				}
+				case "NetStream.Play.StreamNotFound": {
+					trace("video error");
+					error();
+					break;		
 				}
 			}
 		}

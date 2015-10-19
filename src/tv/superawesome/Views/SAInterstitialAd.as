@@ -4,11 +4,14 @@ package tv.superawesome.Views {
 	import flash.display.Bitmap;
 	import flash.display.Loader;
 	import flash.display.Sprite;
+	import flash.events.ErrorEvent;
 	import flash.events.Event;
+	import flash.events.IOErrorEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
+	
 	import tv.superawesome.Views.SAView;
 	
 	public class SAInterstitialAd extends SAView{
@@ -60,6 +63,7 @@ package tv.superawesome.Views {
 			loaderContext.checkPolicyFile = false;
 			imgLoader.load(imgURLRequest, loaderContext);
 			imgLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, onImageLoaded);
+			imgLoader.addEventListener(IOErrorEvent.IO_ERROR, onError);
 			imgLoader.addEventListener(MouseEvent.CLICK, onClick);
 		}
 		
@@ -76,6 +80,14 @@ package tv.superawesome.Views {
 			imgLoader.width = newR.width;
 			imgLoader.height = newR.height;
 			this.addChild(imgLoader);
+			
+			// call to success
+			success();
+		}
+		
+		private function onError(e: ErrorEvent): void {
+			dispatchEvent(e);
+			error();
 		}
 		
 		private function closeAction(event: MouseEvent): void {

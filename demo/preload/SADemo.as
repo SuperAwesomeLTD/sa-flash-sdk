@@ -4,6 +4,7 @@
 	import tv.superawesome.Data.Loader.*;
 	import tv.superawesome.Views.SABannerAd;
 	import tv.superawesome.Views.SAVideoAd;
+	import tv.superawesome.Views.SAVideoAdProtocol;
 	import tv.superawesome.Data.Models.*;
 	import flash.geom.Rectangle;
 	
@@ -14,6 +15,7 @@
 		
 		public function SADemo() {
 			// constructor code
+			SuperAwesome.getInstance().setConfigurationProduction();
 			SuperAwesome.getInstance().allowCrossdomain();
 			SALoader.getInstance().preloadAdForPlacementId(21863);
 			SALoader.getInstance().preloadAdForPlacementId(21022);
