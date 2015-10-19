@@ -14,6 +14,7 @@
 		
 		public function SADemo() {
 			// constructor code
+			SuperAwesome.getInstance().allowCrossdomain();
 			SALoader.getInstance().preloadAdForPlacementId(21863);
 			SALoader.getInstance().preloadAdForPlacementId(21022);
 			SALoader.getInstance().delegate = this;

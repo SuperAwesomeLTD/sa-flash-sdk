@@ -9,6 +9,8 @@
 		public function SADemo() {
 			// constructor code
 			
+			SuperAwesome.getInstance().allowCrossdomain();
+			
 			var bad: SABannerAd = new SABannerAd(new Rectangle(0,0,320,50), 21863);
 			bad.playInstant();
 			addChild(bad);
