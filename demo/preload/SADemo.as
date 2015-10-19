@@ -23,6 +23,8 @@
 			
 			bad = new SABannerAd(new Rectangle(0,0,320,50));
 			vad = new SAVideoAd(new Rectangle(0,100,370,270));
+			
+			
 		}
 		
 		public function didPreloadAd(ad: SAAd, placementId:int): void {
