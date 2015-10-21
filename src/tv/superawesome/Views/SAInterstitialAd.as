@@ -70,10 +70,14 @@ package tv.superawesome.Views {
 		// what happens when an image is loaded
 		private function onImageLoaded(e: Event): void {
 			// calc scaling
-			var newR: Rectangle = super.arrangeAdInFrame(super.frame);
-			newR.x += super.frame.x;
-			newR.y += super.frame.y;
-		
+			var tW: Number = super.frame.width * 0.85;
+			var tH: Number = super.frame.height * 0.85;
+			var tX: Number = ( super.frame.width - tW ) / 2;
+			var tY: Number = ( super.frame.height - tH) / 2;
+			var newR: Rectangle = super.arrangeAdInFrame(new Rectangle(tX, tY, tW, tH));
+			newR.x += tX;
+			newR.y += tY;
+			
 			// banner
 			imgLoader.x = newR.x;
 			imgLoader.y = newR.y;

@@ -47,9 +47,13 @@ package tv.superawesome.Views {
 			this.addChild(background);
 			
 			// resize video
-			var newR: Rectangle = super.arrangeAdInFrame(super.frame);
-			newR.x += super.frame.x;
-			newR.y += super.frame.y;
+			var newR: Rectangle = super.frame;
+			
+			if (super.maintainsAspectRatio == true) {
+				newR = super.arrangeAdInFrame(super.frame);
+				newR.x += super.frame.x;
+				newR.y += super.frame.y;
+			}
 			
 			// create connection
 			var connection_nc: NetConnection = new NetConnection(); 

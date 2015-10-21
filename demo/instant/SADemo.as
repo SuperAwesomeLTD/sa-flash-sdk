@@ -12,17 +12,18 @@
 			SuperAwesome.getInstance().allowCrossdomain();
 			
 			
-			var iad: SAInterstitialAd = new SAInterstitialAd(24408);
+			/*var iad: SAInterstitialAd = new SAInterstitialAd(24408);
 			iad.playInstant();
 			addChild(iad);
 			
-			/*var bad: SABannerAd = new SABannerAd(new Rectangle(0,0,320,50), 21863);
+			var bad: SABannerAd = new SABannerAd(new Rectangle(0,0,310,70), 21863);
 			bad.playInstant();
-			addChild(bad);
+			addChild(bad);*/
 			
-			var vad: SAVideoAd = new SAVideoAd(new Rectangle(0,100, 320, 270), 21022);
+			var vad: SAVideoAd = new SAVideoAd(new Rectangle(0,0, 554, 311), 21022);
+			vad.maintainsAspectRatio = true;
 			addChild(vad);
-			vad.playInstant();	*/	
+			vad.playInstant();	
 		}
 	}
 }

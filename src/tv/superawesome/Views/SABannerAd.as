@@ -54,9 +54,13 @@ package tv.superawesome.Views {
 		// what happens when an image is loaded
 		private function onImageLoaded(e: Event): void {
 			// calc scaling
-			var newR: Rectangle = super.arrangeAdInFrame(super.frame);
-			newR.x += super.frame.x;
-			newR.y += super.frame.y;
+			var newR: Rectangle = super.frame;
+			
+			if (super.maintainsAspectRatio == true) {
+				newR = super.arrangeAdInFrame(super.frame);
+				newR.x += super.frame.x;
+				newR.y += super.frame.y;
+			}
 			
 			// position the image
 			imgLoader.x = newR.x;
