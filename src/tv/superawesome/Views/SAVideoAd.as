@@ -22,6 +22,7 @@ package tv.superawesome.Views {
 		private var mc:MovieClip;
 		public var videoDelegate: SAVideoAdProtocol;
 		
+		
 		// constructors
 		public function SAVideoAd(frame: Rectangle, placementId: int = NaN) {
 			// call to super
@@ -82,7 +83,8 @@ package tv.superawesome.Views {
 			
 			// call success
 			success();
-		}
+			
+		}	
 		
 		private function onStatus(stats: NetStatusEvent): void {
 			var code:String = stats.info.code;

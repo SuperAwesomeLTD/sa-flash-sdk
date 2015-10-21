@@ -10,6 +10,7 @@
 			// constructor code
 			
 			SuperAwesome.getInstance().allowCrossdomain();
+			SuperAwesome.getInstance().disableTestMode();
 			
 			
 			/*var iad: SAInterstitialAd = new SAInterstitialAd(24408);
@@ -20,7 +21,7 @@
 			bad.playInstant();
 			addChild(bad);*/
 			
-			var vad: SAVideoAd = new SAVideoAd(new Rectangle(0,0, 554, 311), 21022);
+			var vad: SAVideoAd = new SAVideoAd(new Rectangle(0,0, 554, 311), 24532);
 			vad.maintainsAspectRatio = true;
 			addChild(vad);
 			vad.playInstant();	
