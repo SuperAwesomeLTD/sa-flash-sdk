@@ -1,27 +1,37 @@
 // ActionScript file
 
 package tv.superawesome.Views {
+	import com.google.ads.ima.api.AdErrorEvent;
+	import com.google.ads.ima.api.AdEvent;
+	import com.google.ads.ima.api.AdsLoader;
+	import com.google.ads.ima.api.AdsManager;
+	import com.google.ads.ima.api.AdsManagerLoadedEvent;
+	import com.google.ads.ima.api.AdsRenderingSettings;
+	import com.google.ads.ima.api.AdsRequest;
+	import com.google.ads.ima.api.ViewModes;
+	
 	import flash.display.Bitmap;
-	import flash.display.MovieClip;
+	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	import flash.events.NetStatusEvent;
 	import flash.geom.Rectangle;
 	import flash.media.Video;
-	import flash.net.NetConnection;
-	import flash.net.NetStream;
 	
 	import tv.superawesome.Views.SAVideoAdProtocol;
 	import tv.superawesome.Views.SAView;
 	
 	public class SAVideoAd extends SAView {
+		// private internal vars
 		private var background: Sprite;
-		private var stream_ns: NetStream;
-		private var video: Video;
-		private var mc:MovieClip;
-		public var videoDelegate: SAVideoAdProtocol;
+		private var contentPlayheadTime:Number;
+		private var adsLoader: AdsLoader;
+		private var adsManager: AdsManager;
+		private var videoPlayer: VideoPlayerFlex3;
+		private var videoFrame: Rectangle;
 		
+		// oublic vars
+		public var videoDelegate: SAVideoAdProtocol;
 		
 		// constructors
 		public function SAVideoAd(frame: Rectangle, placementId: int = NaN) {
@@ -48,72 +58,145 @@ package tv.superawesome.Views {
 			this.addChild(background);
 			
 			// resize video
-			var newR: Rectangle = super.frame;
+			videoFrame = super.frame;
 			
-			if (super.maintainsAspectRatio == true) {
-				newR = super.arrangeAdInFrame(super.frame);
-				newR.x += super.frame.x;
-				newR.y += super.frame.y;
-			}
+			videoPlayer = new VideoPlayerFlex3(new Video(), this, videoFrame, null, null, null, null, null);
+			videoPlayer.contentUrl = ad.creative.details.video;
 			
-			// create connection
-			var connection_nc: NetConnection = new NetConnection(); 
-			connection_nc.connect(null); 
-			stream_ns = new NetStream(connection_nc); 
-			var client: Object = new Object(); 
-			stream_ns.client = client; 
-			stream_ns.addEventListener(NetStatusEvent.NET_STATUS, onStatus); 
+			adsLoader = new AdsLoader();
+			adsLoader.loadSdk();
+			adsLoader.addEventListener(AdsManagerLoadedEvent.ADS_MANAGER_LOADED, adsManagerLoadedHandler);
+			adsLoader.addEventListener(AdErrorEvent.AD_ERROR, adsLoadErrorHandler);
 			
-			// create video
-			video = new Video(); 
-			video.attachNetStream(stream_ns); 
-			video.x = newR.x;
-			video.y = newR.y;
-			video.width = newR.width;
-			video.height = newR.height;
+			var adsRequest: AdsRequest = new AdsRequest();
+			adsRequest.adTagUrl = super.ad.creative.details.vast;
+			adsRequest.linearAdSlotWidth = videoFrame.width;
+			adsRequest.linearAdSlotHeight = videoFrame.height;
+			adsRequest.nonLinearAdSlotWidth = videoFrame.width;
+			adsRequest.nonLinearAdSlotHeight = videoFrame.height;
 			
-			// create movie click
-			mc = new MovieClip();
-			mc.addEventListener(MouseEvent.CLICK, onClick);
-			mc.addChild(video);
-			this.addChild(mc);
-			
-			// actually play the video
-			stream_ns.play(ad.creative.details.video); 
+			adsLoader.requestAds(adsRequest);
 			
 			// call success
 			success();
-			
 		}	
 		
-		private function onStatus(stats: NetStatusEvent): void {
-			var code:String = stats.info.code;
-			trace(code);
-			switch (code) {
-				case "NetStream.Play.Start":{
-					trace("video started");
-					if (videoDelegate != null) {
-						videoDelegate.videoStarted(ad.placementId);
-					}
-					break;
-				}
-				case "NetStream.Play.Stop": {
-					trace("video stopped");
-					if (videoDelegate != null) {
-						videoDelegate.videoEnded(ad.placementId);
-					}
-					break;
-				}
-				case "NetStream.Play.StreamNotFound": {
-					trace("video error");
-					error();
-					break;		
-				}
+		private function adsManagerLoadedHandler(event:AdsManagerLoadedEvent):void {
+			var adsRenderingSettings:AdsRenderingSettings = new AdsRenderingSettings();
+			
+			var contentPlayhead:Object = {};
+			contentPlayhead.time = function():Number {
+				return contentPlayheadTime * 1000; // convert to milliseconds.
+			};
+			
+			adsManager = event.getAdsManager(contentPlayhead, adsRenderingSettings);
+			
+			if (adsManager) {
+				adsManager.addEventListener(AdEvent.LOADED, adsManagerAdLoadedHandler);
+				adsManager.addEventListener(AdEvent.STARTED, adsManagerStartedHandler);
+				adsManager.addEventListener(AdEvent.ALL_ADS_COMPLETED, allAdsCompletedHandler);
+				adsManager.addEventListener(AdErrorEvent.AD_ERROR, adsManagerPlayErrorHandler);
+				adsManager.addEventListener(AdEvent.CONTENT_PAUSE_REQUESTED, adsManagerContentPauseRequestedHandler);
+				adsManager.addEventListener(AdEvent.CONTENT_RESUME_REQUESTED, adsManagerContentResumeRequestedHandler);
+				adsManager.addEventListener(AdEvent.FIRST_QUARTILE, adsManagerFirstQuartileHandler);
+				adsManager.addEventListener(AdEvent.MIDPOINT, adsManagerMidpointHandler);
+				adsManager.addEventListener(AdEvent.THIRD_QUARTILE, adsManagerThirdQuartileHandler);
+				adsManager.addEventListener(AdEvent.CLICKED, adsManagerOnClick);
+				
+				adsManager.handshakeVersion("1.0");
+				adsManager.init(videoFrame.width, videoFrame.height, ViewModes.IGNORE);
+				
+				adsManager.adsContainer.x = videoFrame.x;
+				adsManager.adsContainer.y = videoFrame.y;
+				
+				DisplayObjectContainer(videoPlayer.videoDisplay.parent).addChild(adsManager.adsContainer);
+				
+				adsManager.start();
 			}
 		}
 		
-		private function onClick(event: MouseEvent): void {
+		private function adsManagerAdLoadedHandler(event:AdEvent): void {
+			// loaded
+		}
+		
+		private function adsManagerStartedHandler(event:AdEvent): void {
+			if (videoDelegate != null) {
+				videoDelegate.videoStarted(ad.placementId);
+			}
+		}
+		
+		private function adsManagerContentPauseRequestedHandler(event:AdEvent): void {
+			// not in use	
+		}
+		
+		private function adsManagerContentResumeRequestedHandler(event:AdEvent): void {
+			// not in use
+		}
+		
+		private function adsManagerFirstQuartileHandler(event:AdEvent): void {
+			if (videoDelegate != null) {
+				videoDelegate.videoReachedFirstQuartile(ad.placementId);
+			}
+		}
+		
+		private function adsManagerMidpointHandler(event:AdEvent): void {
+			if (videoDelegate != null) {
+				videoDelegate.videoReachedMidpoint(ad.placementId);
+			}
+		}
+		
+		private function adsManagerThirdQuartileHandler(event:AdEvent): void {
+			if (videoDelegate != null) {
+				videoDelegate.videoReachedThirdQuartile(ad.placementId);
+			}
+		}
+		
+		private function allAdsCompletedHandler(event:AdEvent):void {
+			destroyAdsManager();
+			
+			if (videoDelegate != null) {
+				videoDelegate.videoEnded(ad.placementId);
+			}
+		}
+		
+		private function adsLoadErrorHandler(event:AdErrorEvent):void {
+			videoPlayer.play();
+			error();
+		}
+		
+		private function adsManagerPlayErrorHandler(event:AdErrorEvent):void {
+			destroyAdsManager();
+			videoPlayer.play();
+			error();
+		}
+		
+		private function adsManagerOnClick(event: AdEvent): void {
 			goToURL();
+		}
+		
+		// some other aux functions
+		
+		private function destroyAdsManager():void {
+			if (adsManager) {
+				if (adsManager.adsContainer.parent &&
+					adsManager.adsContainer.parent.contains(adsManager.adsContainer)) {
+					adsManager.adsContainer.parent.removeChild(adsManager.adsContainer);
+				}
+				adsManager.destroy();
+			}
+		}
+	
+		public function closeAd(): void {
+			// stop this
+			destroyAdsManager();
+			
+			// call remove child
+			this.parent.removeChild(this);
+			
+			// call delegate
+			if (super.delegate != null) {
+				super.delegate.adWasClosed(ad.placementId);
+			}
 		}
 	}
 }
