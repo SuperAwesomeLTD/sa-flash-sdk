@@ -1,6 +1,7 @@
 // ActionScript file
 
 package tv.superawesome.Views {
+	import com.google.ads.ima.api.Ad;
 	import com.google.ads.ima.api.AdErrorEvent;
 	import com.google.ads.ima.api.AdEvent;
 	import com.google.ads.ima.api.AdsLoader;
@@ -9,6 +10,7 @@ package tv.superawesome.Views {
 	import com.google.ads.ima.api.AdsRenderingSettings;
 	import com.google.ads.ima.api.AdsRequest;
 	import com.google.ads.ima.api.ViewModes;
+	import com.google.ads.ima.wrappers.AdsLoaderWrapper;
 	
 	import flash.display.Bitmap;
 	import flash.display.DisplayObjectContainer;
@@ -18,6 +20,7 @@ package tv.superawesome.Views {
 	import flash.geom.Rectangle;
 	import flash.media.Video;
 	
+	import tv.superawesome.Data.Sender.SASender;
 	import tv.superawesome.Views.SAVideoAdProtocol;
 	import tv.superawesome.Views.SAView;
 	
@@ -198,7 +201,11 @@ package tv.superawesome.Views {
 		}
 		
 		private function adsManagerOnClick(event: AdEvent): void {
-			goToURL();
+			SASender.postEventClick(ad);
+			
+			if (super.delegate != null) {
+				super.delegate.adFollowedURL(super.placementId);
+			}
 		}
 		
 		// aux functions

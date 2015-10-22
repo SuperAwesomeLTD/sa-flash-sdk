@@ -18,6 +18,7 @@ package tv.superawesome.Views {
 	import flash.geom.Rectangle;
 	import flash.media.Video;
 	
+	import tv.superawesome.Data.Sender.SASender;
 	import tv.superawesome.Views.SAVideoAdProtocol;
 	import tv.superawesome.Views.SAView;
 	
@@ -171,7 +172,11 @@ package tv.superawesome.Views {
 		}
 		
 		private function adsManagerOnClick(event: AdEvent): void {
-			goToURL();
+			SASender.postEventClick(ad);
+			
+			if (super.delegate != null) {
+				super.delegate.adFollowedURL(super.placementId);
+			}
 		}
 		
 		// some other aux functions

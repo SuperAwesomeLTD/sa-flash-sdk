@@ -10,7 +10,7 @@
 			// constructor code
 			
 			SuperAwesome.getInstance().allowCrossdomain();
-			SuperAwesome.getInstance().enableTestMode();
+			SuperAwesome.getInstance().disableTestMode();
 			
 			
 			/*var iad: SAInterstitialAd = new SAInterstitialAd(24408);

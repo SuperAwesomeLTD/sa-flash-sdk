@@ -19,7 +19,7 @@ package tv.superawesome.Views{
 		public var delegate: SAViewProtocol;
 		
 		// private variables
-		private var placementId: int;
+		protected var placementId: int;
 		protected var ad: SAAd = null;
 		
 		// frame and aux variables
