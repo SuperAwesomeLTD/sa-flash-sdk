@@ -13,25 +13,25 @@
 			SuperAwesome.getInstance().disableTestMode();
 			
 			
-			/*var iad: SAInterstitialAd = new SAInterstitialAd(24408);
+			var iad: SAInterstitialAd = new SAInterstitialAd(24541);
 			iad.playInstant();
-			addChild(iad);*/
+			addChild(iad);
 			
-			var bad: SABannerAd = new SABannerAd(new Rectangle(0,0,311,170), 21863);
+			/*var bad: SABannerAd = new SABannerAd(new Rectangle(0,0,311,170), 21863);
 			bad.maintainsAspectRatio = true;
 			bad.playInstant();
-			addChild(bad);
+			addChild(bad);*/
 			
 			/*var vad: SAVideoAd = new SAVideoAd(new Rectangle(0,0, 554, 311), 24532);
 			vad.maintainsAspectRatio = false;
 			addChild(vad);
 			vad.playInstant();	*/
 			
-			var fvad: SAFullscreenVideoAd = new SAFullscreenVideoAd(24532);
+			/*var fvad: SAFullscreenVideoAd = new SAFullscreenVideoAd(24532);
 			fvad.videoDelegate = this;
 			fvad.delegate = this;
 			fvad.playInstant();
-			addChild(fvad);
+			addChild(fvad);*/
 		}
 		
 		public function adWasShown(placementId: int): void {

@@ -58,6 +58,7 @@ package tv.superawesome.Views {
 			this.addChild(close);
 			
 			// send the request
+			trace("Attempting to load " + super.ad.creative.details.image);
 			var imgURLRequest: URLRequest = new URLRequest(super.ad.creative.details.image);
 			var loaderContext: LoaderContext = new LoaderContext();
 			loaderContext.checkPolicyFile = false;
