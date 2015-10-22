@@ -10,6 +10,21 @@ public class Main extends MovieClip implements SALoaderProtocol, SAViewProtocol,
 
 	}
 
+	// triggered when a video has played 1/4 of its length
+	public function videoReachedFirstQuartile(placementId:int): void {
+	
+	}
+	
+	// triggered when a video has played 1/2 of its length
+	public function videoReachedMidpoint(placementId:int): void {
+	
+	}
+	
+	// triggered when a video has played 3/4 of its length
+	public function videoReachedThirdQuartile(placementId: int): void {
+	
+	}
+
 	// triggered when a video has ended playing
 	public function videoEnded(placementId:int): void {
 
