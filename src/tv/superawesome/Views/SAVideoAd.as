@@ -17,6 +17,11 @@ package tv.superawesome.Views {
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	import flash.media.Video;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
+	import flash.net.navigateToURL;
+	
+	import flash.display.SimpleButton;
 	
 	import tv.superawesome.Data.Sender.SASender;
 	import tv.superawesome.Views.SAVideoAdProtocol;
@@ -30,6 +35,7 @@ package tv.superawesome.Views {
 		private var adsManager: AdsManager;
 		private var videoPlayer: VideoPlayerFlex3;
 		private var videoFrame: Rectangle;
+		private var clickThroughURL: String;
 		
 		// oublic vars
 		public var videoDelegate: SAVideoAdProtocol;
@@ -58,11 +64,30 @@ package tv.superawesome.Views {
 			background.height = super.frame.height;
 			this.addChild(background);
 			
+			// call success
+			success();
+			
+			///////
+			/// WARNING THIS IS NOT VERY OK
+			var xmlLoader:URLLoader = new URLLoader();
+			
+			// Check that the XML is loaded
+			xmlLoader.load(new URLRequest (super.ad.creative.details.vast));
+			xmlLoader.addEventListener(Event.COMPLETE, processXML);
+		}
+		
+		private function processXML(e:Event):void {
+			var myXML: XML = new XML(e.target.data);
+			this.clickThroughURL = myXML.Ad.InLine.Creatives.Creative[0].Linear.VideoClicks.ClickThrough;
+			this.ad.creative.clickURL = myXML.Ad.InLine.Creatives.Creative[0].Linear.VideoClicks.ClickThrough;
+			trace(this.clickThroughURL);
+			
 			// resize video
 			videoFrame = super.frame;
 			
 			videoPlayer = new VideoPlayerFlex3(new Video(), this, videoFrame, null, null, null, null, null);
 			videoPlayer.contentUrl = ad.creative.details.video;
+//			videoPlayer.play();
 			
 			adsLoader = new AdsLoader();
 			adsLoader.loadSdk();
@@ -77,10 +102,7 @@ package tv.superawesome.Views {
 			adsRequest.nonLinearAdSlotHeight = videoFrame.height;
 			
 			adsLoader.requestAds(adsRequest);
-			
-			// call success
-			success();
-		}	
+		}
 		
 		private function adsManagerLoadedHandler(event:AdsManagerLoadedEvent):void {
 			var adsRenderingSettings:AdsRenderingSettings = new AdsRenderingSettings();
@@ -111,6 +133,22 @@ package tv.superawesome.Views {
 				adsManager.adsContainer.y = videoFrame.y;
 				
 				DisplayObjectContainer(videoPlayer.videoDisplay.parent).addChild(adsManager.adsContainer);
+				
+				adsManager.adsContainer.mouseEnabled = false;
+				adsManager.adsContainer.mouseChildren = false;
+				
+				var goButton: SimpleButton = new SimpleButton();
+				var myButtonSprite:Sprite = new Sprite();
+//				myButtonSprite.graphics.lineStyle(0, 0x000000);
+				myButtonSprite.graphics.beginFill(0xff000,0);
+				myButtonSprite.graphics.drawRect(videoFrame.x,videoFrame.y,videoFrame.width,videoFrame.height);
+				myButtonSprite.graphics.endFill();
+				
+				goButton.overState = goButton.downState = goButton.upState = goButton.hitTestState = myButtonSprite;
+				this.addChild(goButton);
+				goButton.addEventListener(MouseEvent.CLICK, adsManagerOnClick);
+				
+//				videoPlayer.videoDisplay.addEventListener(MouseEvent.CLICK, adsManagerOnClick);
 				
 				adsManager.start();
 			}
@@ -171,12 +209,18 @@ package tv.superawesome.Views {
 			error();
 		}
 		
-		private function adsManagerOnClick(event: AdEvent): void {
-			SASender.postEventClick(ad);
-			
-			if (super.delegate != null) {
-				super.delegate.adFollowedURL(super.placementId);
-			}
+		private function adsManagerOnClick(event: MouseEvent): void {
+			// don't do this
+//			goToURL();
+			trace(this.ad.creative.clickURL);
+			var clickURL: URLRequest = new URLRequest(this.ad.creative.clickURL);
+			navigateToURL(clickURL, "_blank");
+//			
+//			SASender.postEventClick(ad);
+//			
+//			if (super.delegate != null) {
+//				super.delegate.adFollowedURL(super.placementId);
+//			}
 		}
 		
 		// some other aux functions

@@ -265,12 +265,12 @@ package tv.superawesome.Views {
     }
 
     private function requestLinearAdsButtonClickHandler(event:MouseEvent):void {
-      dispatchEvent(new Event(LINEAR_ADS_REQUESTED_EVENT));
+//      dispatchEvent(new Event(LINEAR_ADS_REQUESTED_EVENT));
     }
 
     private function requestNonLinearAdsButtonClickHandler(
         event:MouseEvent):void {
-      dispatchEvent(new Event(NONLINEAR_ADS_REQUESTED_EVENT));
+//      dispatchEvent(new Event(NONLINEAR_ADS_REQUESTED_EVENT));
     }
 
     private function setPlayPauseButtonText(text:String):void {
