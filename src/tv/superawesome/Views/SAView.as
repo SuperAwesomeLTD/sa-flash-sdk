@@ -11,12 +11,12 @@ package tv.superawesome.Views{
 	
 	import tv.superawesome.Data.Loader.SALoader;
 	import tv.superawesome.Data.Models.SAAd;
-	import tv.superawesome.Views.SAViewProtocol;
+	import tv.superawesome.Views.SAAdProtocol;
 	import tv.superawesome.Data.Sender.*;
 	
 	public class SAView extends Sprite {
 		// delegate
-		public var delegate: SAViewProtocol;
+		public var delegate: SAAdProtocol;
 		
 		// private variables
 		protected var placementId: int;

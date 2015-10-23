@@ -1,9 +1,9 @@
 Using the same delegate pattern all ads can serve additional events than can be caught and acted upon.
 
-To do this, your `Main` class must also implement the `SAViewProtocol` interface:
+To do this, your `Main` class must also implement the `SAAdProtocol` interface:
 
 ```
-public class Main extends MovieClip implements SALoaderProtocol, SAViewProtocol {
+public class Main extends MovieClip implements SALoaderProtocol, SAAdProtocol {
 	...
 }
 ``` 

@@ -13,19 +13,19 @@
 			SuperAwesome.getInstance().disableTestMode();
 			
 			
-			var iad: SAInterstitialAd = new SAInterstitialAd(24541);
-			iad.playInstant();
-			addChild(iad);
+			//var iad: SAInterstitialAd = new SAInterstitialAd(24541);
+			//iad.playInstant();
+			//addChild(iad);
 			
 			/*var bad: SABannerAd = new SABannerAd(new Rectangle(0,0,311,170), 21863);
 			bad.maintainsAspectRatio = true;
 			bad.playInstant();
 			addChild(bad);*/
 			
-			/*var vad: SAVideoAd = new SAVideoAd(new Rectangle(0,0, 554, 311), 24532);
+			var vad: SAVideoAd = new SAVideoAd(new Rectangle(0,0, 554, 311), 24532);
 			vad.maintainsAspectRatio = false;
 			addChild(vad);
-			vad.playInstant();	*/
+			vad.playInstant();
 			
 			/*var fvad: SAFullscreenVideoAd = new SAFullscreenVideoAd(24532);
 			fvad.videoDelegate = this;
