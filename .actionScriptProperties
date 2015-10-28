@@ -9,8 +9,8 @@
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/core.swc" useDefaultLinkType="false"/>
         </excludedEntries>
       </libraryPathEntry>
-      <libraryPathEntry kind="3" linkType="1" path="/Users/gabriel.coman/Workspace/sa-flashair-common/bin/SuperAwesome_FlashAIR_CommonLib.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="src/resources/ima_lib_as3.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="/Users/gabriel.coman/Workspace/sa-flashair-common/bin/SuperAwesome_FlashAIR_CommonLib.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>

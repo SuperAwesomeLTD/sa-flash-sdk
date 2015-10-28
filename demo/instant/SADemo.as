@@ -4,7 +4,7 @@
 	import tv.superawesome.Views.*;
 	import flash.geom.Rectangle;
 	
-	public class SADemo extends MovieClip implements SAVideoAdProtocol, SAViewProtocol {
+	public class SADemo extends MovieClip implements SAVideoAdProtocol, SAAdProtocol {
 
 		public function SADemo() {
 			// constructor code

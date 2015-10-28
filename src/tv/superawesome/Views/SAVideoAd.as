@@ -26,8 +26,10 @@ package tv.superawesome.Views {
 	import tv.superawesome.Data.Sender.SASender;
 	import tv.superawesome.Views.SAVideoAdProtocol;
 	import tv.superawesome.Views.SAView;
+	import tv.superawesome.Data.VAST.SAVASTProtocol;
+	import tv.superawesome.Data.VAST.SAVASTParser;
 	
-	public class SAVideoAd extends SAView {
+	public class SAVideoAd extends SAView implements SAVASTProtocol {
 		// private internal vars
 		private var background: Sprite;
 		private var contentPlayheadTime:Number;
@@ -67,27 +69,28 @@ package tv.superawesome.Views {
 			// call success
 			success();
 			
-			///////
-			/// WARNING THIS IS NOT VERY OK
+			// Load the VAST XML data to get the correct click
 			var xmlLoader:URLLoader = new URLLoader();
-			
-			// Check that the XML is loaded
 			xmlLoader.load(new URLRequest (super.ad.creative.details.vast));
 			xmlLoader.addEventListener(Event.COMPLETE, processXML);
 		}
 		
 		private function processXML(e:Event):void {
 			var myXML: XML = new XML(e.target.data);
-			this.clickThroughURL = myXML.Ad.InLine.Creatives.Creative[0].Linear.VideoClicks.ClickThrough;
-			this.ad.creative.clickURL = myXML.Ad.InLine.Creatives.Creative[0].Linear.VideoClicks.ClickThrough;
-			trace(this.clickThroughURL);
+			
+			SAVASTParser.delegate = this;
+			SAVASTParser.findCorrectVASTClick(myXML);
+		}
+		
+		public function didFindVASTClickURL(clickURL: String): void {
+			this.ad.creative.clickURL = clickURL;
+			trace("from didFindVASTClickURL " + this.ad.creative.clickURL);
 			
 			// resize video
 			videoFrame = super.frame;
 			
 			videoPlayer = new VideoPlayerFlex3(new Video(), this, videoFrame, null, null, null, null, null);
 			videoPlayer.contentUrl = ad.creative.details.video;
-//			videoPlayer.play();
 			
 			adsLoader = new AdsLoader();
 			adsLoader.loadSdk();
