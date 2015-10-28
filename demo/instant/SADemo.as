@@ -22,7 +22,7 @@
 			bad.playInstant();
 			addChild(bad);*/
 			
-			var vad: SAVideoAd = new SAVideoAd(new Rectangle(0,0, 554, 311), 24532);
+			var vad: SAFullscreenVideoAd = new SAFullscreenVideoAd(24532);
 			vad.maintainsAspectRatio = false;
 			addChild(vad);
 			vad.playInstant();

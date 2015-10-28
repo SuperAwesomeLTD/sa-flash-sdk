@@ -19,12 +19,16 @@ package tv.superawesome.Views {
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	import flash.media.Video;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
 	
 	import tv.superawesome.Data.Sender.SASender;
+	import tv.superawesome.Data.VAST.SAVASTParser;
+	import tv.superawesome.Data.VAST.SAVASTProtocol;
 	import tv.superawesome.Views.SAVideoAdProtocol;
 	import tv.superawesome.Views.SAView;
 	
-	public class SAFullscreenVideoAd extends SAView {
+	public class SAFullscreenVideoAd extends SAView implements SAVASTProtocol {
 		// private vars
 		private var background: Sprite;
 		private var close: Sprite;
@@ -61,6 +65,39 @@ package tv.superawesome.Views {
 			background.height = super.frame.height;
 			this.addChild(background);
 			
+			// 6. the close button
+			[Embed(source = '../../../resources/close.png')] var CancelIconClass:Class;
+			var bmp: Bitmap = new CancelIconClass();
+			
+			close = new Sprite();
+			close.addChild(bmp);
+			close.x = super.frame.width-35;
+			close.y = 5;
+			close.width = 30;
+			close.height = 30;
+			close.addEventListener(MouseEvent.CLICK, closeAction);
+			this.addChild(close);
+			
+			// success
+			success();
+			
+			// Load the VAST XML data to get the correct click
+			var xmlLoader:URLLoader = new URLLoader();
+			xmlLoader.load(new URLRequest (super.ad.creative.details.vast));
+			xmlLoader.addEventListener(Event.COMPLETE, processXML);
+		}
+		
+		private function processXML(e:Event):void {
+			var myXML: XML = new XML(e.target.data);
+			
+			SAVASTParser.delegate = this;
+			SAVASTParser.findCorrectVASTClick(myXML);
+		}
+		
+		public function didFindVASTClickURL(clickURL: String): void {
+			this.ad.creative.clickURL = clickURL;
+			trace("from didFindVASTClickURL " + this.ad.creative.clickURL);
+			
 			// calc scaling
 			var tW: Number = super.frame.width; // super.frame.width * 0.85;
 			var tH: Number = super.frame.height * 0.85;
@@ -89,25 +126,6 @@ package tv.superawesome.Views {
 			adsRequest.nonLinearAdSlotHeight = videoFrame.height;
 			
 			adsLoader.requestAds(adsRequest);
-			
-			// call success
-			success();
-			
-			// 6. the close button
-			[Embed(source = '../../../resources/close.png')] var CancelIconClass:Class;
-			var bmp: Bitmap = new CancelIconClass();
-			
-			close = new Sprite();
-			close.addChild(bmp);
-			close.x = super.frame.width-35;
-			close.y = 5;
-			close.width = 30;
-			close.height = 30;
-			close.addEventListener(MouseEvent.CLICK, closeAction);
-			this.addChild(close);
-			
-			// success
-			success();
 		}
 		
 		private function adsManagerLoadedHandler(event:AdsManagerLoadedEvent):void {
