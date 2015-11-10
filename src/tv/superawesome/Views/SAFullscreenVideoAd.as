@@ -21,6 +21,7 @@ package tv.superawesome.Views {
 	import flash.media.Video;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
+	import flash.net.navigateToURL;
 	
 	import tv.superawesome.Data.Sender.SASender;
 	import tv.superawesome.Data.VAST.SAVASTParser;
@@ -90,13 +91,13 @@ package tv.superawesome.Views {
 		private function processXML(e:Event):void {
 			var myXML: XML = new XML(e.target.data);
 			
-			SAVASTParser.delegate = this;
-			SAVASTParser.findCorrectVASTClick(myXML);
+			var parser: SAVASTParser = new SAVASTParser();
+			parser.delegate = this;
+			parser.simpleVASTParse(myXML);
 		}
 		
-		public function didFindVASTClickURL(clickURL: String): void {
+		public function didParseVAST(clickURL: String, impressionURL: String, completeURL: String): void {
 			this.ad.creative.clickURL = clickURL;
-			trace("from didFindVASTClickURL " + this.ad.creative.clickURL);
 			
 			// calc scaling
 			var tW: Number = super.frame.width; // super.frame.width * 0.85;
@@ -219,7 +220,9 @@ package tv.superawesome.Views {
 		}
 		
 		private function adsManagerOnClick(event: AdEvent): void {
-			SASender.postEventClick(ad);
+			trace(this.ad.creative.clickURL);
+			var clickURL: URLRequest = new URLRequest(this.ad.creative.clickURL);
+			navigateToURL(clickURL, "_blank");
 			
 			if (super.delegate != null) {
 				super.delegate.adFollowedURL(super.placementId);

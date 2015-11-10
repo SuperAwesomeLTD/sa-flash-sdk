@@ -78,13 +78,13 @@ package tv.superawesome.Views {
 		private function processXML(e:Event):void {
 			var myXML: XML = new XML(e.target.data);
 			
-			SAVASTParser.delegate = this;
-			SAVASTParser.findCorrectVASTClick(myXML);
+			var parser: SAVASTParser = new SAVASTParser();
+			parser.delegate = this;
+			parser.simpleVASTParse(myXML);
 		}
 		
-		public function didFindVASTClickURL(clickURL: String): void {
+		public function didParseVAST(clickURL: String, impressionURL: String, completeURL: String): void {
 			this.ad.creative.clickURL = clickURL;
-			trace("from didFindVASTClickURL " + this.ad.creative.clickURL);
 			
 			// resize video
 			videoFrame = super.frame;
@@ -142,7 +142,6 @@ package tv.superawesome.Views {
 				
 				var goButton: SimpleButton = new SimpleButton();
 				var myButtonSprite:Sprite = new Sprite();
-//				myButtonSprite.graphics.lineStyle(0, 0x000000);
 				myButtonSprite.graphics.beginFill(0xff000,0);
 				myButtonSprite.graphics.drawRect(videoFrame.x,videoFrame.y,videoFrame.width,videoFrame.height);
 				myButtonSprite.graphics.endFill();
@@ -150,8 +149,6 @@ package tv.superawesome.Views {
 				goButton.overState = goButton.downState = goButton.upState = goButton.hitTestState = myButtonSprite;
 				this.addChild(goButton);
 				goButton.addEventListener(MouseEvent.CLICK, adsManagerOnClick);
-				
-//				videoPlayer.videoDisplay.addEventListener(MouseEvent.CLICK, adsManagerOnClick);
 				
 				adsManager.start();
 			}
@@ -214,16 +211,13 @@ package tv.superawesome.Views {
 		
 		private function adsManagerOnClick(event: MouseEvent): void {
 			// don't do this
-//			goToURL();
 			trace(this.ad.creative.clickURL);
 			var clickURL: URLRequest = new URLRequest(this.ad.creative.clickURL);
 			navigateToURL(clickURL, "_blank");
-//			
-//			SASender.postEventClick(ad);
-//			
-//			if (super.delegate != null) {
-//				super.delegate.adFollowedURL(super.placementId);
-//			}
+			
+			if (super.delegate != null) {
+				super.delegate.adFollowedURL(super.placementId);
+			}
 		}
 		
 		// some other aux functions

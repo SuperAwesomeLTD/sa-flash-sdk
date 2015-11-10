@@ -9,6 +9,7 @@
 		public function SADemo() {
 			// constructor code
 			
+			// SuperAwesome.getInstance().setConfigurationProduction();
 			SuperAwesome.getInstance().allowCrossdomain();
 			SuperAwesome.getInstance().disableTestMode();
 			
@@ -22,8 +23,12 @@
 			bad.playInstant();
 			addChild(bad);*/
 			
-			var vad: SAFullscreenVideoAd = new SAFullscreenVideoAd(24532);
-			vad.maintainsAspectRatio = false;
+			/*var fvad: SAFullscreenVideoAd = new SAFullscreenVideoAd(24720);
+			fvad.maintainsAspectRatio = false;
+			addChild(fvad);
+			ƒvad.playInstant();
+			*/
+			var vad : SAVideoAd = new SAVideoAd(new Rectangle(0,0,320,270), 24720);
 			addChild(vad);
 			vad.playInstant();
 			
