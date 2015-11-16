@@ -20,11 +20,11 @@ package tv.superawesome.Views {
 		private var background: Sprite;
 		private var close: Sprite;
 		
-		public function SAInterstitialAd(placementId: int = NaN) {
-			super(new Rectangle(0,0,0,0), placementId);
+		public function SAInterstitialAd() {
+			super(new Rectangle(0,0,0,0));
 		}
 		
-		protected override function display(): void {
+		public override function play(): void {
 			if (stage) delayedDisplay();
 			else addEventListener(Event.ADDED_TO_STAGE, delayedDisplay);
 		}
@@ -58,14 +58,13 @@ package tv.superawesome.Views {
 			this.addChild(close);
 			
 			// send the request
-			trace("Attempting to load " + super.ad.creative.details.image);
 			var imgURLRequest: URLRequest = new URLRequest(super.ad.creative.details.image);
 			var loaderContext: LoaderContext = new LoaderContext();
 			loaderContext.checkPolicyFile = false;
 			imgLoader.load(imgURLRequest, loaderContext);
 			imgLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, onImageLoaded);
 			imgLoader.addEventListener(IOErrorEvent.IO_ERROR, onError);
-			imgLoader.addEventListener(MouseEvent.CLICK, onClick);
+			imgLoader.addEventListener(MouseEvent.CLICK, goToURL);
 		}
 		
 		// what happens when an image is loaded
@@ -103,10 +102,6 @@ package tv.superawesome.Views {
 			if (super.delegate != null) {
 				super.delegate.adWasClosed(ad.placementId);
 			}
-		}
-		
-		private function onClick(event: MouseEvent): void {
-			goToURL();
 		}
 	}
 }

@@ -26,10 +26,8 @@ package tv.superawesome.Views {
 	import tv.superawesome.Data.Sender.SASender;
 	import tv.superawesome.Views.SAVideoAdProtocol;
 	import tv.superawesome.Views.SAView;
-	import tv.superawesome.Data.VAST.SAVASTProtocol;
-	import tv.superawesome.Data.VAST.SAVASTParser;
 	
-	public class SAVideoAd extends SAView implements SAVASTProtocol {
+	public class SAVideoAd extends SAView {
 		// private internal vars
 		private var background: Sprite;
 		private var contentPlayheadTime:Number;
@@ -43,17 +41,17 @@ package tv.superawesome.Views {
 		public var videoDelegate: SAVideoAdProtocol;
 		
 		// constructors
-		public function SAVideoAd(frame: Rectangle, placementId: int = NaN) {
+		public function SAVideoAd(frame: Rectangle) {
 			// call to super
-			super(frame, placementId);
+			super(frame);
 		}
 		
-		protected override function display(): void {	
+		public override function play(): void {	
 			if (this.stage != null) delayedDisplay();
 			else this.addEventListener(Event.ADDED_TO_STAGE, delayedDisplay);
 		}
 		
-		protected function delayedDisplay(e:Event = null): void {
+		private function delayedDisplay(e:Event = null): void {
 			// get background img
 			[Embed(source = '../../../resources/bg.png')] var BgIconClass:Class;
 			var bmp2:Bitmap = new BgIconClass();
@@ -68,23 +66,6 @@ package tv.superawesome.Views {
 			
 			// call success
 			success();
-			
-			// Load the VAST XML data to get the correct click
-			var xmlLoader:URLLoader = new URLLoader();
-			xmlLoader.load(new URLRequest (super.ad.creative.details.vast));
-			xmlLoader.addEventListener(Event.COMPLETE, processXML);
-		}
-		
-		private function processXML(e:Event):void {
-			var myXML: XML = new XML(e.target.data);
-			
-			var parser: SAVASTParser = new SAVASTParser();
-			parser.delegate = this;
-			parser.simpleVASTParse(myXML);
-		}
-		
-		public function didParseVAST(clickURL: String, impressionURL: String, completeURL: String): void {
-			this.ad.creative.clickURL = clickURL;
 			
 			// resize video
 			videoFrame = super.frame;
@@ -215,9 +196,9 @@ package tv.superawesome.Views {
 			var clickURL: URLRequest = new URLRequest(this.ad.creative.clickURL);
 			navigateToURL(clickURL, "_blank");
 			
-			if (super.delegate != null) {
-				super.delegate.adFollowedURL(super.placementId);
-			}
+//			if (super.delegate != null) {
+//				super.delegate.adWasClicked(ad.placementId);
+//			}
 		}
 		
 		// some other aux functions

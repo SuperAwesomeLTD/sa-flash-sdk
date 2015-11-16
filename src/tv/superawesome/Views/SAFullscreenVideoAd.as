@@ -24,12 +24,10 @@ package tv.superawesome.Views {
 	import flash.net.navigateToURL;
 	
 	import tv.superawesome.Data.Sender.SASender;
-	import tv.superawesome.Data.VAST.SAVASTParser;
-	import tv.superawesome.Data.VAST.SAVASTProtocol;
 	import tv.superawesome.Views.SAVideoAdProtocol;
 	import tv.superawesome.Views.SAView;
 	
-	public class SAFullscreenVideoAd extends SAView implements SAVASTProtocol {
+	public class SAFullscreenVideoAd extends SAView {
 		// private vars
 		private var background: Sprite;
 		private var close: Sprite;
@@ -42,11 +40,11 @@ package tv.superawesome.Views {
 		// public
 		public var videoDelegate: SAVideoAdProtocol;
 		
-		public function SAFullscreenVideoAd(placementId: int = NaN) {
-			super(new Rectangle(0,0,0,0), placementId);
+		public function SAFullscreenVideoAd() {
+			super(new Rectangle(0,0,0,0));
 		}
 		
-		protected override function display(): void {
+		public override function play(): void {
 			if (stage) intestitialDisplay();
 			else addEventListener(Event.ADDED_TO_STAGE, intestitialDisplay);
 		}
@@ -81,23 +79,6 @@ package tv.superawesome.Views {
 			
 			// success
 			success();
-			
-			// Load the VAST XML data to get the correct click
-			var xmlLoader:URLLoader = new URLLoader();
-			xmlLoader.load(new URLRequest (super.ad.creative.details.vast));
-			xmlLoader.addEventListener(Event.COMPLETE, processXML);
-		}
-		
-		private function processXML(e:Event):void {
-			var myXML: XML = new XML(e.target.data);
-			
-			var parser: SAVASTParser = new SAVASTParser();
-			parser.delegate = this;
-			parser.simpleVASTParse(myXML);
-		}
-		
-		public function didParseVAST(clickURL: String, impressionURL: String, completeURL: String): void {
-			this.ad.creative.clickURL = clickURL;
 			
 			// calc scaling
 			var tW: Number = super.frame.width; // super.frame.width * 0.85;
@@ -224,9 +205,9 @@ package tv.superawesome.Views {
 			var clickURL: URLRequest = new URLRequest(this.ad.creative.clickURL);
 			navigateToURL(clickURL, "_blank");
 			
-			if (super.delegate != null) {
-				super.delegate.adFollowedURL(super.placementId);
-			}
+//			if (super.delegate != null) {
+//				super.delegate.adWasClicked(super.placementId);
+//			}
 		}
 		
 		// aux functions

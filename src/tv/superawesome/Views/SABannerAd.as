@@ -19,16 +19,16 @@ package tv.superawesome.Views {
 		private var imgLoader: Loader = new Loader();
 		private var background: Sprite;
 		
-		public function SABannerAd(frame: Rectangle, placementId: int = NaN) {
-			super(frame, placementId);
+		public function SABannerAd(frame: Rectangle) {
+			super(frame);
 		}
 		
-		protected override function display(): void {	
+		public override function play(): void {	
 			if (this.stage != null) delayedDisplay();
 			else this.addEventListener(Event.ADDED_TO_STAGE, delayedDisplay);
 		}
 		
-		protected function delayedDisplay(e:Event = null): void {
+		private function delayedDisplay(e:Event = null): void {
 			// create background and static elements
 			[Embed(source = '../../../resources/bg.png')] var BgIconClass:Class;
 			var bmp2:Bitmap = new BgIconClass();
@@ -48,7 +48,7 @@ package tv.superawesome.Views {
 			imgLoader.load(imgURLRequest, loaderContext);
 			imgLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, onImageLoaded);
 			imgLoader.addEventListener(IOErrorEvent.IO_ERROR, onError);
-			imgLoader.addEventListener(MouseEvent.CLICK, onClick);
+			imgLoader.addEventListener(MouseEvent.CLICK, goToURL);
 		}
 		
 		// what happens when an image is loaded
@@ -78,10 +78,6 @@ package tv.superawesome.Views {
 		private function onError(e: ErrorEvent): void {
 			dispatchEvent(e);
 			error();
-		}
-		
-		private function onClick(event: MouseEvent): void {
-			goToURL();
 		}
 	}
 }
