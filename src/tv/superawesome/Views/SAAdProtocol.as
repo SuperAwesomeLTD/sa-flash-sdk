@@ -7,6 +7,7 @@
 		function adFailedToShow(placementId: int): void;
 		function adWasClosed(placementId: int): void;
 		function adWasClicked(placementId: int): void;
+		function adIsNotCorrectFormat(placementId: int): void;
 	}
 	
 }

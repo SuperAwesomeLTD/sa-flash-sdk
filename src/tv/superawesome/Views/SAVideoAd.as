@@ -1,6 +1,7 @@
 // ActionScript file
 
 package tv.superawesome.Views {
+	
 	import com.google.ads.ima.api.AdErrorEvent;
 	import com.google.ads.ima.api.AdEvent;
 	import com.google.ads.ima.api.AdsLoader;
@@ -17,7 +18,6 @@ package tv.superawesome.Views {
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	import flash.media.Video;
-	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
 	
@@ -64,19 +64,11 @@ package tv.superawesome.Views {
 			background.height = super.frame.height;
 			this.addChild(background);
 			
-			// call success
-			success();
-			
 			// resize video
 			videoFrame = super.frame;
 			
 			videoPlayer = new VideoPlayerFlex3(new Video(), this, videoFrame, null, null, null, null, null);
 			videoPlayer.contentUrl = ad.creative.details.video;
-			
-			adsLoader = new AdsLoader();
-			adsLoader.loadSdk();
-			adsLoader.addEventListener(AdsManagerLoadedEvent.ADS_MANAGER_LOADED, adsManagerLoadedHandler);
-			adsLoader.addEventListener(AdErrorEvent.AD_ERROR, adsLoadErrorHandler);
 			
 			var adsRequest: AdsRequest = new AdsRequest();
 			adsRequest.adTagUrl = super.ad.creative.details.vast;
@@ -85,20 +77,30 @@ package tv.superawesome.Views {
 			adsRequest.nonLinearAdSlotWidth = videoFrame.width;
 			adsRequest.nonLinearAdSlotHeight = videoFrame.height;
 			
+			adsLoader = new AdsLoader();
+			adsLoader.loadSdk();
+			adsLoader.addEventListener(AdsManagerLoadedEvent.ADS_MANAGER_LOADED, adsManagerLoadedHandler);
+			adsLoader.addEventListener(AdErrorEvent.AD_ERROR, adsLoadErrorHandler);
 			adsLoader.requestAds(adsRequest);
+			
+			// call success
+			success();
+			
+			// remove listener
+//			e.target.removeEventListener(Event.ADDED_TO_STAGE, delayedDisplay);
 		}
 		
 		private function adsManagerLoadedHandler(event:AdsManagerLoadedEvent):void {
-			var adsRenderingSettings:AdsRenderingSettings = new AdsRenderingSettings();
-			
+			// create content playhead
 			var contentPlayhead:Object = {};
-			contentPlayhead.time = function():Number {
-				return contentPlayheadTime * 1000; // convert to milliseconds.
-			};
+			contentPlayhead.time = function():Number { return contentPlayheadTime * 1000; };
 			
+			// create manager with rendering settings
+			var adsRenderingSettings:AdsRenderingSettings = new AdsRenderingSettings();
 			adsManager = event.getAdsManager(contentPlayhead, adsRenderingSettings);
 			
 			if (adsManager) {
+				// add event listeners
 				adsManager.addEventListener(AdEvent.LOADED, adsManagerAdLoadedHandler);
 				adsManager.addEventListener(AdEvent.STARTED, adsManagerStartedHandler);
 				adsManager.addEventListener(AdEvent.ALL_ADS_COMPLETED, allAdsCompletedHandler);
@@ -121,16 +123,18 @@ package tv.superawesome.Views {
 				adsManager.adsContainer.mouseEnabled = false;
 				adsManager.adsContainer.mouseChildren = false;
 				
-				var goButton: SimpleButton = new SimpleButton();
+				// create "click" button
 				var myButtonSprite:Sprite = new Sprite();
 				myButtonSprite.graphics.beginFill(0xff000,0);
 				myButtonSprite.graphics.drawRect(videoFrame.x,videoFrame.y,videoFrame.width,videoFrame.height);
 				myButtonSprite.graphics.endFill();
 				
+				var goButton: SimpleButton = new SimpleButton();
 				goButton.overState = goButton.downState = goButton.upState = goButton.hitTestState = myButtonSprite;
-				this.addChild(goButton);
 				goButton.addEventListener(MouseEvent.CLICK, adsManagerOnClick);
+				this.addChild(goButton);
 				
+				// start add manager
 				adsManager.start();
 			}
 		}
@@ -180,6 +184,7 @@ package tv.superawesome.Views {
 		}
 		
 		private function adsLoadErrorHandler(event:AdErrorEvent):void {
+			trace("error!!!");
 			videoPlayer.play();
 			error();
 		}
@@ -191,14 +196,16 @@ package tv.superawesome.Views {
 		}
 		
 		private function adsManagerOnClick(event: MouseEvent): void {
-			// don't do this
-			trace(this.ad.creative.clickURL);
-			var clickURL: URLRequest = new URLRequest(this.ad.creative.clickURL);
-			navigateToURL(clickURL, "_blank");
-			
-//			if (super.delegate != null) {
-//				super.delegate.adWasClicked(ad.placementId);
-//			}
+			goToURL(event);
+//			
+//			// don't do this
+//			trace(this.ad.creative.clickURL);
+//			var clickURL: URLRequest = new URLRequest(this.ad.creative.clickURL);
+//			navigateToURL(clickURL, "_blank");
+//			
+////			if (super.delegate != null) {
+////				super.delegate.adWasClicked(ad.placementId);
+////			}
 		}
 		
 		// some other aux functions

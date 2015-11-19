@@ -2,7 +2,6 @@
 <flexLibProperties includeAllClasses="false" useMultiPlatformConfig="false" version="3">
   <includeClasses>
     <classEntry path="tv.superawesome.Views.SABannerAd"/>
-    <classEntry path="tv.superawesome.Views.SAFullscreenVideoAd"/>
     <classEntry path="tv.superawesome.Views.SAInterstitialAd"/>
     <classEntry path="tv.superawesome.Views.SAVideoAd"/>
     <classEntry path="tv.superawesome.Views.SAVideoAdProtocol"/>

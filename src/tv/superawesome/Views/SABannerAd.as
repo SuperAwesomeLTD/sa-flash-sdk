@@ -5,13 +5,15 @@ package tv.superawesome.Views {
 	import flash.display.Bitmap;
 	import flash.display.Loader;
 	import flash.display.Sprite;
-	import flash.events.IOErrorEvent;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
+	import flash.events.IOErrorEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
+	
+	import tv.superawesome.Data.Models.SACreativeFormat;
 	import tv.superawesome.Views.SAView;
 	
 	public class SABannerAd extends SAView {
@@ -29,6 +31,15 @@ package tv.superawesome.Views {
 		}
 		
 		private function delayedDisplay(e:Event = null): void {
+			
+			// do a check for invalid format
+			if (ad.creative.format != SACreativeFormat.image) {
+				if (super.delegate != null) {
+					super.delegate.adIsNotCorrectFormat(ad.placementId);
+				}
+				return;
+			}
+			
 			// create background and static elements
 			[Embed(source = '../../../resources/bg.png')] var BgIconClass:Class;
 			var bmp2:Bitmap = new BgIconClass();
@@ -49,6 +60,9 @@ package tv.superawesome.Views {
 			imgLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, onImageLoaded);
 			imgLoader.addEventListener(IOErrorEvent.IO_ERROR, onError);
 			imgLoader.addEventListener(MouseEvent.CLICK, goToURL);
+			
+			// remove listener
+			e.target.removeEventListener(Event.ADDED_TO_STAGE, delayedDisplay);
 		}
 		
 		// what happens when an image is loaded
@@ -70,6 +84,9 @@ package tv.superawesome.Views {
 			
 			// add the child
 			this.addChild(imgLoader);
+			
+			// remove listener
+			e.target.removeEventListener(Event.COMPLETE, onImageLoaded);
 			
 			// call to success
 			success();

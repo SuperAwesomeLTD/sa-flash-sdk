@@ -3,13 +3,14 @@
 package tv.superawesome.Views{
 	
 	import flash.display.Sprite;
+	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
 	
 	import tv.superawesome.Data.Models.SAAd;
+	import tv.superawesome.Data.Sender.SASender;
 	import tv.superawesome.Views.SAAdProtocol;
-	import tv.superawesome.Data.Sender.*;
 	
 	public class SAView extends Sprite {
 		// delegate
@@ -71,6 +72,7 @@ package tv.superawesome.Views{
 		}
 		
 		protected function success(): void {
+			trace("success");
 			SASender.sendEventToURL(ad.creative.viewableImpressionURL);
 			
 			if (this.delegate != null) {
@@ -85,12 +87,13 @@ package tv.superawesome.Views{
 			}
 		}
 		
-		protected function goToURL(): void {
+		protected function goToURL(e: MouseEvent = null): void {
 			
 			if (this.delegate != null) {
 				this.delegate.adWasClicked(this.ad.placementId);
 			}
 			
+			trace("\t[OK] Click:\t" + this.ad.creative.clickURL);
 			var clickURL: URLRequest = new URLRequest(this.ad.creative.clickURL);
 			navigateToURL(clickURL, "_blank");
 		}

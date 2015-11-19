@@ -12,6 +12,7 @@ package tv.superawesome.Views {
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
 	
+	import tv.superawesome.Data.Models.SACreativeFormat;
 	import tv.superawesome.Views.SAView;
 	
 	public class SAInterstitialAd extends SAView{
@@ -30,6 +31,14 @@ package tv.superawesome.Views {
 		}
 		
 		private function delayedDisplay(e:Event = null): void  {
+			// do a check for invalid format
+			if (ad.creative.format != SACreativeFormat.image) {
+				if (super.delegate != null) {
+					super.delegate.adIsNotCorrectFormat(ad.placementId);
+				}
+				return;
+			}
+			
 			// setup the frame
 			super.frame = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
 			
@@ -65,6 +74,9 @@ package tv.superawesome.Views {
 			imgLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, onImageLoaded);
 			imgLoader.addEventListener(IOErrorEvent.IO_ERROR, onError);
 			imgLoader.addEventListener(MouseEvent.CLICK, goToURL);
+			
+			// remove listener
+			e.target.removeEventListener(Event.ADDED_TO_STAGE, delayedDisplay);
 		}
 		
 		// what happens when an image is loaded
@@ -84,6 +96,9 @@ package tv.superawesome.Views {
 			imgLoader.width = newR.width;
 			imgLoader.height = newR.height;
 			this.addChild(imgLoader);
+			
+			// remove listener
+			e.target.removeEventListener(Event.COMPLETE, onImageLoaded);
 			
 			// call to success
 			success();
