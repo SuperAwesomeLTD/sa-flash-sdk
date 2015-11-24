@@ -110,7 +110,7 @@ package tv.superawesome.Views {
 				adsManager.addEventListener(AdEvent.FIRST_QUARTILE, adsManagerFirstQuartileHandler);
 				adsManager.addEventListener(AdEvent.MIDPOINT, adsManagerMidpointHandler);
 				adsManager.addEventListener(AdEvent.THIRD_QUARTILE, adsManagerThirdQuartileHandler);
-				adsManager.addEventListener(AdEvent.CLICKED, adsManagerOnClick);
+//				adsManager.addEventListener(AdEvent.CLICKED, adsManagerOnClick);
 				
 				adsManager.handshakeVersion("1.0");
 				adsManager.init(videoFrame.width, videoFrame.height, ViewModes.IGNORE);
@@ -120,19 +120,19 @@ package tv.superawesome.Views {
 				
 				DisplayObjectContainer(videoPlayer.videoDisplay.parent).addChild(adsManager.adsContainer);
 				
-				adsManager.adsContainer.mouseEnabled = false;
-				adsManager.adsContainer.mouseChildren = false;
+//				adsManager.adsContainer.mouseEnabled = false;
+//				adsManager.adsContainer.mouseChildren = false;
 				
-				// create "click" button
-				var myButtonSprite:Sprite = new Sprite();
-				myButtonSprite.graphics.beginFill(0xff000,0);
-				myButtonSprite.graphics.drawRect(videoFrame.x,videoFrame.y,videoFrame.width,videoFrame.height);
-				myButtonSprite.graphics.endFill();
-				
-				var goButton: SimpleButton = new SimpleButton();
-				goButton.overState = goButton.downState = goButton.upState = goButton.hitTestState = myButtonSprite;
-				goButton.addEventListener(MouseEvent.CLICK, adsManagerOnClick);
-				this.addChild(goButton);
+//				// create "click" button
+//				var myButtonSprite:Sprite = new Sprite();
+//				myButtonSprite.graphics.beginFill(0xff000,0);
+//				myButtonSprite.graphics.drawRect(videoFrame.x,videoFrame.y,videoFrame.width,videoFrame.height);
+//				myButtonSprite.graphics.endFill();
+//				
+//				var goButton: SimpleButton = new SimpleButton();
+//				goButton.overState = goButton.downState = goButton.upState = goButton.hitTestState = myButtonSprite;
+//				goButton.addEventListener(MouseEvent.CLICK, adsManagerOnClick);
+//				this.addChild(goButton);
 				
 				// start add manager
 				adsManager.start();
@@ -195,18 +195,18 @@ package tv.superawesome.Views {
 			error();
 		}
 		
-		private function adsManagerOnClick(event: MouseEvent): void {
-			goToURL(event);
-//			
-//			// don't do this
-//			trace(this.ad.creative.clickURL);
-//			var clickURL: URLRequest = new URLRequest(this.ad.creative.clickURL);
-//			navigateToURL(clickURL, "_blank");
-//			
-////			if (super.delegate != null) {
-////				super.delegate.adWasClicked(ad.placementId);
-////			}
-		}
+//		private function adsManagerOnClick(event: MouseEvent): void {
+//			goToURL(event);
+//////			
+//////			// don't do this
+//////			trace(this.ad.creative.clickURL);
+//////			var clickURL: URLRequest = new URLRequest(this.ad.creative.clickURL);
+//////			navigateToURL(clickURL, "_blank");
+//////			
+////////			if (super.delegate != null) {
+////////				super.delegate.adWasClicked(ad.placementId);
+////////			}
+//		}
 		
 		// some other aux functions
 		

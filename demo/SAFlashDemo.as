@@ -8,6 +8,7 @@
 	import tv.superawesome.Views.SABannerAd;
 	import flash.sampler.NewObjectSample;
 	import tv.superawesome.Views.SAInterstitialAd;
+	import tv.superawesome.Data.Loader.SALoaderProtocol;
 	
 	public class SAFlashDemo extends MovieClip implements SALoaderProtocol {
 
@@ -18,7 +19,7 @@
 			SuperAwesome.getInstance().allowCrossdomain();
 			
 			SALoader.getInstance().delegate = this;
-			SALoader.getInstance().loadAd(21245);
+			SALoader.getInstance().loadAd(7223);
 		}
 		
 		public function didLoadAd(ad: SAAd): void {
