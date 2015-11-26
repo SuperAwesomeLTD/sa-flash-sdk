@@ -19,19 +19,28 @@
 			SuperAwesome.getInstance().allowCrossdomain();
 			
 			SALoader.getInstance().delegate = this;
-			SALoader.getInstance().loadAd(7223);
+			SALoader.getInstance().loadAd(24532);
+			SALoader.getInstance().loadAd(24720);
 		}
 		
 		public function didLoadAd(ad: SAAd): void {
 			ad.print();
-			var vad:SAVideoAd = new SAVideoAd(new Rectangle(0, 0, 320, 240));
-			vad.setAd(ad);
-			addChildAt(vad, 0);
-			vad.play();
+			
+			if (ad.placementId == 24532) {
+				var vad1:SAVideoAd = new SAVideoAd(new Rectangle(0, 0, 240, 240));
+				vad1.setAd(ad);
+				addChildAt(vad1, 0);
+				vad1.play();
+			} else {
+				var vad2:SAVideoAd = new SAVideoAd(new Rectangle(240,0,240,240));
+				vad2.setAd(ad);
+				addChildAt(vad2, 0);
+				vad2.play();
+			}
 		}
 		
 		public function didFailToLoadAdForPlacementId(placementId: int): void {
-			trace("failed to load ad");
+			trace("failed to load ad " + placementId);
 		}
 	}
 }
