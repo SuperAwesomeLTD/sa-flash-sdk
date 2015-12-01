@@ -27,11 +27,11 @@ package tv.superawesome {
 		}
 		
 		// public (useful) functions
-		override public function version(): String {
+		override public function getVersion(): String {
 			return "3.0";
 		}
 		
-		override public function platform(): String {
+		override public function getSdk(): String {
 			return "flash";
 		}
 		

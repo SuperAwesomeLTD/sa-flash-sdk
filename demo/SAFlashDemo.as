@@ -15,7 +15,7 @@
 
 		public function SAFlashDemo() {
 			// constructor code
-			trace(SuperAwesome.getInstance().sdkVersion());
+			trace(SuperAwesome.getInstance().getSdkVersion());
 			trace(SASystem.getSystemType() + "_" + SASystem.getSystemSize());
 			
 			SuperAwesome.getInstance().disableTestMode();
