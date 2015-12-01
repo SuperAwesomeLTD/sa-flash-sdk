@@ -1,6 +1,9 @@
 sa-flash-sdk
 ============
 
+v3.0
+- Final realeas ready version - monitoring for bugs from now on
+
 v3_beta 2
 - Fixed click issue
 
