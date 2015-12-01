@@ -20,7 +20,6 @@
 			
 			SuperAwesome.getInstance().disableTestMode();
 			SuperAwesome.getInstance().setConfigurationProduction();
-			SuperAwesome.getInstance().allowCrossdomain();
 			
 			SALoader.getInstance().delegate = this;
 			SALoader.getInstance().loadAd(24532);

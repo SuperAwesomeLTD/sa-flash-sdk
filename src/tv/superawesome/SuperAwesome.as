@@ -14,7 +14,7 @@ package tv.superawesome {
 			
 			// enable cross domain and default values
 			this.allowCrossdomain();
-			this.enableTestMode();
+			this.disableTestMode();
 			this.setConfigurationProduction();
 			
 			// instrance

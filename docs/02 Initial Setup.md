@@ -16,9 +16,6 @@ package  {
 			// Configures SuperAwesome SDK to production mode
 			SuperAwesome.getInstance().setConfigurationProduction();
 
-			// setups crossdomain
-			SuperAwesome.getInstance().allowCrossdomain();
-
 			// enables or disabled test mode
 			SuperAwesome.getInstance().enableTestMode();
 		}
@@ -27,12 +24,11 @@ package  {
 }
 ```
 
-The SuperAwesome SDK can be setup in three ways: Production, Staging and Development, by using:
+The SuperAwesome SDK can be setup in two ways: Production and Staging, by using:
 
 ```
 SuperAwesome.getInstance().setConfigurationProduction();
 SuperAwesome.getInstance().setConfigurationStaging();
-SuperAwesome.getInstance().setConfigurationDevelopment();
 
 ```
 
@@ -43,6 +39,8 @@ SuperAwesome.getInstance().enableTestMode();
 SuperAwesome.getInstance().disableTestMode();
 
 ```
+
+By default, the environment is set to Production Mode and Test Mode disabled.
 
 
 
