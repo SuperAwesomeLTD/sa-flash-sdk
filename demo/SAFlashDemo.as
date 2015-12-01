@@ -5,6 +5,7 @@
 	import tv.superawesome.Data.Loader.*;
 	import tv.superawesome.Views.SAVideoAd;
 	import tv.superawesome.Data.Models.*;
+	import tv.superawesome.System.*;
 	import tv.superawesome.Views.SABannerAd;
 	import flash.sampler.NewObjectSample;
 	import tv.superawesome.Views.SAInterstitialAd;
@@ -14,6 +15,9 @@
 
 		public function SAFlashDemo() {
 			// constructor code
+			trace(SuperAwesome.getInstance().sdkVersion());
+			trace(SASystem.getSystemType() + "_" + SASystem.getSystemSize());
+			
 			SuperAwesome.getInstance().disableTestMode();
 			SuperAwesome.getInstance().setConfigurationProduction();
 			SuperAwesome.getInstance().allowCrossdomain();
