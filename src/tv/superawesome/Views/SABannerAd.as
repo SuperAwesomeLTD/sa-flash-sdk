@@ -60,9 +60,6 @@ package tv.superawesome.Views {
 			imgLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, onImageLoaded);
 			imgLoader.addEventListener(IOErrorEvent.IO_ERROR, onError);
 			imgLoader.addEventListener(MouseEvent.CLICK, goToURL);
-			
-			// remove listener
-			e.target.removeEventListener(Event.ADDED_TO_STAGE, delayedDisplay);
 		}
 		
 		// what happens when an image is loaded

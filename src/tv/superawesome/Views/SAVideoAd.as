@@ -15,15 +15,9 @@ package tv.superawesome.Views {
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	import flash.media.Video;
-	import flash.net.URLRequest;
-	import flash.net.navigateToURL;
-	
-	import flash.display.SimpleButton;
-	
-	import tv.superawesome.Data.Sender.SASender;
+
 	import tv.superawesome.Views.SAVideoAdProtocol;
 	import tv.superawesome.Views.SAView;
 	
@@ -85,9 +79,6 @@ package tv.superawesome.Views {
 			
 			// call success
 			success();
-			
-			// remove listener
-//			e.target.removeEventListener(Event.ADDED_TO_STAGE, delayedDisplay);
 		}
 		
 		private function adsManagerLoadedHandler(event:AdsManagerLoadedEvent):void {

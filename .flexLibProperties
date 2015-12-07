@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<flexLibProperties includeAllClasses="false" useMultiPlatformConfig="false" version="3">
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
     <classEntry path="com.adobe.serialization.json.JSON"/>
     <classEntry path="com.adobe.serialization.json.JSONDecoder"/>
@@ -8,7 +8,6 @@
     <classEntry path="com.adobe.serialization.json.JSONToken"/>
     <classEntry path="com.adobe.serialization.json.JSONTokenType"/>
     <classEntry path="com.adobe.serialization.json.JSONTokenizer"/>
-    <classEntry path="tv.superawesome.Data.Formatter.SAFormatter"/>
     <classEntry path="tv.superawesome.Data.Loader.SALoader"/>
     <classEntry path="tv.superawesome.Data.Loader.SALoaderProtocol"/>
     <classEntry path="tv.superawesome.Data.Models.SAAd"/>
@@ -19,7 +18,6 @@
     <classEntry path="tv.superawesome.Data.Network.SAUserAgent"/>
     <classEntry path="tv.superawesome.Data.Parser.SAParser"/>
     <classEntry path="tv.superawesome.Data.Sender.SASender"/>
-    <classEntry path="tv.superawesome.Data.VAST.SAVASTParser"/>
     <classEntry path="tv.superawesome.Data.Validator.SAValidator"/>
     <classEntry path="tv.superawesome.SuperAwesomeCommon"/>
     <classEntry path="tv.superawesome.System.SASystem"/>
@@ -44,7 +42,6 @@
     <resourceEntry destPath="resources/displayTag.html" sourcePath="resources/displayTag.html"/>
     <resourceEntry destPath="tv/superawesome/.DS_Store" sourcePath="tv/superawesome/.DS_Store"/>
     <resourceEntry destPath="tv/superawesome/Data/.DS_Store" sourcePath="tv/superawesome/Data/.DS_Store"/>
-    <resourceEntry destPath="tv/superawesome/Data/Formatter/.DS_Store" sourcePath="tv/superawesome/Data/Formatter/.DS_Store"/>
     <resourceEntry destPath="resources/bg.png" sourcePath="resources/bg.png"/>
     <resourceEntry destPath="resources/bgblack.png" sourcePath="resources/bgblack.png"/>
     <resourceEntry destPath="resources/close.png" sourcePath="resources/close.png"/>
