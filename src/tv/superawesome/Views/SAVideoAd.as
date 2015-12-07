@@ -1,7 +1,15 @@
-// ActionScript file
-
+//
+//  SAVideoAd.h
+//  tv.superawesome.Views
+//
+//  Copyright (c) 2015 SuperAwesome Ltd. All rights reserved.
+//
+//  Created by Gabriel Coman on 02/12/2015.
+//
+//
 package tv.superawesome.Views {
 	
+	// imports
 	import com.google.ads.ima.api.AdErrorEvent;
 	import com.google.ads.ima.api.AdEvent;
 	import com.google.ads.ima.api.AdsLoader;
@@ -10,17 +18,18 @@ package tv.superawesome.Views {
 	import com.google.ads.ima.api.AdsRenderingSettings;
 	import com.google.ads.ima.api.AdsRequest;
 	import com.google.ads.ima.api.ViewModes;
-	
 	import flash.display.Bitmap;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Rectangle;
 	import flash.media.Video;
-
-	import tv.superawesome.Views.SAVideoAdProtocol;
+	import tv.superawesome.Data.Models.SACreativeFormat;
 	import tv.superawesome.Views.SAView;
+	import tv.superawesome.Views.Protocols.SAVideoAdProtocol;
 	
+	// subclass of SAView that is used to render video ads
+	// with help from Google IMA SDK
 	public class SAVideoAd extends SAView {
 		// private internal vars
 		private var background: Sprite;
@@ -40,7 +49,18 @@ package tv.superawesome.Views {
 			super(frame);
 		}
 		
+		// local implementation of play() function
 		public override function play(): void {	
+			
+			// check for incorrect format
+			if (ad.creative.format != SACreativeFormat.video) {
+				if (this.adDelegate != null) {
+					this.adDelegate.adHasIncorrectPlacement(ad.placementId);
+				}
+				return;
+			}
+			
+			// start displaying
 			if (this.stage != null) delayedDisplay();
 			else this.addEventListener(Event.ADDED_TO_STAGE, delayedDisplay);
 		}
@@ -101,7 +121,6 @@ package tv.superawesome.Views {
 				adsManager.addEventListener(AdEvent.FIRST_QUARTILE, adsManagerFirstQuartileHandler);
 				adsManager.addEventListener(AdEvent.MIDPOINT, adsManagerMidpointHandler);
 				adsManager.addEventListener(AdEvent.THIRD_QUARTILE, adsManagerThirdQuartileHandler);
-//				adsManager.addEventListener(AdEvent.CLICKED, adsManagerOnClick);
 				
 				adsManager.handshakeVersion("1.0");
 				adsManager.init(videoFrame.width, videoFrame.height, ViewModes.IGNORE);
@@ -110,20 +129,6 @@ package tv.superawesome.Views {
 				adsManager.adsContainer.y = videoFrame.y;
 				
 				DisplayObjectContainer(videoPlayer.videoDisplay.parent).addChild(adsManager.adsContainer);
-				
-//				adsManager.adsContainer.mouseEnabled = false;
-//				adsManager.adsContainer.mouseChildren = false;
-				
-//				// create "click" button
-//				var myButtonSprite:Sprite = new Sprite();
-//				myButtonSprite.graphics.beginFill(0xff000,0);
-//				myButtonSprite.graphics.drawRect(videoFrame.x,videoFrame.y,videoFrame.width,videoFrame.height);
-//				myButtonSprite.graphics.endFill();
-//				
-//				var goButton: SimpleButton = new SimpleButton();
-//				goButton.overState = goButton.downState = goButton.upState = goButton.hitTestState = myButtonSprite;
-//				goButton.addEventListener(MouseEvent.CLICK, adsManagerOnClick);
-//				this.addChild(goButton);
 				
 				// start add manager
 				adsManager.start();
@@ -175,7 +180,6 @@ package tv.superawesome.Views {
 		}
 		
 		private function adsLoadErrorHandler(event:AdErrorEvent):void {
-			trace("error!!!");
 			videoPlayer.play();
 			error();
 		}
@@ -185,19 +189,6 @@ package tv.superawesome.Views {
 			videoPlayer.play();
 			error();
 		}
-		
-//		private function adsManagerOnClick(event: MouseEvent): void {
-//			goToURL(event);
-//////			
-//////			// don't do this
-//////			trace(this.ad.creative.clickURL);
-//////			var clickURL: URLRequest = new URLRequest(this.ad.creative.clickURL);
-//////			navigateToURL(clickURL, "_blank");
-//////			
-////////			if (super.delegate != null) {
-////////				super.delegate.adWasClicked(ad.placementId);
-////////			}
-//		}
 		
 		// some other aux functions
 		
@@ -219,8 +210,8 @@ package tv.superawesome.Views {
 			this.parent.removeChild(this);
 			
 			// call delegate
-			if (super.delegate != null) {
-				super.delegate.adWasClosed(ad.placementId);
+			if (super.adDelegate != null) {
+				super.adDelegate.adWasClosed(ad.placementId);
 			}
 		}
 	}

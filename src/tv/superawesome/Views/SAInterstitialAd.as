@@ -1,43 +1,59 @@
-// ActionScript file
+//
+//  SAInterstitialAd.h
+//  tv.superawesome.Views
+//
+//  Copyright (c) 2015 SuperAwesome Ltd. All rights reserved.
+//
+//  Created by Gabriel Coman on 02/12/2015.
+//
+//
 
 package tv.superawesome.Views {
+
+	// imports for this class
 	import flash.display.Bitmap;
 	import flash.display.Loader;
 	import flash.display.Sprite;
-	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
-	
+	import tv.superawesome.Aux.SAAux;
 	import tv.superawesome.Data.Models.SACreativeFormat;
 	import tv.superawesome.Views.SAView;
 	
+	// descendant of SAView that is used to
+	// represent image data - banner ads, MPU, etc
 	public class SAInterstitialAd extends SAView{
 		// private vars
 		private var imgLoader: Loader = new Loader();
 		private var background: Sprite;
 		private var close: Sprite;
 		
+		// constructor
 		public function SAInterstitialAd() {
 			super(new Rectangle(0,0,0,0));
 		}
 		
+		// custom override of the play function
 		public override function play(): void {
+			
+			// check for incorrect format
+			if (ad.creative.format != SACreativeFormat.image) {
+				if (this.adDelegate != null) {
+					this.adDelegate.adHasIncorrectPlacement(ad.placementId);
+				}
+				return;
+			}
+			
+			// display
 			if (stage) delayedDisplay();
 			else addEventListener(Event.ADDED_TO_STAGE, delayedDisplay);
 		}
 		
 		private function delayedDisplay(e:Event = null): void  {
-			// do a check for invalid format
-			if (ad.creative.format != SACreativeFormat.image) {
-				if (super.delegate != null) {
-					super.delegate.adIsNotCorrectFormat(ad.placementId);
-				}
-				return;
-			}
 			
 			// setup the frame
 			super.frame = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
@@ -72,7 +88,7 @@ package tv.superawesome.Views {
 			loaderContext.checkPolicyFile = false;
 			imgLoader.load(imgURLRequest, loaderContext);
 			imgLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, onImageLoaded);
-			imgLoader.addEventListener(IOErrorEvent.IO_ERROR, onError);
+			imgLoader.addEventListener(IOErrorEvent.IO_ERROR, error);
 			imgLoader.addEventListener(MouseEvent.CLICK, goToURL);
 		}
 		
@@ -83,7 +99,10 @@ package tv.superawesome.Views {
 			var tH: Number = super.frame.height * 0.85;
 			var tX: Number = ( super.frame.width - tW ) / 2;
 			var tY: Number = ( super.frame.height - tH) / 2;
-			var newR: Rectangle = super.arrangeAdInFrame(new Rectangle(tX, tY, tW, tH));
+			var newR: Rectangle = SAAux.arrangeAdInNewFrame(
+				new Rectangle(tX, tY, tW, tH),
+				new Rectangle(0, 0, ad.creative.details.width, ad.creative.details.height)
+			);
 			newR.x += tX;
 			newR.y += tY;
 			
@@ -101,18 +120,13 @@ package tv.superawesome.Views {
 			success();
 		}
 		
-		private function onError(e: ErrorEvent): void {
-			dispatchEvent(e);
-			error();
-		}
-		
 		private function closeAction(event: MouseEvent): void {
 			// call remove child
 			this.parent.removeChild(this);
 			
 			// call delegate
-			if (super.delegate != null) {
-				super.delegate.adWasClosed(ad.placementId);
+			if (super.adDelegate != null) {
+				super.adDelegate.adWasClosed(ad.placementId);
 			}
 		}
 	}

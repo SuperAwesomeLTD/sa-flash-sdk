@@ -1,8 +1,18 @@
-﻿// ActionScript file
+﻿//
+//  SAView.h
+//  tv.superawesome.Views
+//
+//  Copyright (c) 2015 SuperAwesome Ltd. All rights reserved.
+//
+//  Created by Gabriel Coman on 02/12/2015.
+//
+//
 
 package tv.superawesome.Views{
 	
+	// imports needed
 	import flash.display.Sprite;
+	import flash.events.ErrorEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
@@ -10,11 +20,13 @@ package tv.superawesome.Views{
 	
 	import tv.superawesome.Data.Models.SAAd;
 	import tv.superawesome.Data.Sender.SASender;
-	import tv.superawesome.Views.SAAdProtocol;
+	import tv.superawesome.Views.Protocols.SAAdProtocol;
 	
+	//
+	// @brief: Base class for all other specific ad classes
 	public class SAView extends Sprite {
-		// delegate
-		public var delegate: SAAdProtocol;
+		// delegate reference
+		public var adDelegate: SAAdProtocol;
 		
 		// private variables
 		protected var ad: SAAd = null;
@@ -25,7 +37,6 @@ package tv.superawesome.Views{
 		// public vars
 		public var isParentalGateEnabled: Boolean;
 		public var refreshPeriod: int;
-		public var maintainsAspectRatio: Boolean = true;
 		
 		// constructor
 		public function SAView(frame: Rectangle) {
@@ -41,56 +52,29 @@ package tv.superawesome.Views{
 			// do nothing
 		}
 		
-		protected function arrangeAdInFrame(frame: Rectangle): Rectangle {
-			
-			var newW: Number = frame.width;
-			var newH: Number = frame.height;
-			var oldW: Number = ad.creative.details.width;
-			var oldH: Number = ad.creative.details.height;
-			if (oldW == 1 || oldW == 0) { oldW = newW; }
-			if (oldH == 1 || oldH == 0) { oldH = newH; }
-			
-			var oldR: Number = oldW / oldH;
-			var newR: Number = newW / newH;
-			
-			var W: Number = 0, H: Number = 0, X: Number = 0, Y: Number = 0;
-			
-			if (oldR > newR) {
-				W = newW;
-				H = W / oldR;
-				X = 0;
-				Y = (newH - H) / 2;
-			}
-			else {
-				H = newH;
-				W = H * oldR;
-				Y = 0;
-				X = (newW - W) / 2;
-			}
-			
-			return new Rectangle(X, Y, W, H);
-		}
-		
+		// what happens when ad loads with success
 		protected function success(): void {
-			trace("success");
 			SASender.sendEventToURL(ad.creative.viewableImpressionURL);
 			
-			if (this.delegate != null) {
-				this.delegate.adWasShown(this.ad.placementId);
+			if (this.adDelegate != null) {
+				this.adDelegate.adWasShown(this.ad.placementId);
 			}
 		}
 		
-		protected function error(): void {
+		// what happens when ad loads with error
+		protected function error(e: ErrorEvent = null): void {
 			
-			if (this.delegate != null) {
-				this.delegate.adFailedToShow(this.ad.placementId);
+			if (this.adDelegate != null) {
+				this.adDelegate.adFailedToShow(this.ad.placementId);
 			}
 		}
 		
+		// in Flash the gotoURL function is simple because it can't
+		// render nasty rich media or 3rd party tags
 		protected function goToURL(e: MouseEvent = null): void {
 			
-			if (this.delegate != null) {
-				this.delegate.adWasClicked(this.ad.placementId);
+			if (this.adDelegate != null) {
+				this.adDelegate.adWasClicked(this.ad.placementId);
 			}
 			
 			trace("\t[OK] Click:\t" + this.ad.creative.clickURL);
