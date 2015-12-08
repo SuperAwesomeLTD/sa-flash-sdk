@@ -10,22 +10,23 @@
 	import flash.sampler.NewObjectSample;
 	import tv.superawesome.Views.SAInterstitialAd;
 	import tv.superawesome.Data.Loader.SALoaderProtocol;
+	import tv.superawesome.Views.Protocols.SAAdProtocol;
 	
-	public class SAFlashDemo extends MovieClip implements SALoaderProtocol {
+	public class SAFlashDemo extends MovieClip implements SALoaderProtocol, SAAdProtocol {
 
 		public function SAFlashDemo() {
 			// constructor code
 			trace(SuperAwesome.getInstance().getSdkVersion());
 			trace(SASystem.getSystemType() + "_" + SASystem.getSystemSize());
 			
-			SuperAwesome.getInstance().disableTestMode();
+			SuperAwesome.getInstance().enableTestMode();
 			SuperAwesome.getInstance().setConfigurationProduction();
 			
 			SALoader.getInstance().delegate = this;
 			/*SALoader.getInstance().loadAd(24532);
-			SALoader.getInstance().loadAd(24720);
-			SALoader.getInstance().loadAd(5692);*/
-			SALoader.getInstance().loadAd(24720);
+			SALoader.getInstance().loadAd(24720);*/
+			SALoader.getInstance().loadAd(5692);
+			/*SALoader.getInstance().loadAd(24720);*/
 		}
 		
 		public function didLoadAd(ad: SAAd): void {
@@ -44,6 +45,7 @@
 			} else if (ad.placementId == 5692){
 				var iad:SAInterstitialAd = new SAInterstitialAd();
 				iad.setAd(ad);
+				iad.adDelegate = this;
 				addChild(iad);
 				iad.play();
 			} else if (ad.placementId == 5687) {
@@ -56,6 +58,26 @@
 		
 		public function didFailToLoadAdForPlacementId(placementId: int): void {
 			trace("failed to load ad " + placementId);
+		}
+		
+		public function adWasShown(placementId: int): void {
+			trace(placementId + " adWasShown");
+		}
+		
+		public function adFailedToShow(placementId: int): void {
+			trace(placementId + " adFailedToShow");
+		}
+		
+		public function adWasClosed(placementId: int): void {
+			trace(placementId + " adWasClosed");	
+		}
+		
+		public function adWasClicked(placementId: int): void {
+			trace(placementId + " adWasClicked");	
+		}
+		
+		public function adHasIncorrectPlacement(placementId: int): void {
+			trace(placementId + " adHasIncorrectPlacement");
 		}
 	}
 }

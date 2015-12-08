@@ -15,22 +15,22 @@ package tv.superawesome.Views {
 	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.events.IOErrorEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
-	import flash.net.URLRequest;
-	import flash.system.LoaderContext;
-	import tv.superawesome.Aux.SAAux;
 	import tv.superawesome.Data.Models.SACreativeFormat;
+	import tv.superawesome.Views.SABannerAd;
 	import tv.superawesome.Views.SAView;
 	
-	// descendant of SAView that is used to
-	// represent image data - banner ads, MPU, etc
+	// Class that represents an interstitial ad
+	// it's both a descendant of SAView as well as a composer class
+	// that contains a SABannerAd that's displayed over an 
+	// interstitial fullscreen sprite
 	public class SAInterstitialAd extends SAView{
 		// private vars
 		private var imgLoader: Loader = new Loader();
 		private var background: Sprite;
 		private var close: Sprite;
+		private var banner: SABannerAd;
 		
 		// constructor
 		public function SAInterstitialAd() {
@@ -82,42 +82,16 @@ package tv.superawesome.Views {
 			close.addEventListener(MouseEvent.CLICK, closeAction);
 			this.addChild(close);
 			
-			// send the request
-			var imgURLRequest: URLRequest = new URLRequest(super.ad.creative.details.image);
-			var loaderContext: LoaderContext = new LoaderContext();
-			loaderContext.checkPolicyFile = false;
-			imgLoader.load(imgURLRequest, loaderContext);
-			imgLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, onImageLoaded);
-			imgLoader.addEventListener(IOErrorEvent.IO_ERROR, error);
-			imgLoader.addEventListener(MouseEvent.CLICK, goToURL);
-		}
-		
-		// what happens when an image is loaded
-		private function onImageLoaded(e: Event): void {
-			// calc scaling
+			// create the banner ad
 			var tW: Number = super.frame.width * 0.85;
 			var tH: Number = super.frame.height * 0.85;
 			var tX: Number = ( super.frame.width - tW ) / 2;
 			var tY: Number = ( super.frame.height - tH) / 2;
-			var newR: Rectangle = SAAux.arrangeAdInNewFrame(
-				new Rectangle(tX, tY, tW, tH),
-				new Rectangle(0, 0, ad.creative.details.width, ad.creative.details.height)
-			);
-			newR.x += tX;
-			newR.y += tY;
-			
-			// banner
-			imgLoader.x = newR.x;
-			imgLoader.y = newR.y;
-			imgLoader.width = newR.width;
-			imgLoader.height = newR.height;
-			this.addChild(imgLoader);
-			
-			// remove listener
-			e.target.removeEventListener(Event.COMPLETE, onImageLoaded);
-			
-			// call to success
-			success();
+			banner = new SABannerAd(new Rectangle(tX, tY, tW, tH));
+			banner.setAd(this.ad);
+			banner.adDelegate = this.adDelegate;
+			this.addChild(banner);
+			banner.play();
 		}
 		
 		private function closeAction(event: MouseEvent): void {
