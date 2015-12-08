@@ -11,6 +11,7 @@ package tv.superawesome {
 	
 	// import needed for this class
 	import flash.system.Security;
+	import tv.superawesome.SuperAwesomeCommon;
 
 	// 
 	// @brief: this class is a descendant of SuperAwesomeCommon
