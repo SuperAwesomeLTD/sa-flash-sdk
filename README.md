@@ -1,4 +1,4 @@
 sa-flash-sdk
 ============
 
-The 2.0 Super Awesome Ads Flash SDK
+The 1.3.0 Super Awesome Ads Flash SDK
