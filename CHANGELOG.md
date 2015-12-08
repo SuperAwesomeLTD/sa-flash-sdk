@@ -1,6 +1,10 @@
 sa-flash-sdk
 ============
 
+v2.1.1
+
+- Updated this to latest "good" version - from now on this is deprecated
+
 v2.0
 - Updated to v2.0 to add listeners for ad events (load, fail, close)
 
