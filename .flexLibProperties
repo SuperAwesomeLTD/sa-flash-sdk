@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<flexLibProperties includeAllClasses="false" useMultiPlatformConfig="false" version="3">
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
-    <classEntry path="tv.superawesome.BannerAd"/>
-    <classEntry path="tv.superawesome.InterstitialAd"/>
-    <classEntry path="tv.superawesome.Resources"/>
     <classEntry path="tv.superawesome.SuperAwesome"/>
-    <classEntry path="tv.superawesome.VideoAd"/>
-    <classEntry path="tv.superawesome.models.SAAd"/>
-    <classEntry path="tv.superawesome.models.SACreative"/>
-    <classEntry path="tv.superawesome.models.SADetails"/>
   </includeClasses>
   <includeResources>
+    <resourceEntry destPath=".DS_Store" sourcePath=".DS_Store"/>
+    <resourceEntry destPath="resources/.DS_Store" sourcePath="resources/.DS_Store"/>
+    <resourceEntry destPath="resources/bg.png" sourcePath="resources/bg.png"/>
+    <resourceEntry destPath="resources/bgblack.png" sourcePath="resources/bgblack.png"/>
+    <resourceEntry destPath="resources/close.png" sourcePath="resources/close.png"/>
     <resourceEntry destPath="tv/.DS_Store" sourcePath="tv/.DS_Store"/>
     <resourceEntry destPath="tv/superawesome/.DS_Store" sourcePath="tv/superawesome/.DS_Store"/>
-    <resourceEntry destPath="tv/superawesome/resources/close.png" sourcePath="tv/superawesome/resources/close.png"/>
+    <resourceEntry destPath="tv/superawesome/Views/.DS_Store" sourcePath="tv/superawesome/Views/.DS_Store"/>
   </includeResources>
   <namespaceManifests/>
 </flexLibProperties>
