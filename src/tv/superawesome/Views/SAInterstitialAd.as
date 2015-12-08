@@ -40,14 +40,6 @@ package tv.superawesome.Views {
 		// custom override of the play function
 		public override function play(): void {
 			
-			// check for incorrect format
-			if (ad.creative.format != SACreativeFormat.image) {
-				if (this.adDelegate != null) {
-					this.adDelegate.adHasIncorrectPlacement(ad.placementId);
-				}
-				return;
-			}
-			
 			// display
 			if (stage) delayedDisplay();
 			else addEventListener(Event.ADDED_TO_STAGE, delayedDisplay);
