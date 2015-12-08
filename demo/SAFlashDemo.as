@@ -19,13 +19,13 @@
 			trace(SuperAwesome.getInstance().getSdkVersion());
 			trace(SASystem.getSystemType() + "_" + SASystem.getSystemSize());
 			
-			SuperAwesome.getInstance().enableTestMode();
+			SuperAwesome.getInstance().disableTestMode();
 			SuperAwesome.getInstance().setConfigurationProduction();
 			
 			SALoader.getInstance().delegate = this;
-			/*SALoader.getInstance().loadAd(24532);
-			SALoader.getInstance().loadAd(24720);*/
-			SALoader.getInstance().loadAd(5692);
+			SALoader.getInstance().loadAd(24532);
+			SALoader.getInstance().loadAd(24720);
+			// SALoader.getInstance().loadAd(5692);
 			/*SALoader.getInstance().loadAd(24720);*/
 		}
 		
