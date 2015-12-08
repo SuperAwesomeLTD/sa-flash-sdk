@@ -41,6 +41,6 @@ Finally, to complete the code, all ads must assign their `delegate` object to `M
 
 ```
 var bannerad: SABannerAd = new SABannerAD(new Rectangle(0, 0, 320, 50), 5687);
-bannerad.delegate = this; // where this is Main
+bannerad.adDelegate = this; // where this is Main
 
 ```
