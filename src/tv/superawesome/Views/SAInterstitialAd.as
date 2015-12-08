@@ -12,12 +12,10 @@ package tv.superawesome.Views {
 
 	// imports for this class
 	import flash.display.Bitmap;
-	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
-	import tv.superawesome.Data.Models.SACreativeFormat;
 	import tv.superawesome.Views.SABannerAd;
 	import tv.superawesome.Views.SAView;
 	
@@ -27,7 +25,6 @@ package tv.superawesome.Views {
 	// interstitial fullscreen sprite
 	public class SAInterstitialAd extends SAView{
 		// private vars
-		private var imgLoader: Loader = new Loader();
 		private var background: Sprite;
 		private var close: Sprite;
 		private var banner: SABannerAd;
