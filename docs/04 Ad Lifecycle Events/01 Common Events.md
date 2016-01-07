@@ -1,14 +1,14 @@
 Using the same delegate pattern all ads can serve additional events than can be caught and acted upon.
 
-To do this, your `Main` class must also implement the `SAAdProtocol` interface:
+First you'll need to include two interfaces in your source file:
 
 ```
-public class Main extends MovieClip implements SALoaderProtocol, SAAdProtocol {
-	...
-}
-``` 
+import tv.superawesome.Views.Protocols.SAVideoAdProtocol;
+import tv.superawesome.Views.Protocols.SAAdProtocol;
 
-Then, of course, you need to implement all the functions related to this interface:
+```
+
+Then your `Main` class must implement the `SAAdProtocol` interface:
 
 ```
 
