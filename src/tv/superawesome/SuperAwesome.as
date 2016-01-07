@@ -28,7 +28,6 @@ package tv.superawesome {
 			}
 			
 			// enable cross domain and default values
-			this.allowCrossdomain();
 			this.disableTestMode();
 			this.setConfigurationProduction();
 			
@@ -56,14 +55,11 @@ package tv.superawesome {
 		// it takes into account SA crossdomain.xml as well as some google and
 		// Google IMA SDK ones
 		public function allowCrossdomain(): void {
-			var crossDomainURL: String = SuperAwesomeCommon.getInstance().getBaseURL().replace("/v2","") + "/crossdomain.xml";
+			var crossDomainURL: String = "https://ads.superawesome.tv/crossdomain.xml"; // SuperAwesomeCommon.getInstance().getBaseURL().replace("/v2","") + "/crossdomain.xml";
 			var googleCrossDomain: String = "http://imasdk.googleapis.com/crossdomain.xml";
 			Security.allowDomain("*");
 			Security.loadPolicyFile(crossDomainURL);
 			Security.loadPolicyFile(googleCrossDomain);
-			Security.loadPolicyFile("http://ads.superawesome.tv/crossdomain.xml");
-			Security.loadPolicyFile("https://imasdk.googleapis.com/crossdomain.xml");
-			trace(googleCrossDomain);
 		}
 	}
 }
