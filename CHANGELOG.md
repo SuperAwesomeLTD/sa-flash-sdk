@@ -1,6 +1,9 @@
 sa-flash-sdk
 ============
 
+v3.1.1
+ - fixed security sandbox error issue
+
 v3.1.0
  - reworked the display
 
