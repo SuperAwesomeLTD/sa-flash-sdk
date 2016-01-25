@@ -18,12 +18,15 @@ package tv.superawesome.Views {
 	import com.google.ads.ima.api.AdsRenderingSettings;
 	import com.google.ads.ima.api.AdsRequest;
 	import com.google.ads.ima.api.ViewModes;
+	
 	import flash.display.Bitmap;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.SecurityErrorEvent;
 	import flash.geom.Rectangle;
 	import flash.media.Video;
+	
 	import tv.superawesome.Data.Models.SACreativeFormat;
 	import tv.superawesome.Views.SAView;
 	import tv.superawesome.Views.Protocols.SAVideoAdProtocol;
@@ -95,6 +98,7 @@ package tv.superawesome.Views {
 			adsLoader.loadSdk();
 			adsLoader.addEventListener(AdsManagerLoadedEvent.ADS_MANAGER_LOADED, adsManagerLoadedHandler);
 			adsLoader.addEventListener(AdErrorEvent.AD_ERROR, adsLoadErrorHandler);
+			adsLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, adsLoadErrorHandler);
 			adsLoader.requestAds(adsRequest);
 			
 			// call success

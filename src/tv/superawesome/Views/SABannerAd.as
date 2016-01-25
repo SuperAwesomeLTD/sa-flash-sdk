@@ -17,6 +17,7 @@ package tv.superawesome.Views {
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.events.MouseEvent;
+	import flash.events.SecurityErrorEvent;
 	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
@@ -67,12 +68,23 @@ package tv.superawesome.Views {
 			
 			// laod the image async
 			var imgURLRequest: URLRequest = new URLRequest(super.ad.creative.details.image);
+			
 			var loaderContext: LoaderContext = new LoaderContext();
 			loaderContext.checkPolicyFile = false;
-			imgLoader.load(imgURLRequest, loaderContext);
+			
 			imgLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, onImageLoaded);
+			imgLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, error);
+			imgLoader.contentLoaderInfo.addEventListener(SecurityErrorEvent.SECURITY_ERROR, error);
+			
 			imgLoader.addEventListener(IOErrorEvent.IO_ERROR, error);
+			imgLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, error);
 			imgLoader.addEventListener(MouseEvent.CLICK, goToURL);
+			
+			try {
+				imgLoader.load(imgURLRequest, loaderContext);
+			} catch (e) {
+				error();
+			}
 		}
 		
 		// what happens when an image is loaded
