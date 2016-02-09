@@ -1,6 +1,9 @@
 sa-flash-sdk
 ============
 
+v3.1.2
+ - fixed issues with playing fallbacks
+
 v3.1.1
  - fixed security sandbox error issue
 

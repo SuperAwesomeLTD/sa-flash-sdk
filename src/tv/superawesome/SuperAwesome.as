@@ -28,7 +28,7 @@ package tv.superawesome {
 			}
 			
 			// enable cross domain and default values
-			// this.allowCrossdomain();
+			this.allowCrossdomain();
 			this.disableTestMode();
 			this.setConfigurationProduction();
 			
@@ -44,7 +44,7 @@ package tv.superawesome {
 		
 		// public (useful) functions
 		override public function getVersion(): String {
-			return "3.1.1";
+			return "3.1.2";
 		}
 		
 		override public function getSdk(): String {
@@ -60,7 +60,7 @@ package tv.superawesome {
 			var googleCrossDomain: String = "http://imasdk.googleapis.com/crossdomain.xml";
 			Security.allowDomain("*");
 			Security.loadPolicyFile(crossDomainURL);
-//			Security.loadPolicyFile(googleCrossDomain);
+			Security.loadPolicyFile(googleCrossDomain);
 			trace(crossDomainURL);
 		}
 	}

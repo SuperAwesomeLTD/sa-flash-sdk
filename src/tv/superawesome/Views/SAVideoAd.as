@@ -184,13 +184,12 @@ package tv.superawesome.Views {
 		}
 		
 		private function adsLoadErrorHandler(event:AdErrorEvent):void {
-			videoPlayer.play();
+			closeAd();
 			error();
 		}
 		
 		private function adsManagerPlayErrorHandler(event:AdErrorEvent):void {
-			destroyAdsManager();
-			videoPlayer.play();
+			closeAd();
 			error();
 		}
 		
