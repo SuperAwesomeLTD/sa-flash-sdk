@@ -49,34 +49,58 @@ package  {
 			} else {
 				var vad:SAVideoAd = new SAVideoAd(new Rectangle(0, 0, 240, 240));
 				vad.setAd(ad);
+				// This is very important: set the current video's "adDelegate" object
+				// to this so that the video can send important messages / callbacks to
+				// the current object!
 				vad.adDelegate = this;
 				addChildAt(vad, 0);
 				vad.play();
 			}
 		}
 		
-		public function didFailToLoadAdForPlacementId(placementId: int): void {
-			trace("failed to load ad " + placementId);
-		}
-		
 		public function adWasShown(placementId: int): void {
-			trace(placementId + " adWasShown");
-		}
-		
-		public function adFailedToShow(placementId: int): void {
-			trace(placementId + " adFailedToShow");
+			// if all goes well, when this is called the ad is displayed, runs, etc
 		}
 		
 		public function adWasClosed(placementId: int): void {
-			trace(placementId + " adWasClosed");	
+			// not really that useful 	
 		}
 		
 		public function adWasClicked(placementId: int): void {
-			trace(placementId + " adWasClicked");	
+			// catch clicks
+		}
+		
+		////////////////////////////////////
+		// All these three callbacks deals with some kind of error
+		// that might happen with the Ad, so it's good to implement them
+		// and respond accordingly
+		////////////////////////////////////
+		
+		public function didFailToLoadAdForPlacementId(placementId: int): void {
+			// Here is one moment when you can catch an error happening and display the 
+			// "no video available" message
+			// 
+			// this callback is usually called when the ad data is empty (json response is "{}")
+			// or corrupt in some way (video ad might not have a video .mp4 / .swf URL attached, etc)
+		}
+		
+		public function adFailedToShow(placementId: int): void {
+			// Here is the second important moment when you can catch an error occuring and
+			// display the "no video available" message
+			//
+			// this gets called for example when an Ad was able to load, but, for some reason:
+			// - the vast tag is invalid or empty
+			// - the vast tag is OK but there is no media attached
+			// - vast is ok, media is OK but unreachable because of some reason
 		}
 		
 		public function adHasIncorrectPlacement(placementId: int): void {
-			trace(placementId + " adHasIncorrectPlacement");
+			// Here is the third important moment when you can catch an error occuring and
+			// display the "no video available" message
+			// 
+			// This callback only handles cases when, for some reason or another, an image type ads
+			// get sent to be displayed in a video ad type object - should happen very rarely, but
+			// it's good to have it around
 		}
 	}
 }
