@@ -27,12 +27,12 @@ package  {
 			trace(SASystem.getSystemType() + "_" + SASystem.getSystemSize());
 			
 			// enable production & disable test mode
-			SuperAwesome.getInstance().setConfigurationProduction();
+			SuperAwesome.getInstance().setConfigurationStaging();
 			SuperAwesome.getInstance().disableTestMode();
 			
 			// make "this" my SALoader delegate and load my ad
 			SALoader.getInstance().delegate = this;
-			SALoader.getInstance().loadAd(24720);
+			SALoader.getInstance().loadAd(2110);
 		}
 		
 		// 
