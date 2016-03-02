@@ -32,7 +32,7 @@ package  {
 			
 			// make "this" my SALoader delegate and load my ad
 			SALoader.getInstance().delegate = this;
-			SALoader.getInstance().loadAd(2110);
+			SALoader.getInstance().loadAd(2558);
 		}
 		
 		// 
@@ -82,6 +82,7 @@ package  {
 			// 
 			// this callback is usually called when the ad data is empty (json response is "{}")
 			// or corrupt in some way (video ad might not have a video .mp4 / .swf URL attached, etc)
+			trace("didFailToLoadAdForPlacementId");
 		}
 		
 		public function adFailedToShow(placementId: int): void {
@@ -92,6 +93,7 @@ package  {
 			// - the vast tag is invalid or empty
 			// - the vast tag is OK but there is no media attached
 			// - vast is ok, media is OK but unreachable because of some reason
+			
 		}
 		
 		public function adHasIncorrectPlacement(placementId: int): void {
