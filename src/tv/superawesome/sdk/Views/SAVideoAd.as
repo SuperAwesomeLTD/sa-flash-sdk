@@ -7,7 +7,7 @@
 //  Created by Gabriel Coman on 02/12/2015.
 //
 //
-package tv.superawesome.Views {
+package tv.superawesome.sdk.Views {
 	
 	// imports
 	import com.google.ads.ima.api.AdErrorEvent;
@@ -27,9 +27,9 @@ package tv.superawesome.Views {
 	import flash.geom.Rectangle;
 	import flash.media.Video;
 	
-	import tv.superawesome.Data.Models.SACreativeFormat;
-	import tv.superawesome.Views.SAView;
-	import tv.superawesome.Views.Protocols.SAVideoAdProtocol;
+	import tv.superawesome.sdk.AdParser.Models.SACreativeFormat;
+	import tv.superawesome.sdk.Views.SAView;
+	import tv.superawesome.sdk.Views.SAVideoAdProtocol;
 	
 	// subclass of SAView that is used to render video ads
 	// with help from Google IMA SDK
@@ -70,7 +70,7 @@ package tv.superawesome.Views {
 		
 		private function delayedDisplay(e:Event = null): void {
 			// get background img
-			[Embed(source = '../../../resources/bg.png')] var BgIconClass:Class;
+			[Embed(source = '../../../../resources/bg.png')] var BgIconClass:Class;
 			var bmp2:Bitmap = new BgIconClass();
 			
 			background = new Sprite();

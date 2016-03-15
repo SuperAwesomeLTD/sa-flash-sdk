@@ -8,7 +8,7 @@
 //
 //
 
-package tv.superawesome.Views{
+package tv.superawesome.sdk.Views{
 	
 	// imports needed
 	import flash.display.Sprite;
@@ -17,9 +17,9 @@ package tv.superawesome.Views{
 	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
-	import tv.superawesome.Data.Models.SAAd;
-	import tv.superawesome.Data.Sender.SASender;
-	import tv.superawesome.Views.Protocols.SAAdProtocol;
+	import tv.superawesome.sdk.AdParser.Models.SAAd;
+	import tv.superawesome.libevents.SAEvents;
+	import tv.superawesome.sdk.Views.SAAdProtocol;
 	
 	//
 	// @brief: Base class for all other specific ad classes
@@ -53,7 +53,7 @@ package tv.superawesome.Views{
 		
 		// what happens when ad loads with success
 		protected function success(): void {
-			SASender.sendEventToURL(ad.creative.viewableImpressionURL);
+			SAEvents.sendEventToURL(ad.creative.viewableImpressionURL);
 			
 			if (this.adDelegate != null) {
 				this.adDelegate.adWasShown(this.ad.placementId);

@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
-    <classEntry path="tv.superawesome.SuperAwesome"/>
+    <classEntry path="tv.superawesome.libvast.savastmodels.SAAdType"/>
+    <classEntry path="tv.superawesome.libvast.savastmodels.SAVASTAd"/>
+    <classEntry path="tv.superawesome.libvast.savastmodels.SAImpression"/>
+    <classEntry path="tv.superawesome.libvast.savastmodels.SAVASTCreativeType"/>
+    <classEntry path="tv.superawesome.libvast.savastmodels.SAVASTCreative"/>
+    <classEntry path="tv.superawesome.libvast.savastmodels.SALinearCreative"/>
+    <classEntry path="tv.superawesome.libvast.savastmodels.SANonLinearCreative"/>
+    <classEntry path="tv.superawesome.libvast.savastmodels.SACompanionAdsCreative"/>
+    <classEntry path="tv.superawesome.libvast.savastmodels.SATracking"/>
+    <classEntry path="tv.superawesome.libvast.savastmodels.SAMediaFile"/>
+    <classEntry path="tv.superawesome.libvast.savastparser.SAVASTParserProtocol"/>
+    <classEntry path="tv.superawesome.libvast.xmllib.SAXMLLib"/>
+    <classEntry path="tv.superawesome.libevents.SAEvents"/>
+    <classEntry path="tv.superawesome.libvast.SAVASTManager"/>
   </includeClasses>
   <includeResources>
     <resourceEntry destPath="tv/.DS_Store" sourcePath="tv/.DS_Store"/>
     <resourceEntry destPath="resources/.DS_Store" sourcePath="resources/.DS_Store"/>
-    <resourceEntry destPath="tv/superawesome/.DS_Store" sourcePath="tv/superawesome/.DS_Store"/>
     <resourceEntry destPath="resources/bgblack.png" sourcePath="resources/bgblack.png"/>
+    <resourceEntry destPath="tv/superawesome/.DS_Store" sourcePath="tv/superawesome/.DS_Store"/>
     <resourceEntry destPath="resources/close.png" sourcePath="resources/close.png"/>
     <resourceEntry destPath=".DS_Store" sourcePath=".DS_Store"/>
-    <resourceEntry destPath="tv/superawesome/Views/.DS_Store" sourcePath="tv/superawesome/Views/.DS_Store"/>
     <resourceEntry destPath="resources/bg.png" sourcePath="resources/bg.png"/>
   </includeResources>
   <namespaceManifests/>

@@ -8,7 +8,7 @@
 //
 //
 
-package tv.superawesome.Views {
+package tv.superawesome.sdk.Views {
 	
 	// imports for this class
 	import flash.display.Bitmap;
@@ -22,9 +22,9 @@ package tv.superawesome.Views {
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
 	
-	import tv.superawesome.Aux.SAAux;
-	import tv.superawesome.Data.Models.SACreativeFormat;
-	import tv.superawesome.Views.SAView;
+	import tv.superawesome.libutils.SAUtils;
+	import tv.superawesome.sdk.AdParser.Models.SACreativeFormat;
+	import tv.superawesome.sdk.Views.SAView;
 	
 	// descendant of SAView that is used to
 	// represent image data - banner ads, MPU, etc
@@ -55,7 +55,7 @@ package tv.superawesome.Views {
 		private function delayedDisplay(e:Event = null): void {
 			
 			// create background and static elements
-			[Embed(source = '../../../resources/bg.png')] var BgIconClass:Class;
+			[Embed(source = '../../../../resources/bg.png')] var BgIconClass:Class;
 			var bmp2:Bitmap = new BgIconClass();
 			
 			background = new Sprite();
@@ -82,7 +82,7 @@ package tv.superawesome.Views {
 			
 			try {
 				imgLoader.load(imgURLRequest, loaderContext);
-			} catch (e) {
+			} catch (e: *) {
 				error();
 			}
 		}
@@ -92,7 +92,7 @@ package tv.superawesome.Views {
 			// calc scaling
 			var newR: Rectangle = super.frame;
 			
-			newR = SAAux.arrangeAdInNewFrame(
+			newR = SAUtils.arrangeAdInNewFrame(
 				super.frame, 
 				new Rectangle(0, 0, ad.creative.details.width, ad.creative.details.height)
 			);

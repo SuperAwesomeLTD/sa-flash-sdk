@@ -6,15 +6,17 @@ package  {
 	import flash.sampler.NewObjectSample;
 	
 	// superawesome imports
-	import tv.superawesome.*;
-	import tv.superawesome.Data.Loader.*;
-	import tv.superawesome.Views.SAVideoAd;
-	import tv.superawesome.Data.Models.*;
-	import tv.superawesome.System.*;
-	import tv.superawesome.Views.SABannerAd;
-	import tv.superawesome.Views.SAInterstitialAd;
-	import tv.superawesome.Data.Loader.SALoaderProtocol;
-	import tv.superawesome.Views.Protocols.SAAdProtocol;
+	import tv.superawesome.sdk.*;
+	import tv.superawesome.sdk.AdParser.Loader.*;
+	import tv.superawesome.sdk.Views.SAVideoAd;
+	import tv.superawesome.sdk.AdParser.Models.*;
+	import tv.superawesome.sdk.Views.SABannerAd;
+	import tv.superawesome.sdk.Views.SAInterstitialAd;
+	import tv.superawesome.sdk.AdParser.Loader.SALoaderProtocol;
+	import tv.superawesome.sdk.Views.SAAdProtocol;
+	import tv.superawesome.sdk.AdParser.Models.SAAd;
+	
+	import tv.superawesome.libvast.SAVASTParser;
 	
 	// notice here the SAFlashDemo class implements both:
 	// SALoaderProtocol
@@ -24,15 +26,18 @@ package  {
 		public function SAFlashDemo() {
 			// display the SDK version to at least get an idea that I'm at the latest version
 			trace(SuperAwesome.getInstance().getSdkVersion());
-			trace(SASystem.getSystemType() + "_" + SASystem.getSystemSize());
 			
 			// enable production & disable test mode
 			SuperAwesome.getInstance().setConfigurationStaging();
 			SuperAwesome.getInstance().disableTestMode();
 			
 			// make "this" my SALoader delegate and load my ad
-			SALoader.getInstance().delegate = this;
-			SALoader.getInstance().loadAd(2558);
+			// SALoader.getInstance().delegate = this;
+			// SALoader.getInstance().loadAd(2558);
+			
+			// SAVASTParser.parseVASTURL("https://ads.superawesome.tv/v2/video/vast/28000/-1/-1/?sdkVersion=unknown&rnd=261873365");
+			SAVASTParser.parseVASTURL("https://ads.staging.superawesome.tv/v2/video/vast/79/336/554/?sdkVersion=unknown&rnd=91820873");
+
 		}
 		
 		// 

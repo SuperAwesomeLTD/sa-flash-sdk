@@ -8,7 +8,7 @@
 //
 //
 
-package tv.superawesome.Views {
+package tv.superawesome.sdk.Views {
 
 	// imports for this class
 	import flash.display.Bitmap;
@@ -16,8 +16,9 @@ package tv.superawesome.Views {
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
-	import tv.superawesome.Views.SABannerAd;
-	import tv.superawesome.Views.SAView;
+	
+	import tv.superawesome.sdk.Views.SABannerAd;
+	import tv.superawesome.sdk.Views.SAView;
 	
 	// Class that represents an interstitial ad
 	// it's both a descendant of SAView as well as a composer class
@@ -48,10 +49,10 @@ package tv.superawesome.Views {
 			super.frame = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
 			
 			// load external resources
-			[Embed(source = '../../../resources/bg.png')] var BgIconClass:Class;
+			[Embed(source = '../../../../resources/bg.png')] var BgIconClass:Class;
 			var bmp2:Bitmap = new BgIconClass();
 			
-			[Embed(source = '../../../resources/close.png')] var CancelIconClass:Class;
+			[Embed(source = '../../../../resources/close.png')] var CancelIconClass:Class;
 			var bmp: Bitmap = new CancelIconClass();
 			
 			background = new Sprite();
