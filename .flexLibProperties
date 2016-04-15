@@ -15,6 +15,8 @@
     <classEntry path="tv.superawesome.libvast.xmllib.SAXMLLib"/>
     <classEntry path="tv.superawesome.libevents.SAEvents"/>
     <classEntry path="tv.superawesome.libvast.SAVASTManager"/>
+    <classEntry path="tv.superawesome.libvideo.SAVideoPlayer"/>
+    <classEntry path="tv.superawesome.libvideo.SAVideoPlayerProtocol"/>
   </includeClasses>
   <includeResources>
     <resourceEntry destPath="tv/.DS_Store" sourcePath="tv/.DS_Store"/>

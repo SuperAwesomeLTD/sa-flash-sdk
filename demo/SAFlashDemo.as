@@ -15,7 +15,7 @@ package  {
 	import tv.superawesome.sdk.AdParser.Loader.SALoaderProtocol;
 	import tv.superawesome.sdk.Views.SAAdProtocol;
 	import tv.superawesome.sdk.AdParser.Models.SAAd;
-	
+	import tv.superawesome.libvideo.*;
 	import tv.superawesome.libvast.SAVASTParser;
 	
 	// notice here the SAFlashDemo class implements both:
@@ -38,6 +38,9 @@ package  {
 			// SAVASTParser.parseVASTURL("https://ads.superawesome.tv/v2/video/vast/28000/-1/-1/?sdkVersion=unknown&rnd=261873365");
 			SAVASTParser.parseVASTURL("https://ads.staging.superawesome.tv/v2/video/vast/79/336/554/?sdkVersion=unknown&rnd=91820873");
 
+			var player:SAVideoPlayer = new SAVideoPlayer(new Rectangle(0, 0, 320, 240));
+			this.addChild(player);
+			player.playWithMediaURL("https://s-static.innovid.com/assets/26156/32233/encoded/media-1.flv");
 		}
 		
 		// 
