@@ -1,5 +1,5 @@
 package tv.superawesome.libvideo {
-	public interface SAVideoPlayerProtocol {
+	public interface SAVideoPlayerInterface {
 		
 		//
 		// @brief: player ready

@@ -1,5 +1,5 @@
 package tv.superawesome.libvast.savastmodels {
-	public class SAMediaFile {
+	public class SAVASTMediaFile {
 		
 		public var width: String = null;
 		public var height: String = null;
@@ -7,7 +7,7 @@ package tv.superawesome.libvast.savastmodels {
 		public var URL: String = null;
 		public var apiFramework: String = null;
 		
-		public function SAMediaFile() {
+		public function SAVASTMediaFile() {
 		}
 	}
 }

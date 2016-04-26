@@ -8,15 +8,12 @@ package tv.superawesome.libvast {
 	
 	import tv.superawesome.libutils.SAUtils;
 	import tv.superawesome.libvast.savastmodels.SAAdType;
-	import tv.superawesome.libvast.savastmodels.SAImpression;
-	import tv.superawesome.libvast.savastmodels.SALinearCreative;
-	import tv.superawesome.libvast.savastmodels.SAMediaFile;
-	import tv.superawesome.libvast.savastmodels.SATracking;
+	import tv.superawesome.libvast.savastmodels.SAVASTMediaFile;
+	import tv.superawesome.libvast.savastmodels.SAVASTTracking;
 	import tv.superawesome.libvast.savastmodels.SAVASTAd;
 	import tv.superawesome.libvast.savastmodels.SAVASTCreative;
 	import tv.superawesome.libvast.savastmodels.SAVASTCreativeType;
-	import tv.superawesome.libvast.xmllib.SAXMLLib;
-	import tv.superawesome.sdk.AdParser.Models.SAAd;
+	import tv.superawesome.libvast.SAXMLLib;
 
 	// 
 	// the main VAST Parser class
@@ -24,10 +21,10 @@ package tv.superawesome.libvast {
 	public class SAVASTParser {
 		
 		// public vars
-		public static var delegate: SAVASTParserProtocol = null;
+		public var delegate: SAVASTParserInterface = null;
 		
 		// main public function
-		public static function parseVASTURL(url: String): void {
+		public function parseVASTURL(url: String): void {
 			parseVASTAync(url, function (ads: Array): void {
 				
 				for (var i:int = 0; i < ads.length; i++){
@@ -35,20 +32,14 @@ package tv.superawesome.libvast {
 					a.print();
 				}
 				
-				if (ads.length >= 1) {
-					if (delegate != null) {
-						delegate.didParseVASTAndHasAdsResponse(ads);
-					}
-				} else {
-					if (delegate != null) {
-						delegate.didNotFindAnyValidAds();
-					}
+				if (delegate != null) {
+					delegate.didParseVAST(ads);
 				}
 			});
 		}
 		
 		// private function
-		private static function parseVASTAync(url: String, callback: Function = null): void {
+		private function parseVASTAync(url: String, callback: Function = null): void {
 			// the basic ads array
 			var ads: Array = new Array();
 			
@@ -108,7 +99,7 @@ package tv.superawesome.libvast {
 		
 		//
 		// parse main ad body
-		public static function parseAdXML(element: XML): SAVASTAd {
+		public function parseAdXML(element: XML): SAVASTAd {
 			var ad: SAVASTAd = new SAVASTAd();
 			ad.id = element.attribute("id");
 			ad.sequence = element.attribute("sequence");
@@ -124,10 +115,7 @@ package tv.superawesome.libvast {
 			});
 			
 			SAXMLLib.searchSiblingsAndChildrenInterate(element, "Impression", function(xml: XML): void {
-				var impression:SAImpression = new SAImpression();
-				impression.isSent = false;
-				impression.URL = xml.toString();
-				ad.Impressions.push(impression);
+				ad.Impressions.push(xml.toString());
 			});
 			
 			SAXMLLib.searchSiblingsAndChildrenInterate(element, "Creative", function(xml: XML): void {
@@ -141,13 +129,13 @@ package tv.superawesome.libvast {
 		}
 		
 		// parse creative ad
-		public static function parseCreativeXML(element: XML): SAVASTCreative {
+		public function parseCreativeXML(element: XML): SAVASTCreative {
 			var isLinear:Boolean = SAXMLLib.checkSiblingsAndChildren(element, "Linear");
 			var extensions:Array = ["mp4", "flv", "swf"];
 			var types:Array = ["video/mp4", "video/x-flv", "application/x-shockwave-flash"];
 			
 			if (isLinear) {
-				var creative:SALinearCreative = new SALinearCreative();
+				var creative:SAVASTCreative = new SAVASTCreative();
 				creative.type = SAVASTCreativeType.Linear;
 				creative.id = element.attribute("id");
 				creative.sequence = element.attribute("sequence");
@@ -174,7 +162,7 @@ package tv.superawesome.libvast {
 				
 				// recurevly search for "Tracking" elements
 				SAXMLLib.searchSiblingsAndChildrenInterate(element, "Tracking", function(xml: XML): void {
-					var tracking:SATracking = new SATracking();
+					var tracking:SAVASTTracking = new SAVASTTracking();
 					tracking.event = xml.attribute("event");
 					tracking.URL = xml.toString();
 					creative.TrackingEvents.push(tracking);
@@ -182,7 +170,7 @@ package tv.superawesome.libvast {
 				
 				// and finally recursevly search for "MediaFile" elements
 				SAXMLLib.searchSiblingsAndChildrenInterate(element, "MediaFile", function(xml: XML): void {
-					var mediaFile:SAMediaFile = new SAMediaFile();
+					var mediaFile:SAVASTMediaFile = new SAVASTMediaFile();
 					mediaFile.width = xml.attribute("width");
 					mediaFile.height = xml.attribute("height");
 					mediaFile.type = xml.attribute("type");

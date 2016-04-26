@@ -1,4 +1,4 @@
-package tv.superawesome.libvast.xmllib {
+package tv.superawesome.libvast {
 	public class SAXMLLib {
 		//
 		// private recursive exploratory function

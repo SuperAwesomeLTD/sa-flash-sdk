@@ -3,20 +3,16 @@
   <includeClasses>
     <classEntry path="tv.superawesome.libvast.savastmodels.SAAdType"/>
     <classEntry path="tv.superawesome.libvast.savastmodels.SAVASTAd"/>
-    <classEntry path="tv.superawesome.libvast.savastmodels.SAImpression"/>
     <classEntry path="tv.superawesome.libvast.savastmodels.SAVASTCreativeType"/>
     <classEntry path="tv.superawesome.libvast.savastmodels.SAVASTCreative"/>
-    <classEntry path="tv.superawesome.libvast.savastmodels.SALinearCreative"/>
-    <classEntry path="tv.superawesome.libvast.savastmodels.SANonLinearCreative"/>
-    <classEntry path="tv.superawesome.libvast.savastmodels.SACompanionAdsCreative"/>
-    <classEntry path="tv.superawesome.libvast.savastmodels.SATracking"/>
-    <classEntry path="tv.superawesome.libvast.savastmodels.SAMediaFile"/>
+    <classEntry path="tv.superawesome.libvast.savastmodels.SAVASTTracking"/>
+    <classEntry path="tv.superawesome.libvast.savastmodels.SAVASTMediaFile"/>
     <classEntry path="tv.superawesome.libvast.savastparser.SAVASTParserProtocol"/>
-    <classEntry path="tv.superawesome.libvast.xmllib.SAXMLLib"/>
     <classEntry path="tv.superawesome.libevents.SAEvents"/>
     <classEntry path="tv.superawesome.libvast.SAVASTManager"/>
     <classEntry path="tv.superawesome.libvideo.SAVideoPlayer"/>
-    <classEntry path="tv.superawesome.libvideo.SAVideoPlayerProtocol"/>
+    <classEntry path="tv.superawesome.libvideo.SAVideoPlayerInterface"/>
+    <classEntry path="tv.superawesome.libvast.SAVASTManagerInterface"/>
   </includeClasses>
   <includeResources>
     <resourceEntry destPath="tv/.DS_Store" sourcePath="tv/.DS_Store"/>

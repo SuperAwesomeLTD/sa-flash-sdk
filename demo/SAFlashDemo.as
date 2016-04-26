@@ -4,6 +4,10 @@ package  {
 	import flash.display.MovieClip;
 	import flash.geom.Rectangle;
 	import flash.sampler.NewObjectSample;
+	import flash.net.NetConnection;
+	import flash.net.NetStream;
+	import flash.media.Video;
+	import flash.events.AsyncErrorEvent;
 	
 	// superawesome imports
 	import tv.superawesome.sdk.*;
@@ -17,11 +21,13 @@ package  {
 	import tv.superawesome.sdk.AdParser.Models.SAAd;
 	import tv.superawesome.libvideo.*;
 	import tv.superawesome.libvast.SAVASTParser;
+	import tv.superawesome.libvast.SAVASTManager;
+	import flash.events.NetStatusEvent;
 	
 	// notice here the SAFlashDemo class implements both:
 	// SALoaderProtocol
 	// SAAdProtocol
-	public class SAFlashDemo extends MovieClip implements SALoaderProtocol, SAAdProtocol {
+	public class SAFlashDemo extends MovieClip implements SALoaderProtocol, SAAdProtocol, SAVideoPlayerInterface {
 
 		public function SAFlashDemo() {
 			// display the SDK version to at least get an idea that I'm at the latest version
@@ -30,17 +36,30 @@ package  {
 			// enable production & disable test mode
 			SuperAwesome.getInstance().setConfigurationStaging();
 			SuperAwesome.getInstance().disableTestMode();
+			SuperAwesome.getInstance().allowCrossdomain();
 			
 			// make "this" my SALoader delegate and load my ad
 			// SALoader.getInstance().delegate = this;
 			// SALoader.getInstance().loadAd(2558);
 			
-			// SAVASTParser.parseVASTURL("https://ads.superawesome.tv/v2/video/vast/28000/-1/-1/?sdkVersion=unknown&rnd=261873365");
-			SAVASTParser.parseVASTURL("https://ads.staging.superawesome.tv/v2/video/vast/79/336/554/?sdkVersion=unknown&rnd=91820873");
-
-			var player:SAVideoPlayer = new SAVideoPlayer(new Rectangle(0, 0, 320, 240));
+			// var parser:SAVASTParser = new SAVASTParser();
+			// parser.parseVASTURL("https://ads.superawesome.tv/v2/video/vast/31210/31519/31702/?sdkVersion=unknown&rnd=139212695");
+			
+			// SAVASTParser.parseVASTURL("https://ads.superawesome.tv/v2/video/vast/28000/-1/-1/?sdkVersion=unknown&rnd=643079622");
+			// SAVASTParser.parseVASTURL("https://ads.staging.superawesome.tv/v2/video/vast/79/336/554/?sdkVersion=unknown&rnd=91820873");
+			// SAVASTParser.parseVASTURL("https://ads.superawesome.tv/v2/video/vast/31210/31519/31702/?sdkVersion=unknown&rnd=139212695");
+			
+			var player:SAVideoPlayer = new SAVideoPlayer(new Rectangle(100, 50, 320, 180));
 			this.addChild(player);
-			player.playWithMediaURL("https://s-static.innovid.com/assets/26156/32233/encoded/media-1.flv");
+			// var url1 = "https://ads.superawesome.tv/v2/demo_images/video.mp4";
+			// var url2 = "https://sa-beta-ads-video-transcoded-superawesome.netdna-ssl.com/dYzJz82NqdUvVcPcQlBQmHL1z6ftRz5f.mp4";
+			// var url3 = "https://s-static.innovid.com/assets/26156/32233/encoded/media-1.flv";
+			// player.delegate = this;
+			// player.playWithMediaURL(url1);
+			
+			var manager:SAVASTManager = new SAVASTManager(player);
+			manager.parseVASTURL("https://ads.superawesome.tv/v2/video/vast/31210/31519/31702/?sdkVersion=unknown&rnd=139212695");
+			
 		}
 		
 		// 
@@ -111,6 +130,38 @@ package  {
 			// This callback only handles cases when, for some reason or another, an image type ads
 			// get sent to be displayed in a video ad type object - should happen very rarely, but
 			// it's good to have it around
+		}
+		
+		public function didFindPlayerReady(): void {
+			trace("didFindPlayerReady");
+		}
+		
+		public function didStartPlayer(): void {
+			trace("didStartPlayer");
+		}
+		
+		public function didReachFirstQuartile(): void {
+			trace("didReachFirstQuartile");
+		}
+		
+		public function didReachMidpoint(): void {
+			trace("didReachMidpoint");
+		}
+		
+		public function didReachThirdQuartile(): void {
+			trace("didReachThirdQuartile");
+		}
+		
+		public function didReachEnd(): void {
+			trace("didReachEnd");
+		}
+		
+		public function didPlayWithError(): void {
+			trace("didPlayWithError");
+		}
+		
+		public function didGoToURL(): void {
+			trace("didGoToURL");
 		}
 	}
 }

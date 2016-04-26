@@ -8,6 +8,7 @@ package tv.superawesome.libvast.savastmodels {
 		public var sequence: String = null;
 		public var Errors: Array;
 		public var Impressions: Array;
+		public var isImpressionSent:Boolean = false;
 		public var Creatives: Array;
 		
 		public function SAVASTAd() {
@@ -22,9 +23,9 @@ package tv.superawesome.libvast.savastmodels {
 			for (var i: int = 0; i < Errors.length; i++) {
 				trace("Error => " + Errors[i]);
 			}
+			trace("Impression sent => " + isImpressionSent);
 			for (var t: int = 0; t < Impressions.length; t++) {
-				var imp:SAImpression = Impressions[t];
-				imp.print();
+				trace("Impression => " + Impressions[t]);
 			}
 			for (var j: int = 0; j < Creatives.length; j++) {
 				var cr:SAVASTCreative = Creatives[j];
