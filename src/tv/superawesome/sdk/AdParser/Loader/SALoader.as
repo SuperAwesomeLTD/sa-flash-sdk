@@ -31,25 +31,12 @@ package tv.superawesome.sdk.AdParser.Loader {
 	//
 	public class SALoader {
 		// the delegate
-		public var delegate: SALoaderProtocol;
-		
-		// singleton part
-		private static var _instance: SALoader;
+		public var delegate: SALoaderInterface;
 		
 		public function SALoader() {
-			if (_instance) {
-				throw new Error("Singleton... use getInstance()");
-			}
 			
-			// instrance
-			_instance = this;
 		}
 
-		public static function getInstance(): SALoader {
-			if (!_instance) { new SALoader(); }
-			return _instance;
-		}
-		
 		// function that loads an ad
 		public function loadAd(placementId: int): void {
 			// form the URL
@@ -91,15 +78,15 @@ package tv.superawesome.sdk.AdParser.Loader {
 		
 		// @brief: shorthand function to denote success and check for delegate implementation
 		private function success(ad: SAAd): void{
-			if (SALoader.getInstance().delegate != null) {
-				SALoader.getInstance().delegate.didLoadAd(ad);
+			if (delegate != null) {
+				delegate.didLoadAd(ad);
 			}
 		}
 		
 		// @brief: shorthand function to denote error and check for delegate implementation
 		private function error(placementId: int): void {
-			if (SALoader.getInstance().delegate != null) {
-				SALoader.getInstance().delegate.didFailToLoadAdForPlacementId(placementId);
+			if (delegate != null) {
+				delegate.didFailToLoadAd(placementId);
 			}
 		}
 	}

@@ -53,7 +53,7 @@ package tv.superawesome.sdk.Views{
 		
 		// what happens when ad loads with success
 		protected function success(): void {
-			SAEvents.sendEventToURL(ad.creative.viewableImpressionURL);
+			SAEvents.sendEventToURL(ad.creative.viewableImpressionUrl);
 			
 			if (this.adDelegate != null) {
 				this.adDelegate.adWasShown(this.ad.placementId);
@@ -76,8 +76,8 @@ package tv.superawesome.sdk.Views{
 				this.adDelegate.adWasClicked(this.ad.placementId);
 			}
 			
-			trace("\t[OK] Click:\t" + this.ad.creative.clickURL);
-			var clickURL: URLRequest = new URLRequest(this.ad.creative.clickURL);
+			trace("\t[OK] Click:\t" + this.ad.creative.clickUrl);
+			var clickURL: URLRequest = new URLRequest(this.ad.creative.clickUrl);
 			navigateToURL(clickURL, "_blank");
 		}
 	}

@@ -15,47 +15,42 @@ package tv.superawesome.sdk.AdParser.Models {
 	// and such
 	public class SACreative {
 		// the creative ID is a unique ID associated by the server with this Ad
-		public var creativeId: int;
+		public var id: int = -1;
 		
 		// name of the creative - set by the user in the dashboard
 		public var name: String;
 		
 		// agreed upon CPM; not really a useful field
-		public var cpm: int;
+		public var cpm: int = 0;
 		
 		// the creative format defines the type of ad (image, video, rich media, tag, etc)
 		// and is an enum defined in SACreativeFormat.h
-		public var baseFormat: String;
 		public var format: String;
 		
 		// the impression URL; not really useful because it's used server-side
-		public var impresionURL: Array;
-		
-		// the viewable impression URL; used by the SDK to track a viewable impression
-		public var viewableImpressionURL: String;
+		public var impresionUrl: Array;
 		
 		// the click URL - taken from the ad server; it's the direct target to
 		// which the ad points, if it exists
-		public var clickURL: String;
-		
-		// the tracking URL
-		public var trackingURL: String;
-		
-		// the tracking URL used when video is complete - used by the AIR SDK
-		// which currently does not have Google IMA SDK integration
-		public var videoCompleteURL: Array = new Array();
-		
-		// new array of click tracking elements
-		public var videoClickTrackingURLs: Array = new Array();
+		public var clickUrl: String;
 		
 		// must be always true for real ads
-		public var approved: Boolean;		
+		public var approved: Boolean = true;	
+		
+		// is it live
+		public var live: Boolean = true;
 		
 		// pointer to a SADetails object containing even more creative information
 		public var details: SADetails;
 		
-		// again used, for video ads, to determine if an Ad is a Wrapper or not
-		public var isWrapper: Boolean = false;
+		// the viewable impression URL; used by the SDK to track a viewable impression
+		public var creativeFormat: String;
+		
+		// viewable impression URL
+		public var viewableImpressionUrl: String;
+		
+		// the tracking URL
+		public var trackingUrl: String;
 		
 		// constructor
 		public function SACreative() {
@@ -65,21 +60,17 @@ package tv.superawesome.sdk.AdParser.Models {
 		// aux print function
 		public function print(): void {
 			trace("Creative:");
-			trace("\tCreativeId: " + this.creativeId);
+			trace("\tid: " + this.id);
 			trace("\tname: " + this.name);
 			trace("\tcpm: " + this.cpm);
-			trace("\tbaseFormat: " + this.baseFormat);
-			trace("\tformat: " + this.format);
-			trace("\timpressionURL: " + this.impresionURL);
-			trace("\tviewableImpressionURL: " + this.viewableImpressionURL);
-			trace("\tclickURL: " + this.clickURL);
-			trace("\ttrackingURL: " + this.trackingURL);
-			trace("\tvideoCompleteURL: " + this.videoCompleteURL);
-			trace("\tvideoClickTrackingURLs: "+ this.videoClickTrackingURLs);
+			trace("\tbaseFormat: " + this.format);
+			trace("\timpressionURL: " + this.impresionUrl);
+			trace("\tclickURL: " + this.clickUrl);
 			trace("\tapproved: " + this.approved);
-			trace("\tbaseFormat: " + this.baseFormat);
-			trace("\tformat: " + this.format);
-			trace("\tisWrapper: " + this.isWrapper);
+			trace("\tlive: " + this.live);
+			trace("\ttrackingURL: " + this.trackingUrl);
+			trace("\tformat: " + this.creativeFormat);
+			trace("\tviewableImpressionURL: " + this.viewableImpressionUrl);
 			details.print();
 		}
 	}

@@ -35,7 +35,7 @@ package tv.superawesome.sdk.AdParser.Validator {
 			
 			if (ad.creative != null) {
 				// 2. if format is unknown, data is not valid
-				if (ad.creative.format == SACreativeFormat.invalid)
+				if (ad.creative.creativeFormat == SACreativeFormat.invalid)
 					return false;
 				
 				// 3. if creative has no details, data is not valid
@@ -43,7 +43,7 @@ package tv.superawesome.sdk.AdParser.Validator {
 					return false;
 				
 				if (ad.creative.details != null) {
-					switch (ad.creative.format) {
+					switch (ad.creative.creativeFormat) {
 						case SACreativeFormat.image:{
 							// 3.1. if Ad is image with link, but no image filed
 							// could be found, data is not valid
@@ -55,11 +55,6 @@ package tv.superawesome.sdk.AdParser.Validator {
 							// 3.2. if Ad is video and either the video or the vast
 							// tags could not be found, data is not valid
 							if (ad.creative.details.vast == null)
-								return false;
-							// 3.3. If ad is a not video vast wrapper, but does not even have
-							// a video URL that can be take directly from the server or from the
-							// vast tag itself, then there's something terribly wrong and don't continue
-							if (!ad.creative.isWrapper && ad.creative.details.video == null)
 								return false;
 							break;
 						}

@@ -13,12 +13,13 @@
     <classEntry path="tv.superawesome.libvideo.SAVideoPlayer"/>
     <classEntry path="tv.superawesome.libvideo.SAVideoPlayerInterface"/>
     <classEntry path="tv.superawesome.libvast.SAVASTManagerInterface"/>
+    <classEntry path="tv.superawesome.sdk.AdParser.Models.SAData"/>
   </includeClasses>
   <includeResources>
     <resourceEntry destPath="tv/.DS_Store" sourcePath="tv/.DS_Store"/>
     <resourceEntry destPath="resources/.DS_Store" sourcePath="resources/.DS_Store"/>
-    <resourceEntry destPath="resources/bgblack.png" sourcePath="resources/bgblack.png"/>
     <resourceEntry destPath="tv/superawesome/.DS_Store" sourcePath="tv/superawesome/.DS_Store"/>
+    <resourceEntry destPath="resources/bgblack.png" sourcePath="resources/bgblack.png"/>
     <resourceEntry destPath="resources/close.png" sourcePath="resources/close.png"/>
     <resourceEntry destPath=".DS_Store" sourcePath=".DS_Store"/>
     <resourceEntry destPath="resources/bg.png" sourcePath="resources/bg.png"/>

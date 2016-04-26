@@ -28,6 +28,9 @@ package tv.superawesome.sdk.AdParser.Models {
 		// in case creative format is image_with_link, this is the URL of the image
 		public var image: String;
 		
+		// aux value needed when sending ad data like rating and such
+		public var value: int;
+		
 		// name of the creative
 		public var name: String;
 		
@@ -49,7 +52,7 @@ package tv.superawesome.sdk.AdParser.Models {
 		// in case creative format is rich media, this is the URL to the zip with all
 		// media resources; at the moment it's not used, but could be used when doing
 		// truly preloaded ads
-		public var zip: String;
+		public var zipFile: String;
 		
 		// in case creative format is rich media, this is the URL of the rich media
 		public var url: String;
@@ -58,8 +61,8 @@ package tv.superawesome.sdk.AdParser.Models {
 		// as of now, it's kind of useless
 		public var placementFormat: String;
 		
-		// aux value needed when sending ad data like rating and such
-		public var value: int;
+		// the details data
+		public var data:SAData = null;
 		
 		// constructor
 		public function SADetails() {
@@ -79,7 +82,7 @@ package tv.superawesome.sdk.AdParser.Models {
 			trace("\t\tduration: " + this.duration);
 			trace("\t\tvast: " + this.vast);
 			trace("\t\ttag: " + this.tag);
-			trace("\t\tzip: " + this.zip);
+			trace("\t\tzip: " + this.zipFile);
 			trace("\t\turl: " + this.url);
 			trace("\t\tplacementFormat: " + this.placementFormat);
 		}

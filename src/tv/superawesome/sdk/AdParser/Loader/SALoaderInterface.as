@@ -16,7 +16,7 @@ package tv.superawesome.sdk.AdParser.Loader {
 	// SALoader interface defines two main optional functions that a user might
 	// implement if he wants to preload Ads
 	// This protocol is implemented by a SALoader class delegate
-	public interface SALoaderProtocol {
+	public interface SALoaderInterface {
 		
 		// @brief: function that gets called when an Ad is succesfully called
 		// @return: returns a valid SAAd object
@@ -24,6 +24,6 @@ package tv.superawesome.sdk.AdParser.Loader {
 		
 		// @brief: function that gets called when an Ad has failed to load
 		// @return: it returns a placementId of the failing ad through callback
-		function didFailToLoadAdForPlacementId(placementId:int): void;
+		function didFailToLoadAd(placementId:int): void;
 	}
 }
