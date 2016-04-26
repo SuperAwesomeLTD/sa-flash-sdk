@@ -8,7 +8,7 @@
 //
 //
 
-package tv.superawesome.sdk.AdParser.Models {
+package tv.superawesome.sdk.Models {
 	
 	// @brief:
 	// The SADetails class contains fine grained information about the creative
@@ -85,6 +85,7 @@ package tv.superawesome.sdk.AdParser.Models {
 			trace("\t\tzip: " + this.zipFile);
 			trace("\t\turl: " + this.url);
 			trace("\t\tplacementFormat: " + this.placementFormat);
+			data.print();
 		}
 	}
 }

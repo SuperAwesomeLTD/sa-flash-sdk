@@ -7,18 +7,17 @@
 //  Created by Gabriel Coman on 11/10/2015.
 //
 //
-package tv.superawesome.sdk.AdParser.Loader {
+package tv.superawesome.sdk.Loader {
 	
 	// imports
 	import com.adobe.serialization.json.JSON;
 	
 	import flash.events.Event;
 	
-	import tv.superawesome.sdk.SuperAwesome;
 	import tv.superawesome.libutils.SAUtils;
-	import tv.superawesome.sdk.AdParser.Models.SAAd;
-	import tv.superawesome.sdk.AdParser.Parser.SAParser;
-	import tv.superawesome.sdk.AdParser.Validator.SAValidator;
+	import tv.superawesome.sdk.SuperAwesome;
+	import tv.superawesome.sdk.Models.SAAd;
+	import tv.superawesome.sdk.Parser.SAParser;
 
 	// @brief:
 	// This is a loader class that acts as Master loading class
@@ -33,12 +32,23 @@ package tv.superawesome.sdk.AdParser.Loader {
 		// the delegate
 		public var delegate: SALoaderInterface;
 		
+		// declare the parser
+		private var parser:SAParser = null;
+		
+		// and the extra data loader
+		private var extra:SALoaderExtra = null;
+		
 		public function SALoader() {
+			// create the parser
+			parser = new SAParser();
 			
+			// and extra data loader
+			extra = new SALoaderExtra();
 		}
 
 		// function that loads an ad
 		public function loadAd(placementId: int): void {
+			
 			// form the URL
 			var endpoint: String = SuperAwesome.getInstance().getBaseURL() + "/ad/" + placementId;
 			var dict: Object = {
@@ -56,12 +66,12 @@ package tv.superawesome.sdk.AdParser.Loader {
 				if (config) {
 					// we invoke SAParser class functions to parse different aspects
 					// of the Ad
-					SAParser.parseDictionary(config, placementId, function(ad: SAAd): void {
-						// one final check for validity
-						var isValid:Boolean = SAValidator.isAdDataValid(ad);
-						
-						if (isValid) {
-							success(ad);
+					parser.parseDictionary(config, placementId, function(ad: SAAd): void {
+						if (ad != null) {
+							// get extra data
+							extra.getExtraData(ad, function(finalAd:SAAd): void {
+								success(ad);
+							});
 						} else {
 							error(placementId);
 						}

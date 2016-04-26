@@ -27,7 +27,7 @@ package tv.superawesome.sdk.Views {
 	import flash.geom.Rectangle;
 	import flash.media.Video;
 	
-	import tv.superawesome.sdk.AdParser.Models.SACreativeFormat;
+	import tv.superawesome.sdk.Models.SACreativeFormat;
 	import tv.superawesome.sdk.Views.SAView;
 	import tv.superawesome.sdk.Views.SAVideoAdProtocol;
 	

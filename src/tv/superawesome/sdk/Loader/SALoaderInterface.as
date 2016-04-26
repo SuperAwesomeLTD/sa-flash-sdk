@@ -7,10 +7,10 @@
 //  Created by Gabriel Coman on 11/10/2015.
 //
 //
-package tv.superawesome.sdk.AdParser.Loader {
+package tv.superawesome.sdk.Loader {
 	
 	// imports for this interface
-	import tv.superawesome.sdk.AdParser.Models.SAAd;
+	import tv.superawesome.sdk.Models.SAAd;
 	
 	// @brief:
 	// SALoader interface defines two main optional functions that a user might

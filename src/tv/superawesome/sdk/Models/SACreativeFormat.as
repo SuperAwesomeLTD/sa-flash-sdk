@@ -8,7 +8,7 @@
 //
 //
 
-package tv.superawesome.sdk.AdParser.Models {
+package tv.superawesome.sdk.Models {
 	
 	// @brief: this class acts as an ActionScript "enum" of constant values
 	// that depict all the supported creative formats

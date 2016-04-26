@@ -1,4 +1,4 @@
-package tv.superawesome.sdk.AdParser.Models {
+package tv.superawesome.sdk.Models {
 	
 	// SAData class
 	public class SAData {
@@ -11,6 +11,12 @@ package tv.superawesome.sdk.AdParser.Models {
 		
 		public function SAData() {
 			// do nothing
+		}
+		
+		public function print(): void {
+			trace("\t\tData:");
+			trace("\t\t\timagepath: " + imagePath);
+			trace("\t\t\tvastAds: " + vastAds.length);
 		}
 	}
 }

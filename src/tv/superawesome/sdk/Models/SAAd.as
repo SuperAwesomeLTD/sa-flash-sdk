@@ -8,13 +8,14 @@
 //
 //
 
-package tv.superawesome.sdk.AdParser.Models {
+package tv.superawesome.sdk.Models {
 	
 	// @brief:
 	// This model class contains all information that is received from the server
 	// when an Ad is requested, as well as some aux fields that will be generated
 	// by the SDK
 	public class SAAd {
+		
 		// the SA server can send an error; if that's the case, this field will not be nill
 		public var error: int = -1;
 		

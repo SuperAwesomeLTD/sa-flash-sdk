@@ -7,34 +7,64 @@
 //  Created by Gabriel Coman on 11/10/2015.
 //
 //
-package tv.superawesome.sdk.AdParser.Parser {
+package tv.superawesome.sdk.Parser {
 	
 	// imports used by this class
 	import tv.superawesome.sdk.SuperAwesome;
 	import tv.superawesome.libutils.SAUtils;
-	import tv.superawesome.sdk.AdParser.Models.SAAd;
-	import tv.superawesome.sdk.AdParser.Models.SACreative;
-	import tv.superawesome.sdk.AdParser.Models.SACreativeFormat;
-	import tv.superawesome.sdk.AdParser.Models.SADetails;
+	import tv.superawesome.sdk.Models.SAAd;
+	import tv.superawesome.sdk.Models.SACreative;
+	import tv.superawesome.sdk.Models.SACreativeFormat;
+	import tv.superawesome.sdk.Models.SADetails;
 
 	// this class has three parsing functions in it
 	public class SAParser {
 		
-		// function that performs the basic integritiy check on the just-received ad
-		private static function performIntegrityCheck(dict: Object): Boolean {
+		private function isAdDataValid(ad: SAAd): Boolean {
 			
-			// 1. check if dict is empty
+			if (ad == null) return false;
+			if (ad.creative == null) return false;
+			if (ad.creative != null) {
+				if (ad.creative.creativeFormat == SACreativeFormat.invalid) return false;
+				if (ad.creative.details == null) return false;
+				if (ad.creative.details != null) {
+					switch (ad.creative.creativeFormat) {
+						case SACreativeFormat.image:{
+							if (ad.creative.details.image == null) return false;
+							break;
+						}
+						case SACreativeFormat.video:{
+							if (ad.creative.details.vast == null) return false;
+							break;
+						}
+						case SACreativeFormat.rich:{
+							if (ad.creative.details.url == null) return false;
+							break;
+						}
+						case SACreativeFormat.tag:{
+							if (ad.creative.details.tag == null) return false;
+							break;
+						}
+						default:{
+							break;
+						}
+					}
+				}
+			}
+			
+			return true;
+		}
+		
+		// function that performs the basic integritiy check on the just-received ad
+		private function performIntegrityCheck(dict: Object): Boolean {
+			
 			if (dict != null && !SAUtils.isEmptyObject(dict)) {
-				// 2. check if dict object has a "creative" sub-object...
 				var creativeObj: Object = dict.creative;
 				
-				// ...and it's a valid one
 				if (creativeObj != null && !SAUtils.isEmptyObject(creativeObj)) {
 					
-					// 3. check if creativeObj object has a "details" sub-object...
 					var detailsObj: Object = creativeObj.details;
 					
-					// ...and it's a valid one
 					if (detailsObj != null && !SAUtils.isEmptyObject(detailsObj)) {
 						return true;
 					} 
@@ -45,7 +75,7 @@ package tv.superawesome.sdk.AdParser.Parser {
 			return false;
 		}
 		
-		private static function parseAd(dict: Object) : SAAd {
+		private function parseAd(dict: Object) : SAAd {
 			var ad: SAAd = new SAAd();
 			
 			ad.error = (dict.error != null ? dict.error : -1);
@@ -54,26 +84,28 @@ package tv.superawesome.sdk.AdParser.Parser {
 			ad.test = (dict.test != null ? dict.test : true);
 			ad.isFallback = (dict.is_fallback != null ? dict.is_fallback : false);
 			ad.isFill = (dict.is_fill != null ? dict.is_fill : false);
+			ad.isHouse = (dict.is_house != null ? dict.is_house : false);
 			
 			return ad;
 		}
 		
-		private static function parseCreative(cdict: Object): SACreative {
+		private function parseCreative(cdict: Object): SACreative {
 			var creative: SACreative = new SACreative();
 			
 			// do the parsing
 			creative.id = (cdict.id != null ? cdict.id : -1);
 			creative.name = (cdict.name != null ? cdict.name : null);
 			creative.cpm = (cdict.cpm != null ? cdict.cpm : 0);
+			creative.format = (cdict.format != null ? cdict.format : null);
 			creative.impresionUrl = (cdict.impression_url != null ? cdict.impression_url : null);
 			creative.clickUrl = (cdict.click_url != null ? cdict.click_url : null);
 			creative.approved = (cdict.approved != null ? cdict.approved : false);
-			creative.format = (cdict.format != null ? cdict.format : null);
+			creative.live = (cdict.live != null ? cdict.live : true);
 			
 			return creative;
 		}
 		
-		private static function parseDetails(ddict: Object): SADetails {
+		private function parseDetails(ddict: Object): SADetails {
 			var details: SADetails = new SADetails();
 			
 			details.width = (ddict.width != null ? ddict.width : 0);
@@ -99,10 +131,10 @@ package tv.superawesome.sdk.AdParser.Parser {
 		// @param - adDict: A NSDictionary parser by ObjC from a JSON
 		// @param - placementId - the placement id of the ad that's been requested
 		// @param - parse - a callback that actually returns the ad
-		public static function parseDictionary(adDict: Object, placementId: int, parse: Function): void {
+		public function parseDictionary(adDict: Object, placementId: int, parse: Function): void {
 			
 			// perform an integrity check
-			if (!SAParser.performIntegrityCheck(adDict)){
+			if (!performIntegrityCheck(adDict)){
 				parse(null);
 				return;
 			}
@@ -112,20 +144,15 @@ package tv.superawesome.sdk.AdParser.Parser {
 			var cdict:Object = adict.creative;
 			var ddict:Object = cdict.details;
 			
-			var ad: SAAd = SAParser.parseAd(adict);
+			var ad: SAAd = parseAd(adict);
 			ad.placementId = placementId;
-			ad.creative = SAParser.parseCreative(cdict);
-			ad.creative.details = SAParser.parseDetails(ddict);
+			ad.creative = parseCreative(cdict);
+			ad.creative.details = parseDetails(ddict);
 			
-			// perform the next steps of the parsing
 			ad.creative.creativeFormat = SACreativeFormat.invalid;
-			// case "image_with_link"
 			if (ad.creative.format == "image_with_link") ad.creative.creativeFormat = SACreativeFormat.image;
-			// case "video"
 			else if (ad.creative.format == "video") ad.creative.creativeFormat = SACreativeFormat.video;
-			// case "rich_media" and "rich_media_resizing"
 			else if (ad.creative.format.indexOf("rich_media") >= 0) ad.creative.creativeFormat = SACreativeFormat.rich;
-			// case "tag" and "fallback_tag"
 			else if (ad.creative.format.indexOf("tag") >= 0) ad.creative.creativeFormat = SACreativeFormat.tag;
 			
 			// create the tracking URL
@@ -156,8 +183,12 @@ package tv.superawesome.sdk.AdParser.Parser {
 												+ "/event?"
 												+ SAUtils.formGetQueryFromObject(impressionDict2);
 			
-			parse(ad);
+			// return value from parser
+			if (this.isAdDataValid(ad)){
+				parse(ad);
+			} else {
+				parse(null);
+			}
 		}
 	}
-	
 }

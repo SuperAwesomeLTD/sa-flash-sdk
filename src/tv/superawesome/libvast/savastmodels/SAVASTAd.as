@@ -1,5 +1,5 @@
 package tv.superawesome.libvast.savastmodels {
-	import tv.superawesome.sdk.AdParser.Models.SACreative;
+	import tv.superawesome.sdk.Models.SACreative;
 
 	public class SAVASTAd {
 		

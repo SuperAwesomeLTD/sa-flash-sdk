@@ -23,7 +23,7 @@ package tv.superawesome.sdk.Views {
 	import flash.system.LoaderContext;
 	
 	import tv.superawesome.libutils.SAUtils;
-	import tv.superawesome.sdk.AdParser.Models.SACreativeFormat;
+	import tv.superawesome.sdk.Models.SACreativeFormat;
 	import tv.superawesome.sdk.Views.SAView;
 	
 	// descendant of SAView that is used to

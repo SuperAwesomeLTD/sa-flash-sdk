@@ -8,12 +8,13 @@
 //
 //
 
-package tv.superawesome.sdk.AdParser.Models {
+package tv.superawesome.sdk.Models {
 	
 	// @brief:
 	// The creative contains essential ad information like format, click url
 	// and such
 	public class SACreative {
+		
 		// the creative ID is a unique ID associated by the server with this Ad
 		public var id: int = -1;
 		

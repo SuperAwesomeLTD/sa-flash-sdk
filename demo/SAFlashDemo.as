@@ -11,14 +11,14 @@ package  {
 	
 	// superawesome imports
 	import tv.superawesome.sdk.*;
-	import tv.superawesome.sdk.AdParser.Loader.*;
+	import tv.superawesome.sdk.Loader.*;
 	import tv.superawesome.sdk.Views.SAVideoAd;
-	import tv.superawesome.sdk.AdParser.Models.*;
+	import tv.superawesome.sdk.Models.*;
 	import tv.superawesome.sdk.Views.SABannerAd;
 	import tv.superawesome.sdk.Views.SAInterstitialAd;
-	import tv.superawesome.sdk.AdParser.Loader.SALoaderProtocol;
+	import tv.superawesome.sdk.Loader.SALoaderInterface;
 	import tv.superawesome.sdk.Views.SAAdProtocol;
-	import tv.superawesome.sdk.AdParser.Models.SAAd;
+	import tv.superawesome.sdk.Models.SAAd;
 	import tv.superawesome.libvideo.*;
 	import tv.superawesome.libvast.SAVASTParser;
 	import tv.superawesome.libvast.SAVASTManager;
@@ -27,16 +27,20 @@ package  {
 	// notice here the SAFlashDemo class implements both:
 	// SALoaderProtocol
 	// SAAdProtocol
-	public class SAFlashDemo extends MovieClip implements SALoaderProtocol, SAAdProtocol, SAVideoPlayerInterface {
+	public class SAFlashDemo extends MovieClip implements SALoaderInterface, SAAdProtocol, SAVideoPlayerInterface {
 
 		public function SAFlashDemo() {
 			// display the SDK version to at least get an idea that I'm at the latest version
 			trace(SuperAwesome.getInstance().getSdkVersion());
 			
 			// enable production & disable test mode
-			SuperAwesome.getInstance().setConfigurationStaging();
-			SuperAwesome.getInstance().disableTestMode();
+			SuperAwesome.getInstance().setConfigurationProduction();
+			SuperAwesome.getInstance().enableTestMode();
 			SuperAwesome.getInstance().allowCrossdomain();
+			
+			var loader:SALoader = new SALoader();
+			loader.delegate = this;
+			loader.loadAd(28000);
 			
 			// make "this" my SALoader delegate and load my ad
 			// SALoader.getInstance().delegate = this;
@@ -54,7 +58,7 @@ package  {
 			// var url1 = "https://ads.superawesome.tv/v2/demo_images/video.mp4";
 			// var url2 = "https://sa-beta-ads-video-transcoded-superawesome.netdna-ssl.com/dYzJz82NqdUvVcPcQlBQmHL1z6ftRz5f.mp4";
 			// var url3 = "https://s-static.innovid.com/assets/26156/32233/encoded/media-1.flv";
-			// player.delegate = this;
+			player.delegate = this;
 			// player.playWithMediaURL(url1);
 			
 			var manager:SAVASTManager = new SAVASTManager(player);
@@ -71,18 +75,18 @@ package  {
 		public function didLoadAd(ad: SAAd): void {
 			ad.print();
 			
-			if (ad.isFallback) {
-				// Ad is fallback and I can ignore it if I choose
-			} else {
-				var vad:SAVideoAd = new SAVideoAd(new Rectangle(0, 0, 240, 240));
-				vad.setAd(ad);
-				// This is very important: set the current video's "adDelegate" object
-				// to this so that the video can send important messages / callbacks to
-				// the current object!
-				vad.adDelegate = this;
-				addChildAt(vad, 0);
-				vad.play();
-			}
+			//if (ad.isFallback) {
+			//	// Ad is fallback and I can ignore it if I choose
+			//} else {
+			//	var vad:SAVideoAd = new SAVideoAd(new Rectangle(0, 0, 240, 240));
+			//	vad.setAd(ad);
+			//	// This is very important: set the current video's "adDelegate" object
+			//	// to this so that the video can send important messages / callbacks to
+			//	// the current object!
+			//	vad.adDelegate = this;
+			//	addChildAt(vad, 0);
+			//	vad.play();
+			//}
 		}
 		
 		public function adWasShown(placementId: int): void {
@@ -103,13 +107,13 @@ package  {
 		// and respond accordingly
 		////////////////////////////////////
 		
-		public function didFailToLoadAdForPlacementId(placementId: int): void {
+		public function didFailToLoadAd(placementId: int): void {
 			// Here is one moment when you can catch an error happening and display the 
 			// "no video available" message
 			// 
 			// this callback is usually called when the ad data is empty (json response is "{}")
 			// or corrupt in some way (video ad might not have a video .mp4 / .swf URL attached, etc)
-			trace("didFailToLoadAdForPlacementId");
+			trace("didFailToLoadAdForPlacementId " + placementId);
 		}
 		
 		public function adFailedToShow(placementId: int): void {
