@@ -62,22 +62,13 @@ package tv.superawesome.sdk.Loader {
 				
 				// start the heavy lifting
 				var config: Object = com.adobe.serialization.json.JSON.decode(e.target.data);
+				var ad:SAAd = parser.parseDictionary(config, placementId);
 				
-				if (config) {
-					// we invoke SAParser class functions to parse different aspects
-					// of the Ad
-					parser.parseDictionary(config, placementId, function(ad: SAAd): void {
-						if (ad != null) {
-							// get extra data
-							extra.getExtraData(ad, function(finalAd:SAAd): void {
-								success(ad);
-							});
-						} else {
-							error(placementId);
-						}
+				if (ad != null) {
+					extra.getExtraData(ad, function(finalAd:SAAd): void {
+						success(ad);
 					});
-				}
-				else {
+				} else {
 					error(placementId);
 				}
 			}, 

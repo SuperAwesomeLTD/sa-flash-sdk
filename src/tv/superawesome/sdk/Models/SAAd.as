@@ -58,6 +58,7 @@ package tv.superawesome.sdk.Models {
 			trace("isTest: " + this.test);
 			trace("isFallback : " + this.isFallback);
 			trace("isFill: " + this.isFill);
+			trace("isHouse: " + this.isHouse);
 			creative.print();
 		}
 	}

@@ -1,118 +1,140 @@
-//
-//  SABannerAd.h
-//  tv.superawesome.Views
-//
-//  Copyright (c) 2015 SuperAwesome Ltd. All rights reserved.
-//
-//  Created by Gabriel Coman on 02/12/2015.
-//
-//
-
 package tv.superawesome.sdk.Views {
-	
-	// imports for this class
 	import flash.display.Bitmap;
 	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.events.IOErrorEvent;
 	import flash.events.MouseEvent;
-	import flash.events.SecurityErrorEvent;
 	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
+	import flash.net.navigateToURL;
 	import flash.system.LoaderContext;
+	import flash.utils.setTimeout;
 	
+	import tv.superawesome.libevents.SAEvents;
 	import tv.superawesome.libutils.SAUtils;
+	import tv.superawesome.sdk.SuperAwesome;
+	import tv.superawesome.sdk.Models.SAAd;
 	import tv.superawesome.sdk.Models.SACreativeFormat;
-	import tv.superawesome.sdk.Views.SAView;
 	
-	// descendant of SAView that is used to
-	// represent image data - banner ads, MPU, etc
-	public class SABannerAd extends SAView {
-		// the loader
+//	import flash.utils.clearInterval;
+//	import flash.utils.setInterval;
+
+	public class SABannerAd extends Sprite implements SAViewInterface  {
+		
+		// private var
+		private var ad:SAAd = null;
+		private var frame:Rectangle;
 		private var imgLoader: Loader = new Loader();
-		private var background: Sprite;
+		private var watermark: Loader = new Loader();
+		
+		// public vars
+		public var adDelegate:SAAdInterface = null;
 		
 		// constructor
 		public function SABannerAd(frame: Rectangle) {
-			super(frame);
+			// super();
+			this.frame = frame;
+			this.graphics.beginFill(0xf3f3f3);
+			this.graphics.drawRect(frame.x, frame.y, frame.width, frame.height);
+			this.graphics.endFill();
 		}
 		
-		// local implementation of the play function
-		public override function play(): void {	
-			// check for incorrect format
-			if (ad.creative.format != SACreativeFormat.image) {
-				if (this.adDelegate != null) {
-					this.adDelegate.adHasIncorrectPlacement(ad.placementId);
+		public function setAd(ad:SAAd): void {
+			this.ad = ad;
+		}
+		
+		public  function getAd():SAAd {
+			return ad;
+		}
+		
+		public function play():void {
+			// handle errors
+			if (ad == null){
+				if (adDelegate != null) {
+					adDelegate.adFailedToShow(ad.placementId);
 				}
 				return;
+			} else {
+				if (ad.creative.creativeFormat != SACreativeFormat.image) {
+					if (adDelegate != null) {
+						adDelegate.adFailedToShow(ad.placementId);
+					}
+					return;	
+				}
 			}
-			
-			if (this.stage != null) delayedDisplay();
-			else this.addEventListener(Event.ADDED_TO_STAGE, delayedDisplay);
-		}
-		
-		private function delayedDisplay(e:Event = null): void {
-			
-			// create background and static elements
-			[Embed(source = '../../../../resources/bg.png')] var BgIconClass:Class;
-			var bmp2:Bitmap = new BgIconClass();
-			
-			background = new Sprite();
-			background.addChild(bmp2);
-			background.x = super.frame.x;
-			background.y = super.frame.y;
-			background.width = super.frame.width;
-			background.height = super.frame.height;
-			this.addChild(background);
-			
-			// laod the image async
-			var imgURLRequest: URLRequest = new URLRequest(super.ad.creative.details.image);
-			
-			var loaderContext: LoaderContext = new LoaderContext();
-			loaderContext.checkPolicyFile = false;
-			
-			imgLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, onImageLoaded);
-			imgLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, error);
-			imgLoader.contentLoaderInfo.addEventListener(SecurityErrorEvent.SECURITY_ERROR, error);
-			
-			imgLoader.addEventListener(IOErrorEvent.IO_ERROR, error);
-			imgLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, error);
-			imgLoader.addEventListener(MouseEvent.CLICK, goToURL);
-			
-			try {
-				imgLoader.load(imgURLRequest, loaderContext);
-			} catch (e: *) {
-				error();
-			}
-		}
-		
-		// what happens when an image is loaded
-		private function onImageLoaded(e: Event): void {
-			// calc scaling
-			var newR: Rectangle = super.frame;
-			
-			newR = SAUtils.arrangeAdInNewFrame(
-				super.frame, 
-				new Rectangle(0, 0, ad.creative.details.width, ad.creative.details.height)
-			);
-			newR.x += super.frame.x;
-			newR.y += super.frame.y;
-			
-			// position the image
-			imgLoader.x = newR.x;
-			imgLoader.y = newR.y;
-			imgLoader.width = newR.width;
-			imgLoader.height = newR.height;
-			
-			// add the child
-			this.addChild(imgLoader);
-			
-			// remove listener
-			e.target.removeEventListener(Event.COMPLETE, onImageLoaded);
 			
 			// call to success
-			success();
+			if (adDelegate != null) {
+				adDelegate.adWasShown(ad.placementId);
+			}
+			
+			var newR: Rectangle = SAUtils.arrangeAdInNewFrame(
+				frame, 
+				new Rectangle(0, 0, ad.creative.details.width, ad.creative.details.height)
+			);
+			newR.x += frame.x;
+			newR.y += frame.y;
+			
+			// add the banner iamge
+			var loaderContext: LoaderContext = new LoaderContext();
+			loaderContext.checkPolicyFile = false;
+			imgLoader = new Loader();
+			imgLoader.load(new URLRequest(ad.creative.details.data.imagePath), loaderContext);
+			imgLoader.addEventListener(Event.ADDED, function(event:*=null): void {
+				imgLoader.x = newR.x;
+				imgLoader.y = newR.y;
+				imgLoader.width = newR.width;
+				imgLoader.height = newR.height;
+			});
+			imgLoader.addEventListener(MouseEvent.CLICK, function(event:*= null): void {
+				advanceToClick();
+			});
+			addChildAt(imgLoader, 0);
+			
+			// add watermark
+			if (ad.isFallback == false && ad.isHouse == false){
+				var waterUrl:String = SuperAwesome.getInstance().getBaseURL() + "/images/watermark_67x25.png";
+				watermark.load(new URLRequest(waterUrl));
+				watermark.addEventListener(Event.ADDED, function(event:*=null): void {
+					watermark.x = newR.x;
+					watermark.y = newR.y;
+					watermark.width = 67;
+					watermark.height = 25;
+				});
+				addChildAt(watermark, 1);
+			}
+		}
+		
+		public function close():void {
+			this.parent.removeChild(this);
+			
+			if (adDelegate != null) {
+				adDelegate.adWasClosed(ad.placementId);
+			}
+		}
+		
+		public function advanceToClick():void {
+			if (adDelegate != null) {
+				adDelegate.adWasClicked(ad.placementId);
+			}
+			
+			if (ad.creative.clickUrl.indexOf(SuperAwesome.getInstance().getBaseURL()) < 0){
+				SAEvents.sendEventToURL(ad.creative.trackingUrl);
+			}
+			
+			// goto url
+			var request:URLRequest = new URLRequest(ad.creative.clickUrl);
+			navigateToURL(request, "_blank");
+		}
+		
+		public function resizeToFrame(frame:Rectangle):void {
+			
+		}
+		
+		private function onError(event:* = null): void {
+			if (adDelegate != null) {
+				adDelegate.adFailedToShow(ad.placementId);
+			}
 		}
 	}
 }

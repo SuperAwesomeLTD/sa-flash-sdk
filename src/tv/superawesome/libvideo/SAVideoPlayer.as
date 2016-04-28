@@ -2,6 +2,7 @@ package tv.superawesome.libvideo {
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.events.AsyncErrorEvent;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.events.NetStatusEvent;
 	import flash.geom.Rectangle;
@@ -30,9 +31,10 @@ package tv.superawesome.libvideo {
 		private var client: Object = null;
 		
 		// background
-		[Embed(source='../../../resources/mark.png')]
-		private var markClass:Class;
+		[Embed(source='../../../resources/mark.png')] private var markClass:Class;
 		private var mark:Bitmap = null;
+		[Embed(source='../../../resources/chronomask.png')] private var chronoMaskClass:Class;
+		private var chronoMask:Bitmap = null;
 		
 		// text labels
 		private var chronographerBg: Sprite = null;
@@ -100,13 +102,17 @@ package tv.superawesome.libvideo {
 			addChildAt(mark, 1);
 			
 			// add chronographer
+			chronoMask = new chronoMaskClass();
 			chronographerBg = new Sprite();
-			chronographerBg.graphics.beginFill(0x000000);
-			chronographerBg.graphics.drawRoundRect(frame.x + 10, frame.y + frame.height - 27, 50, 21, 10);
-			chronographerBg.graphics.endFill();
+			chronographerBg.addChildAt(chronoMask, 0);
 			chronographerBg.alpha = 0.25;
+			chronographerBg.x = frame.x + 10;
+			chronographerBg.y = frame.y + frame.height - 27;
+			chronographerBg.width = 50;
+			chronographerBg.height = 21;
 			addChildAt(chronographerBg, 2);
 			
+			// add chronotext
 			var format:TextFormat = new TextFormat();
 			format.color = 0xffffff;
 			format.align = TextFormatAlign.CENTER;
@@ -120,7 +126,6 @@ package tv.superawesome.libvideo {
 			chronographer.y = frame.y + frame.height - 24;
 			chronographer.width = 50;
 			chronographer.height = 15;
-			
 			addChildAt(chronographer, 3);
 			
 			// add clicker

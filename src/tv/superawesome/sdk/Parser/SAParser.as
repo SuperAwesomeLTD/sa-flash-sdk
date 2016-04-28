@@ -131,12 +131,11 @@ package tv.superawesome.sdk.Parser {
 		// @param - adDict: A NSDictionary parser by ObjC from a JSON
 		// @param - placementId - the placement id of the ad that's been requested
 		// @param - parse - a callback that actually returns the ad
-		public function parseDictionary(adDict: Object, placementId: int, parse: Function): void {
+		public function parseDictionary(adDict: Object, placementId: int): SAAd {
 			
 			// perform an integrity check
 			if (!performIntegrityCheck(adDict)){
-				parse(null);
-				return;
+				return null;
 			}
 			
 			// if all is OK so far, extract all dictionaries
@@ -184,11 +183,7 @@ package tv.superawesome.sdk.Parser {
 												+ SAUtils.formGetQueryFromObject(impressionDict2);
 			
 			// return value from parser
-			if (this.isAdDataValid(ad)){
-				parse(ad);
-			} else {
-				parse(null);
-			}
+			return (isAdDataValid(ad) ? ad : null);
 		}
 	}
 }

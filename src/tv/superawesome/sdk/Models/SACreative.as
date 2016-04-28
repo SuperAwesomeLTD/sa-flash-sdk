@@ -29,7 +29,7 @@ package tv.superawesome.sdk.Models {
 		public var format: String;
 		
 		// the impression URL; not really useful because it's used server-side
-		public var impresionUrl: Array;
+		public var impresionUrl: String;
 		
 		// the click URL - taken from the ad server; it's the direct target to
 		// which the ad points, if it exists
