@@ -15,8 +15,11 @@ package tv.superawesome.sdk.Loader {
 	import flash.events.Event;
 	
 	import tv.superawesome.libutils.SAUtils;
+	import tv.superawesome.libvast.SAVASTParser;
 	import tv.superawesome.sdk.SuperAwesome;
 	import tv.superawesome.sdk.Models.SAAd;
+	import tv.superawesome.sdk.Models.SACreativeFormat;
+	import tv.superawesome.sdk.Models.SAData;
 	import tv.superawesome.sdk.Parser.SAParser;
 
 	// @brief:
@@ -32,20 +35,9 @@ package tv.superawesome.sdk.Loader {
 		// the delegate
 		public var delegate: SALoaderInterface;
 		
-		// declare the parser
-		private var parser:SAParser = null;
-		
-		// and the extra data loader
-		private var extra:SALoaderExtra = null;
-		
 		public function SALoader() {
-			// create the parser
-			parser = new SAParser();
-			
-			// and extra data loader
-			extra = new SALoaderExtra();
 		}
-
+		
 		// function that loads an ad
 		public function loadAd(placementId: int): void {
 			
@@ -61,13 +53,40 @@ package tv.superawesome.sdk.Loader {
 			SAUtils.sendGET(endpoint, dict, function(e: Event): void { 
 				
 				// start the heavy lifting
+				var parser:SAParser = new SAParser();
+				var vastParser:SAVASTParser = new SAVASTParser();
+				
 				var config: Object = com.adobe.serialization.json.JSON.decode(e.target.data);
 				var ad:SAAd = parser.parseDictionary(config, placementId);
 				
 				if (ad != null) {
-					extra.getExtraData(ad, function(finalAd:SAAd): void {
-						success(ad);
-					});
+					
+					// create data
+					ad.creative.details.data = new SAData();
+					trace(ad.creative.details.data);
+					
+					// depending on this add type of extra data
+					switch (ad.creative.creativeFormat) {
+						case SACreativeFormat.video:{
+							vastParser = new SAVASTParser();
+							vastParser.parseVASTURL2(ad.creative.details.vast, function (ads:Array): void {
+								ad.creative.details.data.vastAds = ads;
+								success(ad);
+							});
+							break;
+						}
+						case SACreativeFormat.image:{
+							ad.creative.details.data.imagePath = ad.creative.details.image;
+							success(ad);
+							break;
+						}
+						case SACreativeFormat.rich:
+						case SACreativeFormat.tag:
+						default: {
+							success(ad);
+							break;
+						}
+					}
 				} else {
 					error(placementId);
 				}

@@ -7,13 +7,13 @@ package tv.superawesome.libvast {
 	import flash.net.URLRequest;
 	
 	import tv.superawesome.libutils.SAUtils;
+	import tv.superawesome.libvast.SAXMLLib;
 	import tv.superawesome.libvast.savastmodels.SAAdType;
-	import tv.superawesome.libvast.savastmodels.SAVASTMediaFile;
-	import tv.superawesome.libvast.savastmodels.SAVASTTracking;
 	import tv.superawesome.libvast.savastmodels.SAVASTAd;
 	import tv.superawesome.libvast.savastmodels.SAVASTCreative;
 	import tv.superawesome.libvast.savastmodels.SAVASTCreativeType;
-	import tv.superawesome.libvast.SAXMLLib;
+	import tv.superawesome.libvast.savastmodels.SAVASTMediaFile;
+	import tv.superawesome.libvast.savastmodels.SAVASTTracking;
 
 	// 
 	// the main VAST Parser class
@@ -32,8 +32,25 @@ package tv.superawesome.libvast {
 					a.print();
 				}
 				
+				// call delegate
 				if (delegate != null) {
 					delegate.didParseVAST(ads);
+				}
+			});
+		}
+		
+		// callback function way
+		public function parseVASTURL2(url:String, callback:Function = null): void {
+			parseVASTAync(url, function (ads: Array): void {
+				
+				for (var i:int = 0; i < ads.length; i++){
+					var a:SAVASTAd = ads[i];
+					a.print();
+				}
+				
+				// call callback
+				if (callback != null) {
+					callback(ads);
 				}
 			});
 		}
@@ -49,7 +66,6 @@ package tv.superawesome.libvast {
 			// success case
 			xmlLoader.addEventListener(Event.COMPLETE, function (e:Event): void {
 				var root: XML = new XML(e.target.data);
-				trace(root);
 				SAXMLLib.searchSiblingsAndChildrenInterate(root, "Ad", function(element: XML): void {
 					// check for inline or wrapper type tags */
 					var isInLine: Boolean = SAXMLLib.checkSiblingsAndChildren(element, "InLine");

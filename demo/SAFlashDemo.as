@@ -39,9 +39,8 @@ package  {
 			var loader:SALoader = new SALoader();
 			loader.delegate = this;
 			loader.loadAd(113);
-			var loader1:SALoader = new SALoader();
-			loader1.delegate = this;
-			loader1.loadAd(117);
+			loader.loadAd(117);
+			loader.loadAd(116);
 		}
 		
 		public function didLoadAd(ad: SAAd): void {
@@ -54,6 +53,12 @@ package  {
 				vad.videoDelegate = this;
 				addChildAt(vad, 0);
 				vad.play();
+			}
+			else if (ad.placementId == 116) {
+				var vad2:SAVideoAd = new SAVideoAd(new Rectangle(300, 100, 200, 180));
+				vad2.setAd(ad);
+				addChildAt(vad2, 0);
+				vad2.play();
 			}
 			else {
 				var bad:SABannerAd = new SABannerAd(new Rectangle(50, 0, 420, 100));
