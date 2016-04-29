@@ -1,38 +1,57 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+<flexLibProperties includeAllClasses="false" useMultiPlatformConfig="false" version="3">
   <includeClasses>
+    <classEntry path="com.adobe.serialization.json.JSON"/>
+    <classEntry path="com.adobe.serialization.json.JSONDecoder"/>
+    <classEntry path="com.adobe.serialization.json.JSONEncoder"/>
+    <classEntry path="com.adobe.serialization.json.JSONParseError"/>
+    <classEntry path="com.adobe.serialization.json.JSONToken"/>
+    <classEntry path="com.adobe.serialization.json.JSONTokenType"/>
+    <classEntry path="com.adobe.serialization.json.JSONTokenizer"/>
+    <classEntry path="tv.superawesome.libevents.SAEvents"/>
+    <classEntry path="tv.superawesome.libutils.SAUtils"/>
+    <classEntry path="tv.superawesome.libvast.SAVASTManager"/>
+    <classEntry path="tv.superawesome.libvast.SAVASTManagerInterface"/>
+    <classEntry path="tv.superawesome.libvast.SAVASTParser"/>
+    <classEntry path="tv.superawesome.libvast.SAVASTParserInterface"/>
+    <classEntry path="tv.superawesome.libvast.SAXMLLib"/>
     <classEntry path="tv.superawesome.libvast.savastmodels.SAAdType"/>
     <classEntry path="tv.superawesome.libvast.savastmodels.SAVASTAd"/>
-    <classEntry path="tv.superawesome.libvast.savastmodels.SAVASTCreativeType"/>
     <classEntry path="tv.superawesome.libvast.savastmodels.SAVASTCreative"/>
-    <classEntry path="tv.superawesome.libvast.savastmodels.SAVASTTracking"/>
+    <classEntry path="tv.superawesome.libvast.savastmodels.SAVASTCreativeType"/>
     <classEntry path="tv.superawesome.libvast.savastmodels.SAVASTMediaFile"/>
-    <classEntry path="tv.superawesome.libvast.savastparser.SAVASTParserProtocol"/>
-    <classEntry path="tv.superawesome.libevents.SAEvents"/>
-    <classEntry path="tv.superawesome.libvast.SAVASTManager"/>
+    <classEntry path="tv.superawesome.libvast.savastmodels.SAVASTTracking"/>
     <classEntry path="tv.superawesome.libvideo.SAVideoPlayer"/>
     <classEntry path="tv.superawesome.libvideo.SAVideoPlayerInterface"/>
-    <classEntry path="tv.superawesome.sdk.AdParser.Loader.SALoaderExtra"/>
-    <classEntry path="tv.superawesome.sdk.Views.SAVideoAd"/>
-    <classEntry path="tv.superawesome.sdk.Views.SAViewInterface"/>
-    <classEntry path="tv.superawesome.sdk.Views.SAVideoAdInterface"/>
+    <classEntry path="tv.superawesome.sdk.Loader.SALoader"/>
+    <classEntry path="tv.superawesome.sdk.Loader.SALoaderInterface"/>
+    <classEntry path="tv.superawesome.sdk.Models.SAAd"/>
+    <classEntry path="tv.superawesome.sdk.Models.SACreative"/>
+    <classEntry path="tv.superawesome.sdk.Models.SACreativeFormat"/>
+    <classEntry path="tv.superawesome.sdk.Models.SAData"/>
+    <classEntry path="tv.superawesome.sdk.Models.SADetails"/>
+    <classEntry path="tv.superawesome.sdk.Parser.SAParser"/>
+    <classEntry path="tv.superawesome.sdk.SuperAwesome"/>
     <classEntry path="tv.superawesome.sdk.Views.SAAdInterface"/>
     <classEntry path="tv.superawesome.sdk.Views.SABannerAd"/>
+    <classEntry path="tv.superawesome.sdk.Views.SAVideoAd"/>
+    <classEntry path="tv.superawesome.sdk.Views.SAVideoAdInterface"/>
+    <classEntry path="tv.superawesome.sdk.Views.SAViewInterface"/>
   </includeClasses>
   <includeResources>
-    <resourceEntry destPath="tv/superawesome/libevents/.DS_Store" sourcePath="tv/superawesome/libevents/.DS_Store"/>
-    <resourceEntry destPath="com/.DS_Store" sourcePath="com/.DS_Store"/>
-    <resourceEntry destPath="resources/.DS_Store" sourcePath="resources/.DS_Store"/>
-    <resourceEntry destPath="tv/superawesome/libvast/.DS_Store" sourcePath="tv/superawesome/libvast/.DS_Store"/>
-    <resourceEntry destPath="tv/superawesome/.DS_Store" sourcePath="tv/superawesome/.DS_Store"/>
-    <resourceEntry destPath="tv/superawesome/sdk/.DS_Store" sourcePath="tv/superawesome/sdk/.DS_Store"/>
-    <resourceEntry destPath="resources/mark.png" sourcePath="resources/mark.png"/>
-    <resourceEntry destPath="resources/close.png" sourcePath="resources/close.png"/>
-    <resourceEntry destPath="tv/.DS_Store" sourcePath="tv/.DS_Store"/>
-    <resourceEntry destPath="resources/chronomask.png" sourcePath="resources/chronomask.png"/>
-    <resourceEntry destPath="com/adobe/.DS_Store" sourcePath="com/adobe/.DS_Store"/>
-    <resourceEntry destPath="tv/superawesome/sdk/Views/.DS_Store" sourcePath="tv/superawesome/sdk/Views/.DS_Store"/>
     <resourceEntry destPath=".DS_Store" sourcePath=".DS_Store"/>
+    <resourceEntry destPath="com/.DS_Store" sourcePath="com/.DS_Store"/>
+    <resourceEntry destPath="com/adobe/.DS_Store" sourcePath="com/adobe/.DS_Store"/>
+    <resourceEntry destPath="resources/.DS_Store" sourcePath="resources/.DS_Store"/>
+    <resourceEntry destPath="resources/chronomask.png" sourcePath="resources/chronomask.png"/>
+    <resourceEntry destPath="resources/close.png" sourcePath="resources/close.png"/>
+    <resourceEntry destPath="resources/mark.png" sourcePath="resources/mark.png"/>
+    <resourceEntry destPath="tv/.DS_Store" sourcePath="tv/.DS_Store"/>
+    <resourceEntry destPath="tv/superawesome/.DS_Store" sourcePath="tv/superawesome/.DS_Store"/>
+    <resourceEntry destPath="tv/superawesome/libevents/.DS_Store" sourcePath="tv/superawesome/libevents/.DS_Store"/>
+    <resourceEntry destPath="tv/superawesome/libvast/.DS_Store" sourcePath="tv/superawesome/libvast/.DS_Store"/>
+    <resourceEntry destPath="tv/superawesome/sdk/.DS_Store" sourcePath="tv/superawesome/sdk/.DS_Store"/>
+    <resourceEntry destPath="tv/superawesome/sdk/Views/.DS_Store" sourcePath="tv/superawesome/sdk/Views/.DS_Store"/>
   </includeResources>
   <namespaceManifests/>
 </flexLibProperties>

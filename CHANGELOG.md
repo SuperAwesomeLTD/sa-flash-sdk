@@ -1,6 +1,12 @@
 sa-flash-sdk
 ============
 
+v3.1.4
+ - using all-custom SA tech for image & video-playing
+
+v3.1.3
+ - last version using old tech
+
 v3.1.2
  - fixed issues with playing fallbacks
 

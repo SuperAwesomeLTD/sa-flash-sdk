@@ -1,5 +1,9 @@
-sa-flash-sdk
-============
+SuperAwesome SDK for Flash
+==========================
 
-The 3.1.2 Super Awesome Ads Flash SDK
-More details at the [SuperAwesome Developer site](https://staging.developers.superawesome.tv/docs/flashsdk?version=2)
+SuperAwesome Mobile SDK for Android
+===================================
+
+Version 3.7.3
+
+For more information check out the [SuperAwesome Developer Portal](https://developers.superawesome.tv/extdocs/sa-flash-sdk/html/index.html).
