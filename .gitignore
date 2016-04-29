@@ -10,4 +10,4 @@ bin-release/
 # information for Eclipse / Flash Builder.
 
 /srv
-/demo
+demo/*
