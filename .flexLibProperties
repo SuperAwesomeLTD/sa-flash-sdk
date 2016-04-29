@@ -39,19 +39,9 @@
     <classEntry path="tv.superawesome.sdk.Views.SAViewInterface"/>
   </includeClasses>
   <includeResources>
-    <resourceEntry destPath=".DS_Store" sourcePath=".DS_Store"/>
-    <resourceEntry destPath="com/.DS_Store" sourcePath="com/.DS_Store"/>
-    <resourceEntry destPath="com/adobe/.DS_Store" sourcePath="com/adobe/.DS_Store"/>
-    <resourceEntry destPath="resources/.DS_Store" sourcePath="resources/.DS_Store"/>
     <resourceEntry destPath="resources/chronomask.png" sourcePath="resources/chronomask.png"/>
     <resourceEntry destPath="resources/close.png" sourcePath="resources/close.png"/>
     <resourceEntry destPath="resources/mark.png" sourcePath="resources/mark.png"/>
-    <resourceEntry destPath="tv/.DS_Store" sourcePath="tv/.DS_Store"/>
-    <resourceEntry destPath="tv/superawesome/.DS_Store" sourcePath="tv/superawesome/.DS_Store"/>
-    <resourceEntry destPath="tv/superawesome/libevents/.DS_Store" sourcePath="tv/superawesome/libevents/.DS_Store"/>
-    <resourceEntry destPath="tv/superawesome/libvast/.DS_Store" sourcePath="tv/superawesome/libvast/.DS_Store"/>
-    <resourceEntry destPath="tv/superawesome/sdk/.DS_Store" sourcePath="tv/superawesome/sdk/.DS_Store"/>
-    <resourceEntry destPath="tv/superawesome/sdk/Views/.DS_Store" sourcePath="tv/superawesome/sdk/Views/.DS_Store"/>
   </includeResources>
   <namespaceManifests/>
 </flexLibProperties>
