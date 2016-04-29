@@ -25,9 +25,9 @@ package  {
 	import tv.superawesome.libvast.savastmodels.SAVASTAd;
 	import tv.superawesome.sdk.Views.SABannerAd;
 	
-	public class SAFlashDemo extends MovieClip implements SAVideoAdInterface, SALoaderInterface, SAAdInterface {
+	public class AdobeFlashDemo extends MovieClip implements SAVideoAdInterface, SALoaderInterface, SAAdInterface {
 
-		public function SAFlashDemo() {
+		public function AdobeFlashDemo() {
 			// display the SDK version to at least get an idea that I'm at the latest version
 			trace(SuperAwesome.getInstance().getSdkVersion());
 			

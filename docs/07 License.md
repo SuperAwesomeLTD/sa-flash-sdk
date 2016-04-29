@@ -1,1 +1,0 @@
-See the [LICENSE](https://raw.githubusercontent.com/SuperAwesomeLTD/sa-flash-sdk/master/LICENSE) file for more information.
