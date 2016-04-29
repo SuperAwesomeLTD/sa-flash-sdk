@@ -24,6 +24,6 @@ package tv.superawesome.sdk.Loader {
 		
 		// @brief: function that gets called when an Ad has failed to load
 		// @return: it returns a placementId of the failing ad through callback
-		function didFailToLoadAdForPlacementId(placementId:int): void;
+		function didFailToLoadAd(placementId:int): void;
 	}
 }

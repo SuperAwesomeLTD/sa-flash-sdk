@@ -106,7 +106,7 @@ package tv.superawesome.sdk.Loader {
 		// @brief: shorthand function to denote error and check for delegate implementation
 		private function error(placementId: int): void {
 			if (delegate != null) {
-				delegate.didFailToLoadAdForPlacementId(placementId);
+				delegate.didFailToLoadAd(placementId);
 			}
 		}
 	}
