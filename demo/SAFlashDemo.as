@@ -69,7 +69,7 @@ package  {
 			}
 		}
 		
-		public function didFailToLoadAd(placementId: int): void {
+		public function didFailToLoadAdForPlacementId(placementId: int): void {
 			trace("didFailToLoadAdForPlacementId " + placementId);
 		}
 		

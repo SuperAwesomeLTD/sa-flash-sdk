@@ -6,16 +6,17 @@ In your main class or init function, add the following lines of code:
 
 ```
 
-    SALoader.getInstance().delegate = this;
-    SALoader.getInstance().loadAd(5687);
+	SALoader loader = new SALoader();
+	loader.delegate = this;
+	loader.loadAd(30471);
 
 ```
 
-This will notify the SDK to begin loading. However, in order to get the ad data once it's been loaded, you'll need to change your class definition to implement the `SALoaderProtocol`.
+This will notify the SDK to begin loading. However, in order to get the ad data once it's been loaded, you'll need to change your class definition to implement the `SALoaderInterface`.
 
 ```
 
-public class Main extends MovieClip implements SALoaderProtocol {
+public class Main extends MovieClip implements SALoaderInterface {
 .....
 }
 
@@ -28,11 +29,10 @@ public function didLoadAd(ad: SAAd): void {
     var banner: SABannerAd = new SABannerAd(new Rectangle(0, 0, 320, 50));
     banner.setAd(ad);
     addChild(banner);
-
     banner.play();
 }
 
-public function didFailToLoadAdForPlacementId(placementId: int): void {
+public function didFailToLoadAd(placementId: int): void {
     // handle error here
 }
 

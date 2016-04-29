@@ -3,7 +3,7 @@
 The new Flash SDK (v3 Beta) is compiled into a .swc file that you can download from here:
 * [SuperAwesome_Flash.swc](https://github.com/SuperAwesomeLTD/sa-flash-sdk/blob/master/bin/SuperAwesome_Flash.swc?raw=true).
 
-This will allow you to add Banner, Interstitial and Video Ads to your project.
+This will allow you to add Banner and Video Ads to your project.
 
 Once you've downloaded the file, you need to add it to your project.
 

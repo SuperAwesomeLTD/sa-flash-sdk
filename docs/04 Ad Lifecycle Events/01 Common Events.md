@@ -3,12 +3,12 @@ Using the same delegate pattern all ads can serve additional events than can be 
 First you'll need to include two interfaces in your source file:
 
 ```
-import tv.superawesome.Views.Protocols.SAVideoAdProtocol;
-import tv.superawesome.Views.Protocols.SAAdProtocol;
+import tv.superawesome.sdk.Views.SAVideoAdInterface;
+import tv.superawesome.sdk.Views.SAAdInterface;
 
 ```
 
-Then your `Main` class must implement the `SAAdProtocol` interface:
+Then your `Main` class must implement the `SAAdInterface` interface:
 
 ```
 
@@ -31,7 +31,13 @@ public function adWasClosed(placementId: int): void {
 
 // this function will be called when a user clicks or taps on an Ad and 
 // follows the Ads associated URL
-public function adFollowedURL(placementId: int): void {
+public function adWasClicked(placementId: int): void {
+	
+}
+
+// this function gets called when the ad data served to the display ad
+// has an incorrect format (e.g. trying to load video ad data into a banner ad)
+public function adHasIncorrectPlacement(placementId: int): void {
 	
 }
 
