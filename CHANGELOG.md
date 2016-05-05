@@ -1,6 +1,9 @@
 sa-flash-sdk
 ============
 
+v.3.1.8
+ - Improed video "click" button to have hand cursor & other misc improvements
+
 v3.1.7
 v3.1.6
 v3.1.5

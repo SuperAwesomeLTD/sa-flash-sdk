@@ -55,13 +55,13 @@ package  {
 				vad.play();
 			}
 			else if (ad.placementId == 116) {
-				var vad2:SAVideoAd = new SAVideoAd(new Rectangle(300, 100, 200, 180));
+				var vad2:SAVideoAd = new SAVideoAd(new Rectangle(300, 100, 200, 140));
 				vad2.setAd(ad);
 				addChildAt(vad2, 0);
 				vad2.play();
 			}
 			else {
-				var bad:SABannerAd = new SABannerAd(new Rectangle(50, 0, 420, 100));
+				var bad:SABannerAd = new SABannerAd(new Rectangle(50, 0, 420, 80));
 				bad.setAd(ad);
 				bad.adDelegate = this;
 				addChildAt(bad, 0);

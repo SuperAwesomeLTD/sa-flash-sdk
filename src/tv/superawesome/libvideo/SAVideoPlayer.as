@@ -1,5 +1,7 @@
 package tv.superawesome.libvideo {
 	import flash.display.Bitmap;
+	import flash.display.Shape;
+	import flash.display.SimpleButton;
 	import flash.display.Sprite;
 	import flash.events.AsyncErrorEvent;
 	import flash.events.Event;
@@ -33,13 +35,12 @@ package tv.superawesome.libvideo {
 		// background
 		[Embed(source='../../../resources/mark.png')] private var markClass:Class;
 		private var mark:Bitmap = null;
-		[Embed(source='../../../resources/chronomask.png')] private var chronoMaskClass:Class;
-		private var chronoMask:Bitmap = null;
 		
 		// text labels
 		private var chronographerBg: Sprite = null;
 		private var chronographer: TextField = null;
-		private var clicker: TextField = null;
+		private var clickerTxt: TextField = null;
+		private var clickerBtn: Sprite = null;
 		
 		// other video variables
 		private var duration:int = 0;
@@ -102,14 +103,10 @@ package tv.superawesome.libvideo {
 			addChildAt(mark, 1);
 			
 			// add chronographer
-			chronoMask = new chronoMaskClass();
 			chronographerBg = new Sprite();
-			chronographerBg.addChildAt(chronoMask, 0);
-			chronographerBg.alpha = 0.25;
-			chronographerBg.x = frame.x + 10;
-			chronographerBg.y = frame.y + frame.height - 27;
-			chronographerBg.width = 50;
-			chronographerBg.height = 21;
+			chronographerBg.graphics.beginFill( 0x030303, 0.35 );
+			chronographerBg.graphics.drawRoundRect(frame.x + 10, frame.y + frame.height - 27, 50, 21, 10);
+			chronographerBg.graphics.endFill();			
 			addChildAt(chronographerBg, 2);
 			
 			// add chronotext
@@ -128,21 +125,34 @@ package tv.superawesome.libvideo {
 			chronographer.height = 15;
 			addChildAt(chronographer, 3);
 			
-			// add clicker
-			var format2: TextFormat = new TextFormat();
-			format2.color = 0xffffff;
-			format2.font = "Arial";
-			format2.size = 10;
+			var clickerX: Number = frame.x + 65;
+			var clickerY: Number = frame.y + frame.height - 24;
+			var clickerW: Number = frame.width - 65;
+			var clickerH: Number = 15;
 			
-			clicker = new TextField();
-			clicker.defaultTextFormat = format2;
-			clicker.text = "Find out more »";
-			clicker.x = frame.x + 65;
-			clicker.y = frame.y + frame.height - 24;
-			clicker.width = frame.width - 65;
-			clicker.height = 15;
-			clicker.addEventListener(MouseEvent.CLICK, onBtnClick);
-			addChildAt(clicker, 3);
+			// add clicker text
+			var clickerFormat: TextFormat = new TextFormat();
+			clickerFormat.color = 0xffffff;
+			clickerFormat.font = "Arial";
+			clickerFormat.size = 10;
+			
+			clickerTxt = new TextField();
+			clickerTxt.defaultTextFormat = clickerFormat;
+			clickerTxt.text = "Find out more »";
+			clickerTxt.x = clickerX;
+			clickerTxt.y = clickerY;
+			clickerTxt.width = clickerW;
+			clickerTxt.height = clickerH;
+			addChildAt(clickerTxt, 3);
+			
+			// add clicker button
+			clickerBtn = new Sprite();
+			clickerBtn.graphics.beginFill( 0xFFFFFF, 0 );
+			clickerBtn.graphics.drawRect( clickerX, clickerY, clickerW, clickerH );
+			clickerBtn.graphics.endFill();
+			clickerBtn.buttonMode = true;
+			clickerBtn.addEventListener(MouseEvent.CLICK, onBtnClick);
+			addChildAt(clickerBtn, 4);
 		}
 		
 		///////////////////////////////////////////////////////////////
@@ -176,13 +186,21 @@ package tv.superawesome.libvideo {
 				mark.parent.removeChild(mark);
 				mark = null;
 			}
+			if (chronographerBg != null) {
+				chronographerBg.parent.removeChild(chronographerBg);
+				chronographerBg = null;
+			}
 			if (chronographer != null) {
 				chronographer.parent.removeChild(chronographer);
 				chronographer = null;
 			}
-			if (clicker != null) {
-				clicker.parent.removeChild(clicker);
-				clicker = null;
+			if (clickerBtn != null) {
+				clickerBtn.parent.removeChild(clickerBtn);
+				clickerBtn = null;
+			}
+			if (clickerTxt != null) {
+				clickerTxt.parent.removeChild(clickerTxt);
+				clickerTxt = null;
 			}
 		}
 		

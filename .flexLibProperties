@@ -39,9 +39,8 @@
     <classEntry path="tv.superawesome.sdk.Views.SAViewInterface"/>
   </includeClasses>
   <includeResources>
-    <resourceEntry destPath="resources/chronomask.png" sourcePath="resources/chronomask.png"/>
-    <resourceEntry destPath="resources/close.png" sourcePath="resources/close.png"/>
     <resourceEntry destPath="resources/mark.png" sourcePath="resources/mark.png"/>
+    <resourceEntry destPath="resources/close.png" sourcePath="resources/close.png"/>
   </includeResources>
   <namespaceManifests/>
 </flexLibProperties>
