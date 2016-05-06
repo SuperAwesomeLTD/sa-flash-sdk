@@ -1,6 +1,9 @@
 sa-flash-sdk
 ============
 
+v3.1.9
+ - Fixed a bug affecting closing a video ad
+
 v.3.1.8
  - Improed video "click" button to have hand cursor & other misc improvements
 

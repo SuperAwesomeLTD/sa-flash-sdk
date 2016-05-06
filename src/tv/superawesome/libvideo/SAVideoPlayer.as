@@ -164,6 +164,10 @@ package tv.superawesome.libvideo {
 		}
 		
 		private function destroyPlayer(): void {
+			if (videoInterval != null) {
+				clearInterval(videoInterval);
+				videoInterval = null;
+			}
 			if (ns != null) {
 				// ns.dispose();
 				ns = null;
@@ -288,9 +292,6 @@ package tv.superawesome.libvideo {
 					break;
 				}
 				case "NetStream.Play.Stop":{
-					// clear interval
-					clearInterval(this.videoInterval);
-					
 					// call events
 					if (delegate != null) {
 						delegate.didReachEnd();

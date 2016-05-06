@@ -24,38 +24,61 @@ package  {
 	import tv.superawesome.sdk.Views.SAAdInterface;
 	import tv.superawesome.libvast.savastmodels.SAVASTAd;
 	import tv.superawesome.sdk.Views.SABannerAd;
+	import flash.display.Sprite;
+	import flash.events.MouseEvent;
 	
 	public class AdobeFlashDemo extends MovieClip implements SAVideoAdInterface, SALoaderInterface, SAAdInterface {
 
+		private var vad1:SAVideoAd = null;
+		private var vad2:SAVideoAd = null;
+		private var closeBtn:Sprite = null;
+		
 		public function AdobeFlashDemo() {
 			// display the SDK version to at least get an idea that I'm at the latest version
 			trace(SuperAwesome.getInstance().getSdkVersion());
 			
 			// enable production & disable test mode
-			SuperAwesome.getInstance().setConfigurationStaging();
-			SuperAwesome.getInstance().disableTestMode();
+			// SuperAwesome.getInstance().setConfigurationStaging();
+			// SuperAwesome.getInstance().disableTestMode();
 			SuperAwesome.getInstance().allowCrossdomain();
 			
 			var loader:SALoader = new SALoader();
 			loader.delegate = this;
-			loader.loadAd(113);
-			loader.loadAd(117);
-			loader.loadAd(116);
+			// loader.loadAd(113);
+			// loader.loadAd(117);
+			// loader.loadAd(116);
+			loader.loadAd(24720);
+			
+			closeBtn = new Sprite();
+			closeBtn.graphics.beginFill( 0xFF0000, 1 );
+			closeBtn.graphics.drawRect( 0, 360, 150, 25);
+			closeBtn.graphics.endFill();
+			closeBtn.addEventListener(MouseEvent.CLICK, function(event:*=null) {
+				// vad1.close();
+				vad2.close();
+			});
+			addChild(closeBtn);
 		}
 		
 		public function didLoadAd(ad: SAAd): void {
 			ad.print();
 			trace("loaded " + ad.placementId);
 			if (ad.placementId == 117) {
-				var vad:SAVideoAd = new SAVideoAd(new Rectangle(50, 100, 240, 160));
-				vad.setAd(ad);
-				vad.adDelegate = this;
-				vad.videoDelegate = this;
-				addChildAt(vad, 0);
-				vad.play();
+				vad1 = new SAVideoAd(new Rectangle(50, 100, 240, 160));
+				vad1.setAd(ad);
+				vad1.adDelegate = this;
+				vad1.videoDelegate = this;
+				addChildAt(vad1, 0);
+				vad1.play();
 			}
 			else if (ad.placementId == 116) {
-				var vad2:SAVideoAd = new SAVideoAd(new Rectangle(300, 100, 200, 140));
+				vad2 = new SAVideoAd(new Rectangle(300, 100, 200, 140));
+				vad2.setAd(ad);
+				addChildAt(vad2, 0);
+				vad2.play();
+			}
+			else if (ad.placementId == 24720) {
+				vad2 = new SAVideoAd(new Rectangle(300, 100, 200, 140));
 				vad2.setAd(ad);
 				addChildAt(vad2, 0);
 				vad2.play();
