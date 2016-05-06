@@ -183,6 +183,9 @@ package tv.superawesome.libvideo {
 				video.parent.removeChild(video);
 				video = null;
 			}
+			if (delegate != null) {
+				delegate = null;
+			}
 		}
 		
 		private function destroyChrome(): void {

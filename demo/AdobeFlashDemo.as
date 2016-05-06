@@ -24,6 +24,7 @@ package  {
 	import tv.superawesome.sdk.Views.SAAdInterface;
 	import tv.superawesome.libvast.savastmodels.SAVASTAd;
 	import tv.superawesome.sdk.Views.SABannerAd;
+	import tv.superawesome.sdk.Views.SAVideoAdInterface;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	
@@ -38,16 +39,16 @@ package  {
 			trace(SuperAwesome.getInstance().getSdkVersion());
 			
 			// enable production & disable test mode
-			// SuperAwesome.getInstance().setConfigurationStaging();
-			// SuperAwesome.getInstance().disableTestMode();
+			SuperAwesome.getInstance().setConfigurationStaging();
+			SuperAwesome.getInstance().disableTestMode();
 			SuperAwesome.getInstance().allowCrossdomain();
 			
 			var loader:SALoader = new SALoader();
 			loader.delegate = this;
-			// loader.loadAd(113);
-			// loader.loadAd(117);
-			// loader.loadAd(116);
-			loader.loadAd(24720);
+			loader.loadAd(113);
+			loader.loadAd(117);
+			loader.loadAd(116);
+			// loader.loadAd(24720);
 			
 			closeBtn = new Sprite();
 			closeBtn.graphics.beginFill( 0xFF0000, 1 );
@@ -74,12 +75,14 @@ package  {
 			else if (ad.placementId == 116) {
 				vad2 = new SAVideoAd(new Rectangle(300, 100, 200, 140));
 				vad2.setAd(ad);
+				vad2.videoDelegate = this;
 				addChildAt(vad2, 0);
 				vad2.play();
 			}
 			else if (ad.placementId == 24720) {
 				vad2 = new SAVideoAd(new Rectangle(300, 100, 200, 140));
 				vad2.setAd(ad);
+				vad2.videoDelegate = this;
 				addChildAt(vad2, 0);
 				vad2.play();
 			}
