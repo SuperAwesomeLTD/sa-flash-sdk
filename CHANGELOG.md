@@ -1,6 +1,9 @@
 sa-flash-sdk
 ============
 
+v3.2.1
+ - Fixed bug when closing video, sound still playing
+
 v3.2.0
 v3.1.9
  - Fixed a bug affecting closing a video ad

@@ -169,7 +169,8 @@ package tv.superawesome.libvideo {
 				videoInterval = null;
 			}
 			if (ns != null) {
-				// ns.dispose();
+			 	// ns.dispose();
+				ns.close()
 				ns = null;
 			}
 			if (client != null) {

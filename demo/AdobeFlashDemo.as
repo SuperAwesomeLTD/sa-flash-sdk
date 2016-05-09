@@ -46,7 +46,7 @@ package  {
 			var loader:SALoader = new SALoader();
 			loader.delegate = this;
 			loader.loadAd(113);
-			loader.loadAd(117);
+			// loader.loadAd(117);
 			loader.loadAd(116);
 			// loader.loadAd(24720);
 			
