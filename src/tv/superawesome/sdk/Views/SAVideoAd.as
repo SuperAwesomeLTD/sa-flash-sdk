@@ -16,6 +16,7 @@ package tv.superawesome.sdk.Views {
 	import tv.superawesome.sdk.Models.SAAd;
 	import tv.superawesome.sdk.Models.SACreativeFormat;
 	import tv.superawesome.sdk.Views.SAViewInterface;
+	import tv.superawesome.libvideo.ClickerStyle;
 	
 	public class SAVideoAd extends Sprite implements SAViewInterface, SAVASTManagerInterface {
 		
@@ -32,6 +33,7 @@ package tv.superawesome.sdk.Views {
 		// public vars
 		public var adDelegate:SAAdInterface = null;
 		public var videoDelegate:SAVideoAdInterface = null;
+		public var buttonStyle:int = ClickerStyle.Fullscreen;
 		
 		// watermark
 		private var watermark: Loader = new Loader();
@@ -72,13 +74,13 @@ package tv.superawesome.sdk.Views {
 			}
 			
 			// play ad
-			player = new SAVideoPlayer(frame);
+			player = new SAVideoPlayer(frame, buttonStyle);
 			addChildAt(player, 0);
 			
 			// start manager
 			manager = new SAVASTManager(player);
 			manager.delegate = this;
-			manager.manageWithAds(ad.creative.details.data.vastAds);
+			manager.manageWithAd(ad.creative.details.data.vastAd);
 			
 			// add watermark
 			if (ad.isFallback == false && ad.isHouse == false){

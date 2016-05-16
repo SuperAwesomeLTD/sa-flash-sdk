@@ -25,91 +25,55 @@ package tv.superawesome.libvast {
 		
 		// main public function
 		public function parseVASTURL(url: String): void {
-			parseVASTAync(url, function (ads: Array): void {
-				
-				for (var i:int = 0; i < ads.length; i++){
-					var a:SAVASTAd = ads[i];
-					a.print();
-				}
-				
-				// call delegate
+			parseVASTAync(url, function (ad: SAVASTAd): void {
 				if (delegate != null) {
-					delegate.didParseVAST(ads);
+					delegate.didParseVAST(ad);
 				}
 			});
 		}
 		
 		// callback function way
 		public function parseVASTURL2(url:String, callback:Function = null): void {
-			parseVASTAync(url, function (ads: Array): void {
-				
-				for (var i:int = 0; i < ads.length; i++){
-					var a:SAVASTAd = ads[i];
-					a.print();
-				}
-				
-				// call callback
+			parseVASTAync(url, function (ad: SAVASTAd): void {
 				if (callback != null) {
-					callback(ads);
+					callback(ad);
 				}
 			});
 		}
 		
 		// private function
 		private function parseVASTAync(url: String, callback: Function = null): void {
-			// the basic ads array
-			var ads: Array = new Array();
-			
+			// parse the URL
 			var xmlLoader:URLLoader = new URLLoader();
 			xmlLoader.load(new URLRequest (url));
 			
 			// success case
 			xmlLoader.addEventListener(Event.COMPLETE, function (e:Event): void {
 				var root: XML = new XML(e.target.data);
-				SAXMLLib.searchSiblingsAndChildrenInterate(root, "Ad", function(element: XML): void {
-					// check for inline or wrapper type tags */
-					var isInLine: Boolean = SAXMLLib.checkSiblingsAndChildren(element, "InLine");
-					var isWrapper: Boolean = SAXMLLib.checkSiblingsAndChildren(element, "Wrapper");
-					
-					// parse normal in-line element
-					if (isInLine) {
-						var inlineAd:SAVASTAd = parseAdXML(element);
-						ads.push(inlineAd);
-						callback(ads);
+				var element: XML = SAXMLLib.findFirstInstanceInSiblingsAndChildren(root, "Ad");
+				var ad:SAVASTAd = parseAdXML(element);
+				
+				if (ad.type == SAAdType.InLine) {
+					callback(ad);
+					return;
+				} else if (ad.type == SAAdType.Wrapper) {
+					parseVASTAync(ad.redirectUri, function(wrapper:SAVASTAd):void {
+						ad.sumAd(wrapper);
+						callback(ad);
 						return;
-					} 
-					// parse recursevly as wrapper
-					else if (isWrapper) {
-						var wrapperAd:SAVASTAd = parseAdXML(element);
-						wrapperAd.Creatives = SAUtils.removeAllButFirstElement(wrapperAd.Creatives);
-						
-						var tagURIElement: XML = SAXMLLib.findFirstInstanceInSiblingsAndChildren(element, "VASTAdTagURI");
-						if (tagURIElement != null) {
-							var tagURI:String = tagURIElement.toString();
-							
-							parseVASTAync(tagURI, function (foundAds:Array): void {
-								for (var k:int = 0; k < foundAds.length; k++) {
-									var foundAd:SAVASTAd = foundAds[k];
-									foundAd.sumAd(wrapperAd);
-									ads.push(foundAd);
-								}
-								
-								callback(ads);
-								return;
-							});
-						} else {
-							trace("Did not find valid Wrapper VAST Ad Tag URI");
-						}
-					}
-				});
+					});
+				} else {
+					callback(null);
+					return;
+				}
 			});
 			
 			// error cases
 			xmlLoader.addEventListener(IOErrorEvent.IO_ERROR, function(e:IOErrorEvent): void {
-				callback(ads);
+				callback(null);
 			});
 			xmlLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, function(e:SecurityErrorEvent): void {
-				callback(ads);
+				callback(null);
 			});
 		}
 		
@@ -126,6 +90,11 @@ package tv.superawesome.libvast {
 			if (isInLine) ad.type = SAAdType.InLine;
 			if (isWrapper) ad.type = SAAdType.Wrapper;
 			
+			var tagURIElement: XML = SAXMLLib.findFirstInstanceInSiblingsAndChildren(element, "VASTAdTagURI");
+			if (tagURIElement != null) {
+				ad.redirectUri = tagURIElement.toString();
+			}
+			
 			SAXMLLib.searchSiblingsAndChildrenInterate(element, "Error", function(xml: XML):void {
 				ad.Errors.push(xml.toString());
 			});
@@ -134,12 +103,8 @@ package tv.superawesome.libvast {
 				ad.Impressions.push(xml.toString());
 			});
 			
-			SAXMLLib.searchSiblingsAndChildrenInterate(element, "Creative", function(xml: XML): void {
-				var linear: SAVASTCreative = parseCreativeXML(xml);
-				if (linear != null) {
-					ad.Creatives.push(linear);
-				}
-			});
+			var creativeElement:XML = SAXMLLib.findFirstInstanceInSiblingsAndChildren(element, "Creative");
+			ad.creative = parseCreativeXML(creativeElement);
 			
 			return ad;
 		}

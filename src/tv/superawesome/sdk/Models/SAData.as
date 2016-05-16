@@ -1,4 +1,5 @@
 package tv.superawesome.sdk.Models {
+	import tv.superawesome.libvast.savastmodels.SAVASTAd;
 	
 	// SAData class
 	public class SAData {
@@ -7,16 +8,16 @@ package tv.superawesome.sdk.Models {
 		public var imagePath:String;
 		
 		// the vast ads object
-		public var vastAds:Array = new Array();
+		public var vastAd:SAVASTAd = null;
 		
 		public function SAData() {
 			// do nothing
+			// vastAd = new SAVASTAd();
 		}
 		
 		public function print(): void {
 			trace("\t\tData:");
 			trace("\t\t\timagepath: " + imagePath);
-			trace("\t\t\tvastAds: " + vastAds.length);
 		}
 	}
 }

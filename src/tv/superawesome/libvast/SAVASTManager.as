@@ -19,9 +19,6 @@ package tv.superawesome.libvast {
 		private var parser:SAVASTParser = null;
 		
 		// vars for the manager
-		private var currentAdIndex:int = 0;
-		private var currentCreativeIndex:int = -1;
-		private var adQueue:Array = new Array();
 		private var cAd:SAVASTAd = null;
 		private var cCreative:SAVASTCreative = null;
 		
@@ -35,28 +32,26 @@ package tv.superawesome.libvast {
 			playerRef.delegate = this;
 		}
 		
-		public function manageWithAds(ads: Array):void {
+		public function manageWithAd(ad: SAVASTAd):void {
 			// error case
-			if (ads.length < 1) {
+			if (!ad || !ad.creative) {
 				if (delegate != null) {
 					delegate.didNotFindAds();
 				}
 				return;
 			}
 			
-			// copy ads
-			adQueue = ads;
-			
 			// good case
-			cAd = adQueue[currentAdIndex];
+			cAd = ad;
+			cCreative = ad.creative;
 			
 			// call delegate
 			if (delegate != null) {
 				delegate.didStartAd();
 			}
 			
-			// progress through ads
-			progressThroughAds();
+			playerRef.reset();
+			playCurrentAdWithCurrentCreative();
 		}
 		
 		public function parseVASTURL(url:String): void {
@@ -69,8 +64,8 @@ package tv.superawesome.libvast {
 		// Parser delegate
 		///////////////////////////////////////////////////////////////
 		
-		public function didParseVAST(ads: Array): void {
-			manageWithAds(ads);
+		public function didParseVAST(ad: SAVASTAd): void {
+			manageWithAd(ad);
 		}
 		
 		///////////////////////////////////////////////////////////////
@@ -136,9 +131,6 @@ package tv.superawesome.libvast {
 			if (delegate != null) {
 				delegate.didHaveErrorForCreative();
 			}
-			
-			// go forward if a creative is corrupted
-			progressThroughAds();
 		}
 		
 		public function didGoToURL(): void {
@@ -155,45 +147,6 @@ package tv.superawesome.libvast {
 		///////////////////////////////////////////////////////////////
 		// Manager internal functions
 		///////////////////////////////////////////////////////////////
-		
-		private function progressThroughAds(): void {
-			playerRef.reset();
-			var creativeCount:int = ((SAVASTAd)(adQueue[currentAdIndex])).Creatives.length;
-			
-			if (currentCreativeIndex < creativeCount - 1) {
-				currentCreativeIndex++;
-				cCreative = cAd.Creatives[currentCreativeIndex];
-				
-				// play the video
-				playCurrentAdWithCurrentCreative();
-			} else {
-				if (delegate != null) {
-					delegate.didEndAd();
-				}
-				
-				if (currentAdIndex < adQueue.length - 1) {
-					currentCreativeIndex = 0;
-					currentAdIndex++;
-					
-					cAd = adQueue[currentAdIndex];
-					cCreative = cAd.Creatives[currentCreativeIndex];
-					
-					if (delegate != null) {
-						delegate.didStartAd();
-					}
-					
-					// play
-					playCurrentAdWithCurrentCreative();
-				} else {
-					// stop all
-					playerRef.destroy();
-					
-					if (delegate != null) {
-						delegate.didEndAllAds();
-					}
-				}
-			}
-		}
 		
 		private function playCurrentAdWithCurrentCreative(): void {
 			playerRef.delegate = this;

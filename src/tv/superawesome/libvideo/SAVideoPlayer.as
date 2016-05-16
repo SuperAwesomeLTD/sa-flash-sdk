@@ -56,12 +56,14 @@ package tv.superawesome.libvideo {
 		
 		// listener
 		public var delegate:SAVideoPlayerInterface = null;
+		public var style:int = ClickerStyle.Fullscreen;
 		
-		public function SAVideoPlayer(frame: Rectangle) {
+		public function SAVideoPlayer(frame: Rectangle, style:int) {
 			this.frame = frame;
 			this.graphics.beginFill(0x000000);
 			this.graphics.drawRect(frame.x, frame.y, frame.width, frame.height);
 			this.graphics.endFill();
+			this.style = style;
 			setup();
 		}
 		
@@ -125,34 +127,44 @@ package tv.superawesome.libvideo {
 			chronographer.height = 15;
 			addChildAt(chronographer, 3);
 			
-			var clickerX: Number = frame.x + 65;
-			var clickerY: Number = frame.y + frame.height - 24;
-			var clickerW: Number = frame.width - 65;
-			var clickerH: Number = 15;
-			
-			// add clicker text
-			var clickerFormat: TextFormat = new TextFormat();
-			clickerFormat.color = 0xffffff;
-			clickerFormat.font = "Arial";
-			clickerFormat.size = 10;
-			
-			clickerTxt = new TextField();
-			clickerTxt.defaultTextFormat = clickerFormat;
-			clickerTxt.text = "Find out more »";
-			clickerTxt.x = clickerX;
-			clickerTxt.y = clickerY;
-			clickerTxt.width = clickerW;
-			clickerTxt.height = clickerH;
-			addChildAt(clickerTxt, 3);
-			
-			// add clicker button
-			clickerBtn = new Sprite();
-			clickerBtn.graphics.beginFill( 0xFFFFFF, 0 );
-			clickerBtn.graphics.drawRect( clickerX, clickerY, clickerW, clickerH );
-			clickerBtn.graphics.endFill();
-			clickerBtn.buttonMode = true;
-			clickerBtn.addEventListener(MouseEvent.CLICK, onBtnClick);
-			addChildAt(clickerBtn, 4);
+			if (style == ClickerStyle.Button) {
+				var clickerX: Number = frame.x + 65;
+				var clickerY: Number = frame.y + frame.height - 24;
+				var clickerW: Number = frame.width - 65;
+				var clickerH: Number = 15;
+				
+				// add clicker text
+				var clickerFormat: TextFormat = new TextFormat();
+				clickerFormat.color = 0xffffff;
+				clickerFormat.font = "Arial";
+				clickerFormat.size = 10;
+				
+				clickerTxt = new TextField();
+				clickerTxt.defaultTextFormat = clickerFormat;
+				clickerTxt.text = "Find out more »";
+				clickerTxt.x = clickerX;
+				clickerTxt.y = clickerY;
+				clickerTxt.width = clickerW;
+				clickerTxt.height = clickerH;
+				addChildAt(clickerTxt, 3);
+				
+				// add clicker button
+				clickerBtn = new Sprite();
+				clickerBtn.graphics.beginFill( 0xFFFFFF, 0 );
+				clickerBtn.graphics.drawRect( clickerX, clickerY, clickerW, clickerH );
+				clickerBtn.graphics.endFill();
+				clickerBtn.buttonMode = true;
+				clickerBtn.addEventListener(MouseEvent.CLICK, onBtnClick);
+				addChildAt(clickerBtn, 4);
+			} else {
+				clickerBtn = new Sprite();
+				clickerBtn.graphics.beginFill( 0xFFFFFF, 0 );
+				clickerBtn.graphics.drawRect( frame.x, frame.y, frame.width, frame.height );
+				clickerBtn.graphics.endFill();
+				clickerBtn.buttonMode = true;
+				clickerBtn.addEventListener(MouseEvent.CLICK, onBtnClick);
+				addChildAt(clickerBtn, 4);	
+			}
 		}
 		
 		///////////////////////////////////////////////////////////////

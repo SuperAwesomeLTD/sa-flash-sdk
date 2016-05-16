@@ -46,7 +46,7 @@ package  {
 			var loader:SALoader = new SALoader();
 			loader.delegate = this;
 			loader.loadAd(113);
-			// loader.loadAd(117);
+			loader.loadAd(117);
 			loader.loadAd(116);
 			// loader.loadAd(24720);
 			
@@ -69,6 +69,7 @@ package  {
 				vad1.setAd(ad);
 				vad1.adDelegate = this;
 				vad1.videoDelegate = this;
+				vad1.buttonStyle = ClickerStyle.Fullscreen;
 				addChildAt(vad1, 0);
 				vad1.play();
 			}
@@ -76,6 +77,7 @@ package  {
 				vad2 = new SAVideoAd(new Rectangle(300, 100, 200, 140));
 				vad2.setAd(ad);
 				vad2.videoDelegate = this;
+				vad2.buttonStyle = ClickerStyle.Button;
 				addChildAt(vad2, 0);
 				vad2.play();
 			}

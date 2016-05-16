@@ -37,6 +37,7 @@
     <classEntry path="tv.superawesome.sdk.Views.SAVideoAd"/>
     <classEntry path="tv.superawesome.sdk.Views.SAVideoAdInterface"/>
     <classEntry path="tv.superawesome.sdk.Views.SAViewInterface"/>
+    <classEntry path="tv.superawesome.libvideo.ClickerStyle"/>
   </includeClasses>
   <includeResources>
     <resourceEntry destPath="resources/mark.png" sourcePath="resources/mark.png"/>

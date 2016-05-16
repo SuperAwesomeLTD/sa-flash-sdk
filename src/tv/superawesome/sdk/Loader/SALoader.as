@@ -21,6 +21,7 @@ package tv.superawesome.sdk.Loader {
 	import tv.superawesome.sdk.Models.SACreativeFormat;
 	import tv.superawesome.sdk.Models.SAData;
 	import tv.superawesome.sdk.Parser.SAParser;
+	import tv.superawesome.libvast.savastmodels.SAVASTAd;
 
 	// @brief:
 	// This is a loader class that acts as Master loading class
@@ -69,8 +70,8 @@ package tv.superawesome.sdk.Loader {
 					switch (ad.creative.creativeFormat) {
 						case SACreativeFormat.video:{
 							vastParser = new SAVASTParser();
-							vastParser.parseVASTURL2(ad.creative.details.vast, function (ads:Array): void {
-								ad.creative.details.data.vastAds = ads;
+							vastParser.parseVASTURL2(ad.creative.details.vast, function (vastAd:SAVASTAd): void {
+								ad.creative.details.data.vastAd = vastAd;
 								success(ad);
 							});
 							break;
