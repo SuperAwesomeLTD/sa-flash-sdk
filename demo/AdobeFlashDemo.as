@@ -39,16 +39,18 @@ package  {
 			trace(SuperAwesome.getInstance().getSdkVersion());
 			
 			// enable production & disable test mode
-			SuperAwesome.getInstance().setConfigurationStaging();
+			SuperAwesome.getInstance().setConfigurationProduction();
 			SuperAwesome.getInstance().disableTestMode();
 			SuperAwesome.getInstance().allowCrossdomain();
 			
 			var loader:SALoader = new SALoader();
 			loader.delegate = this;
+			SuperAwesome.getInstance().setConfigurationStaging();
 			loader.loadAd(113);
-			loader.loadAd(117);
-			loader.loadAd(116);
-			// loader.loadAd(24720);
+			// loader.loadAd(117);
+			// loader.loadAd(116);
+			SuperAwesome.getInstance().setConfigurationProduction();
+			loader.loadAd(24720);
 			
 			closeBtn = new Sprite();
 			closeBtn.graphics.beginFill( 0xFF0000, 1 );
@@ -64,7 +66,7 @@ package  {
 		public function didLoadAd(ad: SAAd): void {
 			ad.print();
 			trace("loaded " + ad.placementId);
-			if (ad.placementId == 117) {
+			/*if (ad.placementId == 117) {
 				vad1 = new SAVideoAd(new Rectangle(50, 100, 240, 160));
 				vad1.setAd(ad);
 				vad1.adDelegate = this;
@@ -81,10 +83,12 @@ package  {
 				addChildAt(vad2, 0);
 				vad2.play();
 			}
-			else if (ad.placementId == 24720) {
+			else */
+			if (ad.placementId == 24720) {
 				vad2 = new SAVideoAd(new Rectangle(300, 100, 200, 140));
 				vad2.setAd(ad);
 				vad2.videoDelegate = this;
+				vad2.buttonStyle = ClickerStyle.Button;
 				addChildAt(vad2, 0);
 				vad2.play();
 			}

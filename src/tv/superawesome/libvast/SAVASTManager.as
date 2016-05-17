@@ -123,6 +123,8 @@ package tv.superawesome.libvast {
 			
 			if (delegate != null) {
 				delegate.didEndOfCreative();
+				delegate.didEndAd();
+				delegate.didEndAllAds();
 			}
 		}
 		

@@ -49,7 +49,23 @@ package tv.superawesome.libvast {
 			
 			// success case
 			xmlLoader.addEventListener(Event.COMPLETE, function (e:Event): void {
+				// first error check
+				if (e == null || e.target == null || e.target.data == null) {
+					callback(null); return;
+				}
+				
+				// get root element
 				var root: XML = new XML(e.target.data);
+				
+				// second error check
+				if (root == null) {
+					callback(null); return;
+				}
+				if (!SAXMLLib.checkSiblingsAndChildren(root, "Ad")) {
+					callback(null); return;
+				}
+					
+				// continue ad parsing
 				var element: XML = SAXMLLib.findFirstInstanceInSiblingsAndChildren(root, "Ad");
 				var ad:SAVASTAd = parseAdXML(element);
 				
@@ -58,8 +74,12 @@ package tv.superawesome.libvast {
 					return;
 				} else if (ad.type == SAAdType.Wrapper) {
 					parseVASTAync(ad.redirectUri, function(wrapper:SAVASTAd):void {
-						ad.sumAd(wrapper);
-						callback(ad);
+						
+						if (wrapper != null) {
+							wrapper.sumAd(ad);
+						}
+						
+						callback(wrapper);
 						return;
 					});
 				} else {

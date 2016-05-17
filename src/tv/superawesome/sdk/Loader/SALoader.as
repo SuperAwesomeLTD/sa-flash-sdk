@@ -64,7 +64,6 @@ package tv.superawesome.sdk.Loader {
 					
 					// create data
 					ad.creative.details.data = new SAData();
-					trace(ad.creative.details.data);
 					
 					// depending on this add type of extra data
 					switch (ad.creative.creativeFormat) {

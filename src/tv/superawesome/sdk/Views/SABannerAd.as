@@ -85,6 +85,7 @@ package tv.superawesome.sdk.Views {
 				imgLoader.y = newR.y;
 				imgLoader.width = newR.width;
 				imgLoader.height = newR.height;
+				
 			});
 			imgLoader.addEventListener(MouseEvent.CLICK, function(event:*= null): void {
 				advanceToClick();
@@ -103,6 +104,12 @@ package tv.superawesome.sdk.Views {
 				});
 				addChildAt(watermark, 1);
 			}
+			
+			// send impressions
+			SAEvents.sendEventToURL(ad.creative.viewableImpressionUrl);
+			if (ad.creative.impresionUrl != null && ad.creative.impresionUrl.indexOf(SuperAwesome.getInstance().getBaseURL()) <= 0 ) {
+				SAEvents.sendEventToURL(ad.creative.impresionUrl);
+			}
 		}
 		
 		public function close():void {
@@ -118,11 +125,12 @@ package tv.superawesome.sdk.Views {
 				adDelegate.adWasClicked(ad.placementId);
 			}
 			
-			if (ad.creative.clickUrl.indexOf(SuperAwesome.getInstance().getBaseURL()) < 0){
+			if (ad.creative.clickUrl.indexOf(SuperAwesome.getInstance().getBaseURL()) <= 0){
 				SAEvents.sendEventToURL(ad.creative.trackingUrl);
 			}
 			
 			// goto url
+			trace("Going to " + ad.creative.clickUrl);
 			var request:URLRequest = new URLRequest(ad.creative.clickUrl);
 			navigateToURL(request, "_blank");
 		}

@@ -120,6 +120,7 @@ package tv.superawesome.sdk.Views {
 			}
 			
 			// goto url
+			trace("Going to " + destinationUrl);
 			var request:URLRequest = new URLRequest(destinationUrl);
 			navigateToURL(request, "_blank");
 		}
@@ -138,6 +139,13 @@ package tv.superawesome.sdk.Views {
 		}
 		
 		public function didStartAd(): void {
+			
+			// send impressions
+			SAEvents.sendEventToURL(ad.creative.viewableImpressionUrl);
+			if (ad.creative.impresionUrl != null && ad.creative.impresionUrl.indexOf(SuperAwesome.getInstance().getBaseURL()) <= 0 ) {
+				SAEvents.sendEventToURL(ad.creative.impresionUrl);
+			}
+			
 			if (adDelegate != null){
 				adDelegate.adWasShown(ad.placementId);
 			}
