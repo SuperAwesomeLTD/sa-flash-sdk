@@ -56,14 +56,14 @@ package tv.superawesome.libvideo {
 		
 		// listener
 		public var delegate:SAVideoPlayerInterface = null;
-		public var style:int = ClickerStyle.Fullscreen;
+		public var shouldShowSmallClickButton:Boolean = false;
 		
-		public function SAVideoPlayer(frame: Rectangle, style:int) {
+		public function SAVideoPlayer(frame: Rectangle, shouldShowSmallClickButton:Boolean) {
 			this.frame = frame;
 			this.graphics.beginFill(0x000000);
 			this.graphics.drawRect(frame.x, frame.y, frame.width, frame.height);
 			this.graphics.endFill();
-			this.style = style;
+			this.shouldShowSmallClickButton = shouldShowSmallClickButton;
 			setup();
 		}
 		
@@ -127,7 +127,7 @@ package tv.superawesome.libvideo {
 			chronographer.height = 15;
 			addChildAt(chronographer, 3);
 			
-			if (style == ClickerStyle.Button) {
+			if (shouldShowSmallClickButton == true) {
 				var clickerX: Number = frame.x + 65;
 				var clickerY: Number = frame.y + frame.height - 24;
 				var clickerW: Number = frame.width - 65;

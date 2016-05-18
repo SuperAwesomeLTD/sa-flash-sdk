@@ -88,7 +88,7 @@ package  {
 				vad2 = new SAVideoAd(new Rectangle(300, 100, 200, 140));
 				vad2.setAd(ad);
 				vad2.videoDelegate = this;
-				vad2.buttonStyle = ClickerStyle.Button;
+				vad2.shouldShowSmallClickButton = false;
 				addChildAt(vad2, 0);
 				vad2.play();
 			}
