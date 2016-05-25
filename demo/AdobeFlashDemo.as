@@ -87,6 +87,7 @@ package  {
 			if (ad.placementId == 24720) {
 				vad2 = new SAVideoAd(new Rectangle(300, 100, 200, 140));
 				vad2.setAd(ad);
+				vad2.adDelegate = this;
 				vad2.videoDelegate = this;
 				vad2.shouldShowSmallClickButton = false;
 				addChildAt(vad2, 0);
@@ -114,7 +115,7 @@ package  {
 		}
 		
 		public function adWasClicked(placementId: int): void {
-			trace("adWasClicked");
+			trace("[HEY] adWasClicked");
 		}
 		
 		public function adFailedToShow(placementId: int): void {
