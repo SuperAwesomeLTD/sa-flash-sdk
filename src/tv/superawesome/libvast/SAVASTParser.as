@@ -133,7 +133,7 @@ package tv.superawesome.libvast {
 		public function parseCreativeXML(element: XML): SAVASTCreative {
 			var isLinear:Boolean = SAXMLLib.checkSiblingsAndChildren(element, "Linear");
 			var extensions:Array = ["mp4", "flv", "swf"];
-			var types:Array = ["video/mp4", "video/x-flv", "application/x-shockwave-flash"];
+			var types:Array = ["video/mp4", "video/x-flv" , "application/x-shockwave-flash"];
 			
 			if (isLinear) {
 				var creative:SAVASTCreative = new SAVASTCreative();
@@ -202,7 +202,38 @@ package tv.superawesome.libvast {
 				
 				// add the playable media URL
 				if (creative.MediaFiles.length > 0) {
-					creative.playableMediaURL = creative.MediaFiles[0].URL;
+					
+					for (var i: int = 0; i < creative.MediaFiles.length; i++) {
+						var mediaFile:SAVASTMediaFile = creative.MediaFiles[i];
+						
+						// check for video/mp4 type files, because those are the best
+						if (mediaFile.type.indexOf(types[0]) >= 0) {
+							creative.playableMediaURL = mediaFile.URL;
+							break;
+						}
+					}
+					
+					trace("1) Playable URL is " + creative.playableMediaURL);
+					
+					if (creative.playableMediaURL == null) {
+						for (var t: int = 0; t < creative.MediaFiles.length; t++) {
+							var mediaFile:SAVASTMediaFile = creative.MediaFiles[t];
+							
+							// check for flv type files because those are the second best
+							if (mediaFile.type.indexOf(types[1]) >= 0) {
+								creative.playableMediaURL = mediaFile.URL;
+								break;
+							}
+						}
+					}
+					
+					trace("2) Playable URL is " + creative.playableMediaURL);
+					
+					if (creative.playableMediaURL == null) {
+						creative.playableMediaURL = creative.MediaFiles[0];
+					}
+					
+					trace("3) Playable URL is " + creative.playableMediaURL);
 				}
 				
 				return creative;

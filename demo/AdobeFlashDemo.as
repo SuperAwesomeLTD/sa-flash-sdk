@@ -45,12 +45,12 @@ package  {
 			
 			var loader:SALoader = new SALoader();
 			loader.delegate = this;
-			SuperAwesome.getInstance().setConfigurationStaging();
-			loader.loadAd(113);
+			// SuperAwesome.getInstance().setConfigurationStaging();
+			// loader.loadAd(113);
 			// loader.loadAd(117);
 			// loader.loadAd(116);
-			SuperAwesome.getInstance().setConfigurationProduction();
-			loader.loadAd(24720);
+			SuperAwesome.getInstance().setConfigurationStaging();
+			loader.loadAd(224);
 			
 			closeBtn = new Sprite();
 			closeBtn.graphics.beginFill( 0xFF0000, 1 );
@@ -84,7 +84,7 @@ package  {
 				vad2.play();
 			}
 			else */
-			if (ad.placementId == 24720) {
+			if (ad.placementId == 224) {
 				vad2 = new SAVideoAd(new Rectangle(300, 100, 200, 140));
 				vad2.setAd(ad);
 				vad2.adDelegate = this;
