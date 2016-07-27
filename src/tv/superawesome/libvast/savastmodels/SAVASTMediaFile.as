@@ -10,7 +10,7 @@ package tv.superawesome.libvast.savastmodels {
 		public function SAVASTMediaFile() {
 		}
 		
-		public function printy () {
+		public function printy (): void {
 			trace("Type is " + type + " and URL is " + URL);
 		}
 	}

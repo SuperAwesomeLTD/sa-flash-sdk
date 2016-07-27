@@ -39,7 +39,7 @@ package  {
 			trace(SuperAwesome.getInstance().getSdkVersion());
 			
 			// enable production & disable test mode
-			SuperAwesome.getInstance().setConfigurationProduction();
+			SuperAwesome.getInstance().setConfigurationStaging();
 			SuperAwesome.getInstance().disableTestMode();
 			SuperAwesome.getInstance().allowCrossdomain();
 			
@@ -49,8 +49,8 @@ package  {
 			// loader.loadAd(113);
 			// loader.loadAd(117);
 			// loader.loadAd(116);
-			SuperAwesome.getInstance().setConfigurationProduction();
-			loader.loadAd(24720);
+			SuperAwesome.getInstance().setConfigurationStaging();
+			loader.loadAd(231);
 			
 			closeBtn = new Sprite();
 			closeBtn.graphics.beginFill( 0xFF0000, 1 );
@@ -84,7 +84,7 @@ package  {
 				vad2.play();
 			}
 			else */
-			if (ad.placementId == 24720) {
+			if (ad.placementId == 231) {
 				vad2 = new SAVideoAd(new Rectangle(300, 100, 200, 140));
 				vad2.setAd(ad);
 				vad2.adDelegate = this;

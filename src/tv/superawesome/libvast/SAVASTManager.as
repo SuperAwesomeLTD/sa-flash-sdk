@@ -137,7 +137,7 @@ package tv.superawesome.libvast {
 		
 		public function didGoToURL(): void {
 			var url:String = "";
-			if (cCreative.clickThrough != null && SAUtils.isValidURL(cCreative.clickThrough)) {
+			if (cCreative.clickThrough != null /* && SAUtils.isValidURL(cCreative.clickThrough)*/) {
 				url = cCreative.clickThrough;
 			}
 			

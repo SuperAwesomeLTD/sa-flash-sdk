@@ -51,7 +51,7 @@ package tv.superawesome.sdk {
 		
 		// public (useful) functions
 		public function getVersion(): String {
-			return "3.2.5";
+			return "3.2.6";
 		}
 		
 		public function getSdk(): String {
