@@ -26,8 +26,14 @@ package tv.superawesome.libvast {
 		// main public function
 		public function parseVASTURL(url: String): void {
 			parseVASTAync(url, function (ad: SAVASTAd): void {
-				if (delegate != null) {
-					delegate.didParseVAST(ad);
+				if (ad != null && ad.creative != null && ad.creative.MediaFiles.length > 0) {
+					if (delegate != null) {
+						delegate.didParseVAST(ad);
+					}
+				} else {
+					if (delegate != null) {
+						delegate.didParseVAST(null);
+					}
 				}
 			});
 		}
@@ -35,8 +41,14 @@ package tv.superawesome.libvast {
 		// callback function way
 		public function parseVASTURL2(url:String, callback:Function = null): void {
 			parseVASTAync(url, function (ad: SAVASTAd): void {
-				if (callback != null) {
-					callback(ad);
+				if (ad != null && ad.creative != null && ad.creative.MediaFiles.length > 0) {
+					if (callback != null) {
+						callback(ad);
+					}
+				} else {
+					if (callback != null) {
+						callback(null);
+					}
 				}
 			});
 		}

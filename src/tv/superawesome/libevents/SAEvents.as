@@ -16,6 +16,7 @@ package tv.superawesome.libevents {
 			// send GET
 			SAUtils.sendGET(url, null, function(e: Event): void {
 				trace("[OK] Event:" + url);
+				trace("[Result] ==> " + e.target.data);
 			}, function(io: IOErrorEvent): void {
 				trace(io);
 				trace(io.target);

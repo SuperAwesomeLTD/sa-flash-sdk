@@ -32,6 +32,7 @@ package  {
 
 		private var vad1:SAVideoAd = null;
 		private var vad2:SAVideoAd = null;
+		private var adData: SAAd = null;
 		private var closeBtn:Sprite = null;
 		
 		public function AdobeFlashDemo() {
@@ -39,7 +40,7 @@ package  {
 			trace(SuperAwesome.getInstance().getSdkVersion());
 			
 			// enable production & disable test mode
-			SuperAwesome.getInstance().setConfigurationStaging();
+			SuperAwesome.getInstance().setConfigurationProduction();
 			SuperAwesome.getInstance().disableTestMode();
 			SuperAwesome.getInstance().allowCrossdomain();
 			
@@ -49,8 +50,8 @@ package  {
 			// loader.loadAd(113);
 			// loader.loadAd(117);
 			// loader.loadAd(116);
-			SuperAwesome.getInstance().setConfigurationStaging();
-			loader.loadAd(231);
+			SuperAwesome.getInstance().setConfigurationProduction();
+			loader.loadAd(24720);
 			
 			closeBtn = new Sprite();
 			closeBtn.graphics.beginFill( 0xFF0000, 1 );
@@ -59,12 +60,22 @@ package  {
 			closeBtn.addEventListener(MouseEvent.CLICK, function(event:*=null) {
 				// vad1.close();
 				vad2.close();
+				// removeChild(vad2);
+				
+				vad2 = new SAVideoAd(new Rectangle(300, 100, 200, 140));
+				vad2.setAd(adData);
+				// vad2.adDelegate = this;
+				// vad2.videoDelegate = this;
+				vad2.shouldShowSmallClickButton = false;
+				addChildAt(vad2, 0);
+				vad2.play();
 			});
 			addChild(closeBtn);
 		}
 		
 		public function didLoadAd(ad: SAAd): void {
 			ad.print();
+			adData = ad;
 			trace("loaded " + ad.placementId);
 			/*if (ad.placementId == 117) {
 				vad1 = new SAVideoAd(new Rectangle(50, 100, 240, 160));
@@ -84,7 +95,7 @@ package  {
 				vad2.play();
 			}
 			else */
-			if (ad.placementId == 231) {
+			if (ad.placementId == 24720) {
 				vad2 = new SAVideoAd(new Rectangle(300, 100, 200, 140));
 				vad2.setAd(ad);
 				vad2.adDelegate = this;

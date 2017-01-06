@@ -1,0 +1,6 @@
+<?xml version="1.0"?> 
+<project default="main"> 
+    <target name="main"> 
+        <fb.exportReleaseBuild project="SuperAwesome_Flash"/> 
+    </target> 
+</project>

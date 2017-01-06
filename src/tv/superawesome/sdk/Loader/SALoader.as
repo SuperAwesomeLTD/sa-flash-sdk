@@ -70,8 +70,12 @@ package tv.superawesome.sdk.Loader {
 						case SACreativeFormat.video:{
 							vastParser = new SAVASTParser();
 							vastParser.parseVASTURL2(ad.creative.details.vast, function (vastAd:SAVASTAd): void {
-								ad.creative.details.data.vastAd = vastAd;
-								success(ad);
+								if (vastAd != null) {
+									ad.creative.details.data.vastAd = vastAd;
+									success(ad);
+								} else {
+									error(placementId);
+								}
 							});
 							break;
 						}

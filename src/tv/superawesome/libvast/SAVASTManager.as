@@ -73,10 +73,8 @@ package tv.superawesome.libvast {
 		///////////////////////////////////////////////////////////////
 		
 		public function didFindPlayerReady(): void {
-			if (!cAd.isImpressionSent) {
-				for (var i:int = 0; i < cAd.Impressions.length; i++){
-					SAEvents.sendEventToURL(cAd.Impressions[i]);
-				}
+			for (var i:int = 0; i < cAd.Impressions.length; i++){
+				SAEvents.sendEventToURL(cAd.Impressions[i]);
 			}
 		}
 		
