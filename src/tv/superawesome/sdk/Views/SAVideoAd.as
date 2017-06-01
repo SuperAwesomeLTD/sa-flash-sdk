@@ -83,7 +83,7 @@ package tv.superawesome.sdk.Views {
 			
 			// add watermark
 			if (ad.isFallback == false && ad.isHouse == false){
-				var waterUrl:String = SuperAwesome.getInstance().getBaseURL() + "/images/watermark_67x25_small.png";
+				var waterUrl:String = SuperAwesome.getInstance().getBaseURL() + "/images/watermark_1.png";
 				watermark.load(new URLRequest(waterUrl));
 				watermark.addEventListener(Event.ADDED, function(event:*=null): void {
 					watermark.x = frame.x;
